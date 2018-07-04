@@ -15,6 +15,7 @@ import { VoteListComponent } from './vote-list/vote-list.component';
 import { VoteComponent } from './vote/vote.component';
 import { VoteCreateComponent } from './vote-create/vote-create.component';
 import { FlatsListComponent } from './flats-list/flats-list.component';
+import { TenantsListComponent } from './tenants-list/tenants-list.component';
 
 import { DxDataGridModule, DxTemplateModule, DxToastModule, DxPieChartModule } from 'devextreme-angular';
 import { VoteService } from './service/vote.service';
@@ -31,7 +32,8 @@ import { NavigationMenuService } from "./service/navigation-menu.service";
     VoteListComponent,
     VoteComponent,
     FlatsListComponent,
-    VoteCreateComponent
+    VoteCreateComponent,
+    TenantsListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -50,6 +52,7 @@ import { NavigationMenuService } from "./service/navigation-menu.service";
           { path: 'votes', component: VoteListComponent, pathMatch: 'full' },
           { path: 'votes/:id', component: VoteComponent, pathMatch: 'full' },
           { path: 'flats', component: FlatsListComponent, pathMatch: 'full' },
+          { path: 'tenants', component: TenantsListComponent, pathMatch: 'full' },
           { path: 'vote-create', component: VoteCreateComponent, pathMatch: 'full' }
         ]
       },

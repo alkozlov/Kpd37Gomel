@@ -16,6 +16,7 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
         {
             var apartments = await this.Context.Apartments
                 .AsNoTracking()
+                .Include(i => i.ApartmentTenants).ThenInclude(i => i.Tenant)
                 .ToListAsync();
 
             return apartments;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -30,5 +31,13 @@ namespace Kpd37Gomel.DTO
 
         [DataMember]
         public bool IsAdmin { get; set; }
+
+        [DataMember]
+        public List<ApartmentDTO> Apartments { get; set; }
+
+        public TenantDTO()
+        {
+            this.Apartments = new List<ApartmentDTO>();
+        }
     }
 }

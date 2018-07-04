@@ -15,6 +15,8 @@ namespace Kpd37Gomel.DataAccess.IServices
 
         Task<Tenant> CreateTenantAsync(Tenant tenant, Guid apartmentId, bool isOwner);
 
+        Task<Tenant> CreateTenantAsync(Tenant tenant);
+
         Task<ApartmentTenant> CreateApartmentTenantAsync(Guid tenantId, Guid apartmentId, bool isOwner);
 
         Task<Tenant> UpdateTenantAsync(Guid tenantId, Guid apartmentId, bool isOwner, Tenant modifiedTenant);

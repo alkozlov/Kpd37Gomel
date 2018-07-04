@@ -60,6 +60,14 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             return tenant;
         }
 
+        public async Task<Tenant> CreateTenantAsync(Tenant tenant)
+        {
+            this.Context.Tenants.Add(tenant);
+            await this.Context.SaveChangesAsync();
+
+            return tenant;
+        }
+
         public async Task<ApartmentTenant> CreateApartmentTenantAsync(Guid tenantId, Guid apartmentId, bool isOwner)
         {
             ApartmentTenant apartmentTenant = new ApartmentTenant();

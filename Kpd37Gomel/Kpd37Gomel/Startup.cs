@@ -90,6 +90,7 @@ namespace Kpd37Gomel
                 app.UseExceptionHandler("/Error");
             }
 
+            //app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
@@ -117,8 +118,8 @@ namespace Kpd37Gomel
 
                 if (env.IsDevelopment())
                 {
-                    //spa.UseAngularCliServer(npmScript: "start");
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                    spa.UseAngularCliServer(npmScript: "start");
+                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
         }

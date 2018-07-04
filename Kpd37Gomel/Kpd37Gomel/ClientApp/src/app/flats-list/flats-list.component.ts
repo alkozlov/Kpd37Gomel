@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy  } from '@angular/core';
 
 import * as AspNetData from "devextreme-aspnet-data";
-import CustomStore from 'devextreme/data/custom_store';
+
 import { IApartment } from "../apartment";
 
 @Component({
@@ -12,15 +12,12 @@ import { IApartment } from "../apartment";
 })
 export class FlatsListComponent implements OnInit {
   public apartments: Array<IApartment>;
+  public dataSource: any;
 
-  customersData: any;
-  shippersData: any;
-  dataSource: any;
-  url: string;
-  masterDetailDataSource: any;
+  private url: string;
 
   constructor() {
-    this.url = "http://localhost:60803/api/v1/apartments";
+    this.url = "api/v1/apartments";
     var dataSourceOptions = new Object({
       key: "id",
       loadUrl: this.url,

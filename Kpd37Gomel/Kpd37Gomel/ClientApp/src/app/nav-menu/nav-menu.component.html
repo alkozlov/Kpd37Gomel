@@ -7,7 +7,7 @@
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
             </button>
-            <a class='navbar-brand' [routerLink]='["/"]'>Kpd37Voting</a>
+            <a class='navbar-brand' [routerLink]='["/"]'>КПД 37 (ул. Григория Денисенко 12)</a>
         </div>
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
@@ -17,26 +17,6 @@
                 <span class='glyphicon {{menuItem.iconClassName}}'></span> {{menuItem.title}}
               </a>
             </li>
-            <!--<li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }' *ngFor="let menuItem of menuItems">
-              <a [routerLink]='[{{menuItem.route}}]' (click)='collapse()'>
-                <span class='glyphicon {{menuItem.iconClassName}}'></span> {{menuItem.title}}
-              </a>
-            </li>-->
-            <!--<li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-              <a [routerLink]='["/votes"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-home'></span> Голосования
-              </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/flats"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th'></span> Квартиры
-              </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/vote-create"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-bullhorn'></span> Создать голосование
-              </a>
-            </li>-->
           </ul>
         </div>
     </div>

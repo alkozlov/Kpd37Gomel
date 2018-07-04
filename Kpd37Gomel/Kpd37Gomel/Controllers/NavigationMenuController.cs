@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Kpd37Gomel.DataAccess.IServices;
-using Kpd37Gomel.DataAccess.Models;
 using Kpd37Gomel.DTO;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kpd37Gomel.Controllers
@@ -28,7 +26,6 @@ namespace Kpd37Gomel.Controllers
         {
             var currentUser = this.HttpContext.User;
             var tenantIdClaim = currentUser.Claims.FirstOrDefault(x => x.Type == "tenant_id");
-            var apartmentIdClaim = currentUser.Claims.FirstOrDefault(x => x.Type == "apartment_id");
             Guid tenantId;
             if (tenantIdClaim == null || !Guid.TryParse(tenantIdClaim.Value, out tenantId))
             {
@@ -46,6 +43,7 @@ namespace Kpd37Gomel.Controllers
             if (tenant.IsAdmin)
             {
                 menuItems.Add(new MenuItemDTO{Title = "Квартиры", Route = "/flats", IconClassName = "glyphicon-th" });
+                menuItems.Add(new MenuItemDTO{Title = "Жильцы", Route = "/tenants", IconClassName = "glyphicon-user" });
                 menuItems.Add(new MenuItemDTO{Title = "Создать голосование", Route = "/vote-create", IconClassName = "glyphicon-bullhorn" });
             }
 
