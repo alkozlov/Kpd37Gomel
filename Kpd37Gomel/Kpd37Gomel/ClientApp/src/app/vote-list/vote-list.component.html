@@ -1,0 +1,12 @@
+<div class="panel panel-primary" *ngFor="let vote of voteList">
+  <div class="panel-heading">
+    {{vote.title}}
+    <span class="pull-right">{{vote.createDateUtc | date:'dd/MM/yyyy'}}</span>
+  </div>
+  <div class="panel-body">
+    <p>{{vote.description}}</p>
+    <div class="pull-right">
+      <a [routerLink]="[vote.id]" class="btn btn-primary">Перейти</a>
+    </div>
+  </div>
+</div>

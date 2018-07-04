@@ -1,0 +1,41 @@
+<div class="alert alert-success" *ngIf="voteDetails.isPassed" role="alert">Вы уже приняли участие в этом голосовании!</div>
+<h3>{{voteDetails.vote.title}}</h3>
+<p>{{voteDetails.vote.description}}</p>
+<div *ngIf="!voteDetails.isPassed">
+  <div class="form">
+    <div class="controls-row">
+      <label class="control-label">Варианты ответов:</label>
+      <label class="radio" *ngFor="let voteVariant of voteDetails.vote.variants; let idx = index">
+        <input type="radio" value="1" name="choises" [checked]="idx === 0"
+               [value]="voteVariant.id"
+               (change)="onSelectionChange(voteVariant)" />{{voteVariant.text}}
+      </label>
+      <button type="button" class="btn btn-primary btn-lg" (click)="sendVote()">Голосовать</button>
+    </div>
+  </div>
+</div>
+<div *ngIf="voteDetails.isPassed">
+  <div class="form">
+    <div class="controls-row">
+      <label class="control-label">Варианты ответов:</label>
+      <label class="radio" *ngFor="let voteVariant of voteDetails.vote.variants; let idx = index">
+        {{voteVariant.text}}
+      </label>
+    </div>
+  </div>
+</div>
+<div *ngIf="voteDetails.isPassed">
+  <dx-pie-chart
+    id="pie"
+    title="Результаты голосования"
+    palette="bright"
+    [dataSource]="voteResultAreas">
+    <dxi-series argumentField="answer" valueField="result">
+      <dxo-label [visible]="true">
+        <dxo-connector [visible]="true" [width]="1"></dxo-connector>
+      </dxo-label>
+    </dxi-series>
+    <dxo-size [width]="500"></dxo-size>
+    <dxo-export [enabled]="true"></dxo-export>
+  </dx-pie-chart>
+</div>

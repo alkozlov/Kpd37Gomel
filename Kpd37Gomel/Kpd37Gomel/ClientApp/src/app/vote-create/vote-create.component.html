@@ -1,0 +1,23 @@
+<div>
+  <form [formGroup]="voteCreateForm" novalidate (ngSubmit)="onSubmit(voteCreateForm.value)">
+    <div class="form-group" [ngClass]="{'has-error':!voteCreateForm.controls['title'].valid && voteCreateForm.controls['title'].touched,
+         'has-success': voteCreateForm.controls['title'].valid && voteCreateForm.controls['title'].touched}">
+      <label for="title">Тема голосования</label>
+      <input type="text" class="form-control" id="title" placeholder="Тема голосования" [formControl]="voteCreateForm.controls['title']"/>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error':!voteCreateForm.controls['description'].valid && voteCreateForm.controls['description'].touched,
+         'has-success': voteCreateForm.controls['description'].valid && voteCreateForm.controls['description'].touched}">
+      <label for="description">Описание</label>
+      <textarea class="form-control" rows="5" id="description" name="description" placeholder="Описание" [formControl]="voteCreateForm.controls['description']"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Варианты ответов</label>
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-success">ЗА</li>
+        <li class="list-group-item list-group-item-danger">ПРОТИВ</li>
+        <li class="list-group-item list-group-item-warning">ВОЗДЕРЖАТЬСЯ</li>
+      </ul>
+    </div>
+    <button type="submit" [disabled]="voteCreateForm.invalid" class="btn btn-primary btn-lg">Создать опрос</button>
+  </form>
+</div>

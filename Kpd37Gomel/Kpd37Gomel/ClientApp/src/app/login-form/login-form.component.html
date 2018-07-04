@@ -1,0 +1,23 @@
+<div class="login-form">
+  <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit(loginForm.value)">
+    <div class="avatar">
+      <img src="https://www.tutorialrepublic.com/examples/images/avatar.png" alt="Avatar">
+    </div>
+    <h2 class="text-center">КПД 37</h2>
+    <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['lastName'].valid && loginForm.controls['lastName'].touched,
+         'has-success': loginForm.controls['lastName'].valid && loginForm.controls['lastName'].touched}">
+      <input type="text" class="form-control" name="lastName" placeholder="Фамилия" [formControl]="loginForm.controls['lastName']">
+    </div>
+    <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['firstName'].valid && loginForm.controls['firstName'].touched,
+         'has-success': loginForm.controls['firstName'].valid && loginForm.controls['firstName'].touched}">
+      <input type="text" class="form-control" name="firstName" placeholder="Имя" [formControl]="loginForm.controls['firstName']">
+    </div>
+    <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['middleName'].valid && loginForm.controls['middleName'].touched,
+         'has-success': loginForm.controls['middleName'].valid && loginForm.controls['middleName'].touched}">
+      <input type="text" class="form-control" name="middleName" placeholder="Отчество" [formControl]="loginForm.controls['middleName']">
+    </div>
+    <div class="form-group">
+      <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary btn-lg btn-block">Войти</button>
+    </div>
+  </form>
+</div>

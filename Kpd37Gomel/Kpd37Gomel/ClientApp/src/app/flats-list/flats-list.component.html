@@ -1,0 +1,105 @@
+<dx-data-grid [dataSource]="dataSource"
+              [remoteOperations]="false"
+              [allowColumnReordering]="true"
+              [allowColumnResizing]="true"
+              [columnAutoWidth]="true"
+              height="600"
+              showBorders="true"
+              [masterDetail]="{ enabled: true, template: 'detail' }">
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+  <dxo-scrolling mode="virtual"></dxo-scrolling>
+  <dxo-editing mode="row"
+               [allowAdding]="true"
+               [allowUpdating]="true"
+               [allowDeleting]="true">
+  </dxo-editing>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager [showPageSizeSelector]="true"
+             [allowedPageSizes]="[5, 10, 20]"
+             [showInfo]="true">
+  </dxo-pager>
+  <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+
+  <dxi-column dataField="apartmentNumber" caption="Номер квартиры">
+    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  </dxi-column>
+
+  <dxi-column dataField="floorNumber" caption="Этаж" dataType="number">
+    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  </dxi-column>
+
+  <dxi-column dataField="roomsCount" caption="Кол-во комнат" dataType="number">
+    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  </dxi-column>
+
+  <dxi-column dataField="totalAreaSnb" caption="Общая площадь (СНБ)" dataType="number">
+    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  </dxi-column>
+
+  <dxi-column dataField="totalArea" caption="Общая площадь" dataType="number">
+    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  </dxi-column>
+
+  <dxi-column dataField="livingSpace" caption="Жилая площадь" dataType="number">
+    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  </dxi-column>
+
+  <dxi-column dataField="voteRate" caption="Коэффициент голоса" dataType="number">
+    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  </dxi-column>
+
+  <div *dxTemplate="let apartment of 'detail'">
+    <dx-data-grid [dataSource]="getTenantsDataSource(apartment.data.id)"
+                  [allowColumnReordering]="true"
+                  [allowColumnResizing]="true"
+                  [columnAutoWidth]="true"
+                  [remoteOperations]="false"
+                  showBorders="true">
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-header-filter [visible]="true"></dxo-header-filter>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+      <dxo-scrolling mode="virtual"></dxo-scrolling>
+      <dxo-editing mode="row"
+                   [allowAdding]="true"
+                   [allowUpdating]="true"
+                   [allowDeleting]="true">
+      </dxo-editing>
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true"
+                 [allowedPageSizes]="[5, 10, 20]"
+                 [showInfo]="true">
+      </dxo-pager>
+      <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+
+      <dxi-column dataField="lastName" caption="Фамилия">
+        <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+      </dxi-column>
+
+      <dxi-column dataField="firstName" caption="Имя">
+        <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+      </dxi-column>
+
+      <dxi-column dataField="middleName" caption="Отчество">
+        <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+      </dxi-column>
+
+      <dxi-column dataField="isOwner" caption="Владелец (Да/Нет)" dataType="boolean">
+      </dxi-column>
+
+      <dxi-column caption="Паспорта">
+        <dxi-column dataField="passportSeries" caption="Серия">
+          <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+        </dxi-column>
+
+        <dxi-column dataField="passportId" caption="Номер">
+          <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+        </dxi-column>
+      </dxi-column>
+    </dx-data-grid>
+  </div>
+
+</dx-data-grid>
