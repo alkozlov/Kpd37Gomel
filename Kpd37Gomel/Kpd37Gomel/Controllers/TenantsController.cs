@@ -58,6 +58,13 @@ namespace Kpd37Gomel.Controllers
             var requestData = new ApartmentTenantDTO();
             JsonConvert.PopulateObject(values, requestData);
 
+            if (String.IsNullOrEmpty(requestData.FirstName) ||
+                String.IsNullOrEmpty(requestData.MiddleName) ||
+                String.IsNullOrEmpty(requestData.LastName))
+            {
+                throw new Exception("Фамилия, имя и отчество - обязательные данные.");
+            }
+
             var apartment = await this._apartmentService.GetApartmentByIdAsync(requestData.ApartmentId);
             if (apartment == null)
             {
@@ -87,6 +94,50 @@ namespace Kpd37Gomel.Controllers
             responseData.IsOwner = apartmentTenant.IsOwner;
 
             return this.Ok(responseData);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateApartmentTenantDataAsync([FromForm] string key, [FromForm] string values)
+        {
+            var keyObject = new ApartmentTenantDTO();
+            JsonConvert.PopulateObject(key, keyObject);
+
+            var tenant = await this._tenantService.GetTenantByIdAsync(keyObject.TenantId);
+            if (tenant == null)
+            {
+                throw new Exception("Неизвестный жилец.");
+            }
+
+            var apartmentTenant = tenant.ApartmentTenants.FirstOrDefault(x => x.ApartmentId == keyObject.ApartmentId);
+            if (apartmentTenant == null)
+            {
+                throw new Exception("Квартира не выбрана или указан неверный номер.");
+            }
+
+            ApartmentTenantDTO apartmentTenantDto = new ApartmentTenantDTO();
+            JsonConvert.PopulateObject(values, tenant);
+            JsonConvert.PopulateObject(values, apartmentTenantDto);
+            if (apartmentTenantDto.ApartmentId != Guid.Empty)
+            {
+                var selectedApartment =
+                    await this._apartmentService.GetApartmentByIdAsync(apartmentTenantDto.ApartmentId);
+                if (selectedApartment == null)
+                {
+                    throw new Exception("Квартира не выбрана или указан неверный номер.");
+                }
+                apartmentTenant.ApartmentId = apartmentTenantDto.ApartmentId;
+            }
+
+            if (values.Contains("isOwner"))
+            {
+                apartmentTenant.IsOwner = apartmentTenantDto.IsOwner;
+            }
+
+            //await this._apartmentService.UpdateApartmentAsync()
+
+            tenant = await this._tenantService.UpdateTenantAsync(tenant);
+
+            return this.Ok();
         }
     }
 }

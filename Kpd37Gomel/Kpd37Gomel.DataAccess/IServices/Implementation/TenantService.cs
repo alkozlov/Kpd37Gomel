@@ -41,6 +41,7 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
         {
             var tenant = await this.Context.Tenants
                 .AsNoTracking()
+                .Include(i => i.ApartmentTenants)
                 .FirstOrDefaultAsync(x => x.Id == tenantId);
 
             return tenant;
@@ -102,6 +103,14 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             await this.Context.SaveChangesAsync();
 
             return tenant;
+        }
+
+        public async Task<Tenant> UpdateTenantAsync(Tenant modifiedTenant)
+        {
+            this.Context.Tenants.Update(modifiedTenant);
+            await this.Context.SaveChangesAsync();
+
+            return modifiedTenant;
         }
 
         public async Task DeleteApartmentTenantAsync(Guid tenantId, Guid apartmentId)

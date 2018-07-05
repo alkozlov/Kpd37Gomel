@@ -22,7 +22,7 @@ export class TenantsListComponent implements OnInit {
     this.url = "api/v1/tenants";
 
     var dataSourceOptions = new Object({
-      key: "tenantId",
+      key: ['tenantId', 'apartmentId'],
       loadUrl: this.url,
       insertUrl: this.url,
       updateUrl: this.url,
