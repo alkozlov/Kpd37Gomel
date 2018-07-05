@@ -41,7 +41,7 @@ export class AuthenticationService {
     if (error.status === 401) {
       this.toastService.showErrorToast('Неверные данные.');
     } else {
-      this.toastService.showErrorToast(error.message);
+      this.toastService.showErrorToast(error.error.message);
     }
   }
 

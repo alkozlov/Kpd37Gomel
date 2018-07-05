@@ -40,7 +40,14 @@ namespace Kpd37Gomel.Controllers
 
             if (tenant == null)
             {
-                return this.Unauthorized();
+                return this.BadRequest(new {message = "Такой жилец не найден."});
+            }
+
+            var apartment = tenant.ApartmentTenants.Select(x => x.Apartment)
+                .FirstOrDefault(x => x.ApartmentNumber == loginModel.ApartmentNumber);
+            if (apartment == null)
+            {
+                return this.BadRequest(new { message = "Такой жилец не найден." });
             }
 
             var tokenString = this.CreateJwtToken(tenant);
@@ -50,7 +57,7 @@ namespace Kpd37Gomel.Controllers
                 {
                     IsAdmin = tenant.IsAdmin,
                     FullName = String.Format("{0} {1}.{2}.", tenant.LastName, tenant.FirstName[0], tenant.MiddleName[0]),
-                    ApartmentNumber = tenant.ApartmentTenants.FirstOrDefault()?.Apartment.ApartmentNumber ?? String.Empty
+                    ApartmentNumber = apartment.ApartmentNumber
                 },
                 token = tokenString
             });

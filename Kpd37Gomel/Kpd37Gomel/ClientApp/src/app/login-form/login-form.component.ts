@@ -17,7 +17,8 @@ export class LoginFormComponent implements OnInit {
     this.loginForm = new FormGroup({
       'lastName': new FormControl('', Validators.compose([Validators.required, Validators.maxLength(150)])),
       'firstName': new FormControl('', Validators.compose([Validators.required, Validators.maxLength(150)])),
-      'middleName': new FormControl('', Validators.compose([Validators.required, Validators.maxLength(150)]))
+      'middleName': new FormControl('', Validators.compose([Validators.required, Validators.maxLength(150)])),
+      'apartmentNumber': new FormControl('', Validators.compose([Validators.required, Validators.maxLength(5)]))
     });
   }
 
@@ -26,7 +27,7 @@ export class LoginFormComponent implements OnInit {
 
   onSubmit(value: any) {
     if (this.loginForm.valid) {
-      var loginModel: ILoginModel = new LoginModel(value.firstName, value.middleName, value.lastName);
+      var loginModel: ILoginModel = new LoginModel(value.firstName, value.middleName, value.lastName, value.apartmentNumber);
       this.authService.login(loginModel);
     }
   }
