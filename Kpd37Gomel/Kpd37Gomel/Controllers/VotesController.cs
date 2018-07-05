@@ -194,7 +194,7 @@ namespace Kpd37Gomel.Controllers
             {
                 var apartmentVoteResult = new ApartmentVoteResultDTO();
                 apartmentVoteResult.ApartmentNumber = apartment.ApartmentNumber;
-                apartmentVoteResult.LivingSpace = apartment.LivingSpace;
+                apartmentVoteResult.LivingSpace = apartment.TotalArea; // TODO: FIX ASAP
 
                 var voteChoise = vote.Choices.FirstOrDefault(x => x.ApartmentId == apartment.Id);
                 if (voteChoise == null)

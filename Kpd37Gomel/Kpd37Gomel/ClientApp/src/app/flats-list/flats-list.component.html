@@ -39,12 +39,12 @@
     <!--<dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>-->
   </dxi-column>
 
-  <dxi-column dataField="totalArea" caption="Общая площадь" dataType="number" [visible]="false">
-    <!--<dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>-->
+  <dxi-column dataField="totalArea" caption="Общая площадь" dataType="number">
+    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
   </dxi-column>
 
-  <dxi-column dataField="livingSpace" caption="Жилая площадь" dataType="number">
-    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  <dxi-column dataField="livingSpace" caption="Жилая площадь" dataType="number" [visible]="false">
+    <!--<dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>-->
   </dxi-column>
 
   <dxi-column dataField="voteRate" caption="Коэффициент голоса" dataType="number">

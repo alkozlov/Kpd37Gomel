@@ -27,10 +27,10 @@ namespace Kpd37Gomel.DataAccess.Configurations
                 .HasColumnName("TotalAreaSnb");
 
             builder.Property(p => p.TotalArea)
+                .IsRequired()
                 .HasColumnName("TotalArea");
 
             builder.Property(p => p.LivingSpace)
-                .IsRequired()
                 .HasColumnName("LivingSpace");
 
             builder.Property(p => p.VoteRate)

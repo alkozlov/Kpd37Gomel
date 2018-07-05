@@ -19,10 +19,10 @@ namespace Kpd37Gomel.DTO
         public double? TotalAreaSnb { get; set; }
 
         [DataMember]
-        public double? TotalArea { get; set; }
+        public double TotalArea { get; set; }
 
         [DataMember]
-        public double LivingSpace { get; set; }
+        public double? LivingSpace { get; set; }
 
         [DataMember]
         public double VoteRate { get; set; }

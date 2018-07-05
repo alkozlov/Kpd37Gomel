@@ -9,8 +9,8 @@ namespace Kpd37Gomel.DataAccess.Models
         public string ApartmentNumber { get; set; }
         public int? FloorNumber { get; set; }
         public double? TotalAreaSnb { get; set; }
-        public double? TotalArea { get; set; }
-        public double LivingSpace { get; set; }
+        public double TotalArea { get; set; }
+        public double? LivingSpace { get; set; }
         public double VoteRate { get; set; }
         public int? RoomsCount { get; set; }
 
