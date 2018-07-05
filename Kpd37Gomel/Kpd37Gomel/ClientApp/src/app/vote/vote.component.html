@@ -1,41 +1,109 @@
-<div class="alert alert-success" *ngIf="voteDetails.isPassed" role="alert">Вы уже приняли участие в этом голосовании!</div>
-<h3>{{voteDetails.vote.title}}</h3>
-<p>{{voteDetails.vote.description}}</p>
-<div *ngIf="!voteDetails.isPassed">
-  <div class="form">
-    <div class="controls-row">
-      <label class="control-label">Варианты ответов:</label>
-      <label class="radio" *ngFor="let voteVariant of voteDetails.vote.variants; let idx = index">
-        <input type="radio" value="1" name="choises" [checked]="idx === 0"
-               [value]="voteVariant.id"
-               (change)="onSelectionChange(voteVariant)" />{{voteVariant.text}}
-      </label>
+<div class="row" *ngIf="voteDetails.isPassed">
+  <div class="col-sm-12">
+    <div class="alert alert-success" role="alert">Вы уже приняли участие в этом голосовании!</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <h3>{{voteDetails.vote.title}}</h3>
+    <p>{{voteDetails.vote.description}}</p>
+  </div>
+</div>
+
+<div class="row" *ngIf="!voteDetails.isPassed">
+  <div class="col-sm-12">
+    <form>
+      <div class="form-group">
+        <label for="voteVariantsRadioGroup">Варианты ответов:</label>
+        <dx-radio-group #voteVariantsRadioGroup
+                        id="radio-group-with-selection"
+                        [dataSource]="voteDetails.vote.variants"
+                        displayExpr="text"
+                        valueExpr="id"
+                        [(value)]="selectedVoteVariant">
+        </dx-radio-group>
+      </div>
       <button type="button" class="btn btn-primary btn-lg" (click)="sendVote()">Голосовать</button>
-    </div>
+    </form>
   </div>
 </div>
-<div *ngIf="voteDetails.isPassed">
-  <div class="form">
-    <div class="controls-row">
-      <label class="control-label">Варианты ответов:</label>
-      <label class="radio" *ngFor="let voteVariant of voteDetails.vote.variants; let idx = index">
-        {{voteVariant.text}}
-      </label>
-    </div>
+
+<div class="row" *ngIf="voteDetails.isPassed">
+  <div class="col-sm-12">
+    <form>
+      <div class="form-group">
+        <label for="voteVariantsRadioGroup">Варианты ответов:</label>
+        <dx-radio-group #voteVariantsRadioGroup
+                        id="radio-group-with-selection"
+                        [dataSource]="voteDetails.vote.variants"
+                        displayExpr="text"
+                        valueExpr="id"
+                        [value]="selectedVoteVariant"
+                        [disabled]="true">
+        </dx-radio-group>
+      </div>
+    </form>
   </div>
 </div>
-<div *ngIf="voteDetails.isPassed">
-  <dx-pie-chart
-    id="pie"
-    title="Результаты голосования"
-    palette="bright"
-    [dataSource]="voteResultAreas">
-    <dxi-series argumentField="answer" valueField="result">
-      <dxo-label [visible]="true">
-        <dxo-connector [visible]="true" [width]="1"></dxo-connector>
-      </dxo-label>
-    </dxi-series>
-    <dxo-size [width]="500"></dxo-size>
-    <dxo-export [enabled]="true"></dxo-export>
-  </dx-pie-chart>
+
+<div class="row" *ngIf="voteDetails.isPassed">
+  <div class="col-sm-12">
+    <dx-pie-chart
+      id="pie"
+      title="Результаты голосования"
+      palette="bright"
+      [dataSource]="voteResultAreas">
+      <dxi-series argumentField="answer" valueField="result">
+        <dxo-label [visible]="true">
+          <dxo-connector [visible]="true" [width]="1"></dxo-connector>
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxo-label>
+      </dxi-series>
+      <dxo-size [width]="500"></dxo-size>
+      <dxo-export [enabled]="true"></dxo-export>
+    </dx-pie-chart>
+  </div>
+</div>
+
+<div class="row" *ngIf="currentUser.isAdmin">
+  <div class="col-sm-12">
+    <dx-data-grid [dataSource]="apartmentVoteResultDataSource"
+                  [remoteOperations]="false"
+                  [allowColumnReordering]="true"
+                  [allowColumnResizing]="true"
+                  [columnAutoWidth]="true"
+                  height="600"
+                  showBorders="true">
+      <dxo-selection mode="multiple"></dxo-selection>
+      <dxo-export [enabled]="true" fileName="Результаты голосования" [allowExportSelectedData]="true"></dxo-export>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+      <dxo-scrolling mode="virtual"></dxo-scrolling>
+      <dxo-paging [pageSize]="20"></dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true"
+                 [allowedPageSizes]="[5, 10, 20]"
+                 [showInfo]="true">
+      </dxo-pager>
+
+      <dxi-column dataField="apartmentNumber" caption="Номер квартиры"></dxi-column>
+      <dxi-column dataField="livingSpace" caption="Жилая площадь" dataType="number"></dxi-column>
+      <dxi-column dataField="voteRate" caption="Коэффициент голоса" dataType="number">
+        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+      </dxi-column>
+      <dxi-column dataField="voteChoise" caption="Голос" [groupIndex]="0"></dxi-column>
+
+      <dxo-summary>
+        <dxi-group-item column="voteRate"
+                        summaryType="sum"
+                        valueFormat="fixedPoint"
+                        [precision]="2"
+                        displayFormat="Итого: {0}"
+                        [showInGroupFooter]="false"
+                        [alignByColumn]="true">
+        </dxi-group-item>
+      </dxo-summary>
+
+    </dx-data-grid>
+  </div>
 </div>

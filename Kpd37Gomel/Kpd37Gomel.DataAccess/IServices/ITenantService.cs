@@ -23,6 +23,9 @@ namespace Kpd37Gomel.DataAccess.IServices
 
         Task<Tenant> UpdateTenantAsync(Tenant modifiedTenant);
 
+        Task<ApartmentTenant> UpdateApartmentTenantAsync(Guid apartmentId, Guid tenantId,
+            ApartmentTenant modifiedApartmentTenant);
+
         Task DeleteApartmentTenantAsync(Guid tenantId, Guid apartmentId);
     }
 }

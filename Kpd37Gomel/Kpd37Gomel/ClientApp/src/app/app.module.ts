@@ -17,7 +17,7 @@ import { VoteCreateComponent } from './vote-create/vote-create.component';
 import { FlatsListComponent } from './flats-list/flats-list.component';
 import { TenantsListComponent } from './tenants-list/tenants-list.component';
 
-import { DxDataGridModule, DxTemplateModule, DxToastModule, DxPieChartModule } from 'devextreme-angular';
+import { DxDataGridModule, DxTemplateModule, DxToastModule, DxPieChartModule, DxRadioGroupModule } from 'devextreme-angular';
 import { VoteService } from './service/vote.service';
 import { ToastService } from './service/toast.service';
 import { AuthenticationService } from './service/authentication.service';
@@ -44,6 +44,7 @@ import { NavigationMenuService } from "./service/navigation-menu.service";
     DxTemplateModule,
     DxToastModule,
     DxPieChartModule,
+    DxRadioGroupModule,
     RouterModule.forRoot([
       {
         path: '', component: HomeComponent, canActivate: [AuthGuard],

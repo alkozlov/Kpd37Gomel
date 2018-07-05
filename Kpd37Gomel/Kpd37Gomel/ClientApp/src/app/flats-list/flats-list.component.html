@@ -4,8 +4,8 @@
               [allowColumnResizing]="true"
               [columnAutoWidth]="true"
               height="600"
-              showBorders="true"
-              [masterDetail]="{ enabled: true, template: 'detail' }">
+              showBorders="true">
+              <!--[masterDetail]="{ enabled: true, template: 'detail' }">-->
   <dxo-filter-row [visible]="true"></dxo-filter-row>
   <dxo-header-filter [visible]="true"></dxo-header-filter>
   <dxo-group-panel [visible]="true"></dxo-group-panel>
@@ -27,20 +27,20 @@
     <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
   </dxi-column>
 
-  <dxi-column dataField="floorNumber" caption="Этаж" dataType="number">
-    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  <dxi-column dataField="floorNumber" caption="Этаж" dataType="number" [visible]="false">
+    <!--<dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>-->
   </dxi-column>
 
-  <dxi-column dataField="roomsCount" caption="Кол-во комнат" dataType="number">
-    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  <dxi-column dataField="roomsCount" caption="Кол-во комнат" dataType="number" [visible]="false">
+    <!--<dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>-->
   </dxi-column>
 
-  <dxi-column dataField="totalAreaSnb" caption="Общая площадь (СНБ)" dataType="number">
-    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  <dxi-column dataField="totalAreaSnb" caption="Общая площадь (СНБ)" dataType="number" [visible]="false">
+    <!--<dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>-->
   </dxi-column>
 
-  <dxi-column dataField="totalArea" caption="Общая площадь" dataType="number">
-    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  <dxi-column dataField="totalArea" caption="Общая площадь" dataType="number" [visible]="false">
+    <!--<dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>-->
   </dxi-column>
 
   <dxi-column dataField="livingSpace" caption="Жилая площадь" dataType="number">
@@ -51,7 +51,7 @@
     <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
   </dxi-column>
 
-  <div *dxTemplate="let apartment of 'detail'">
+  <!--<div *dxTemplate="let apartment of 'detail'">
     <dx-data-grid [dataSource]="getTenantsDataSource(apartment.data.id)"
                   [allowColumnReordering]="true"
                   [allowColumnResizing]="true"
@@ -90,6 +90,6 @@
       <dxi-column dataField="isOwner" caption="Владелец (Да/Нет)" dataType="boolean">
       </dxi-column>
     </dx-data-grid>
-  </div>
+  </div>-->
 
 </dx-data-grid>

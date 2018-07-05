@@ -14,7 +14,7 @@ namespace Kpd37Gomel.Controllers
 {
     [Route("api/v1/tenants")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "OnlyApiAdmin")]
     public class TenantsController : Controller
     {
         private readonly IMapper _mapper;
@@ -116,26 +116,60 @@ namespace Kpd37Gomel.Controllers
 
             ApartmentTenantDTO apartmentTenantDto = new ApartmentTenantDTO();
             JsonConvert.PopulateObject(values, tenant);
+            JsonConvert.PopulateObject(values, apartmentTenant);
             JsonConvert.PopulateObject(values, apartmentTenantDto);
-            if (apartmentTenantDto.ApartmentId != Guid.Empty)
+
+            if (values.Contains("firstName") || values.Contains("middleName") || values.Contains("lastName"))
             {
-                var selectedApartment =
-                    await this._apartmentService.GetApartmentByIdAsync(apartmentTenantDto.ApartmentId);
-                if (selectedApartment == null)
-                {
-                    throw new Exception("Квартира не выбрана или указан неверный номер.");
-                }
-                apartmentTenant.ApartmentId = apartmentTenantDto.ApartmentId;
+                tenant = await this._tenantService.UpdateTenantAsync(tenant);
             }
 
-            if (values.Contains("isOwner"))
+            if (values.Contains("apartmentId") || values.Contains("isOwner"))
             {
-                apartmentTenant.IsOwner = apartmentTenantDto.IsOwner;
+                ApartmentTenant apartmentTenantToUpdate = new ApartmentTenant();
+                apartmentTenantToUpdate.ApartmentId = apartmentTenant.ApartmentId;
+                apartmentTenantToUpdate.TenantId = apartmentTenant.TenantId;
+                apartmentTenantToUpdate.IsOwner = apartmentTenant.IsOwner;
+
+                apartmentTenant.Tenant = null;
+                apartmentTenant =
+                    await this._tenantService.UpdateApartmentTenantAsync(keyObject.ApartmentId, keyObject.TenantId,
+                        apartmentTenantToUpdate);
             }
 
-            //await this._apartmentService.UpdateApartmentAsync()
+            var responseData = new ApartmentTenantDTO();
+            responseData.TenantId = apartmentTenant.TenantId;
+            responseData.FirstName = tenant.FirstName;
+            responseData.MiddleName = tenant.MiddleName;
+            responseData.LastName = tenant.LastName;
+            responseData.ApartmentId = apartmentTenant.ApartmentId;
+            responseData.IsOwner = apartmentTenant.IsOwner;
 
-            tenant = await this._tenantService.UpdateTenantAsync(tenant);
+            return this.Ok(responseData);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteApartmenttenantAsync([FromForm] string key)
+        {
+            var keyObject = new ApartmentTenantDTO();
+            JsonConvert.PopulateObject(key, keyObject);
+            if (keyObject.ApartmentId == Guid.Empty)
+            {
+                throw new Exception("Квартира не выбрана или указан неверный номер.");
+            }
+
+            if (keyObject.TenantId == Guid.Empty)
+            {
+                throw new Exception("Жилец не выбран.");
+            }
+
+            var tenant = await this._tenantService.GetTenantByIdAsync(keyObject.TenantId);
+            if (tenant == null)
+            {
+                throw new Exception("Жилец не выбран.");
+            }
+
+            await this._tenantService.DeleteApartmentTenantAsync(keyObject.TenantId, keyObject.ApartmentId);
 
             return this.Ok();
         }

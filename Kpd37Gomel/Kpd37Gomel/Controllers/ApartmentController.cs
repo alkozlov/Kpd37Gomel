@@ -16,7 +16,7 @@ namespace Kpd37Gomel.Controllers
 {
     [Route("api/v1/apartments")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "OnlyApiAdmin")]
     public class ApartmentController : Controller
     {
         private readonly IMapper _mapper;

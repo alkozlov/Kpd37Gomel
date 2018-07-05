@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using AutoMapper;
 using Kpd37Gomel.DataAccess;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,6 +43,12 @@ namespace Kpd37Gomel
                         RequireExpirationTime = false
                     };
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("OnlyApiAdmin", policy => { policy.RequireClaim("api_admin"); });
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var connection = this.Configuration.GetConnectionString("DefaultConnection");
@@ -68,18 +72,18 @@ namespace Kpd37Gomel
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            try
-            {
-                using (var serviceScope =
-                    app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-                {
-                    serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
-                }
-            }
-            catch (Exception)
-            {
-                //Log.Error(ex, "Failed to migrate or seed database");
-            }
+            //try
+            //{
+            //    using (var serviceScope =
+            //        app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            //    {
+            //        serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    //Log.Error(ex, "Failed to migrate or seed database");
+            //}
 
             if (env.IsDevelopment())
             {
@@ -118,8 +122,8 @@ namespace Kpd37Gomel
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
-                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                    //spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
         }

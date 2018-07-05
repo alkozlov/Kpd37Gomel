@@ -13,13 +13,13 @@ namespace Kpd37Gomel.DTO
         public string ApartmentNumber { get; set; }
 
         [DataMember]
-        public int FloorNumber { get; set; }
+        public int? FloorNumber { get; set; }
 
         [DataMember]
-        public double TotalAreaSnb { get; set; }
+        public double? TotalAreaSnb { get; set; }
 
         [DataMember]
-        public double TotalArea { get; set; }
+        public double? TotalArea { get; set; }
 
         [DataMember]
         public double LivingSpace { get; set; }
@@ -28,6 +28,6 @@ namespace Kpd37Gomel.DTO
         public double VoteRate { get; set; }
 
         [DataMember]
-        public int RoomsCount { get; set; }
+        public int? RoomsCount { get; set; }
     }
 }

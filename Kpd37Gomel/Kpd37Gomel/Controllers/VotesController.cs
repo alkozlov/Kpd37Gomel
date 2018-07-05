@@ -7,7 +7,6 @@ using Kpd37Gomel.DataAccess.IServices;
 using Kpd37Gomel.DataAccess.Models;
 using Kpd37Gomel.DTO;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kpd37Gomel.Controllers
@@ -61,6 +60,7 @@ namespace Kpd37Gomel.Controllers
             responseData.Vote = this._mapper.Map<VoteDTO>(vote);
             if (vote.Choices.Any(x => x.ApartmentId == apartmentId))
             {
+                var apartmentVoteChoise = vote.Choices.First(x => x.ApartmentId == apartmentId);
                 responseData.IsPassed = true;
                 var voteResult = vote.Variants.GroupBy(x => x.Id).ToDictionary(x => x.Key, x => (double) 0);
                 foreach (var voteChoice in vote.Choices)
@@ -69,13 +69,18 @@ namespace Kpd37Gomel.Controllers
                         vote.UseVoteRate ? voteChoice.VoteRate.GetValueOrDefault() : 1;
                 }
 
-                responseData.Result = new VoteResultTinyDTO {Voices = voteResult};
+                responseData.Result = new VoteResultTinyDTO
+                {
+                    Voices = voteResult,
+                    VoteChoise = apartmentVoteChoise.VoteVariantId
+                };
             }
 
             return this.Ok(responseData);
         }
 
         [HttpPost]
+        [Authorize(Policy = "OnlyApiAdmin")]
         public async Task<IActionResult> CreateVoteAsync([FromBody] VoteDTO vote)
         {
             var currentUser = this.HttpContext.User;
@@ -157,6 +162,53 @@ namespace Kpd37Gomel.Controllers
                 }
 
                 responseData.Result = new VoteResultTinyDTO { Voices = voteResult };
+            }
+
+            return this.Ok(responseData);
+        }
+
+        [HttpGet("{voteId}/details")]
+        [Authorize(Policy = "OnlyApiAdmin")]
+        public async Task<IActionResult> GetDetailedVotingListAsync([FromRoute] Guid voteId)
+        {
+            var currentUser = this.HttpContext.User;
+            var tenantIdClaim = currentUser.Claims.FirstOrDefault(x => x.Type == "tenant_id");
+            var apartmentIdClaim = currentUser.Claims.FirstOrDefault(x => x.Type == "apartment_id");
+            Guid tenantId, apartmentId;
+            if (tenantIdClaim == null || !Guid.TryParse(tenantIdClaim.Value, out tenantId) ||
+                apartmentIdClaim == null || !Guid.TryParse(apartmentIdClaim.Value, out apartmentId))
+            {
+                throw new Exception("Неизвестный пользователь.");
+            }
+
+            var vote = await this._voteService.GetVoteByIdAsync(voteId);
+            if (vote == null)
+            {
+                return this.NotFound("Голосование не найдено.");
+            }
+
+            var apartments = await this._apartmentService.GetApartmentsAsync();
+
+            List<ApartmentVoteResultDTO> responseData = new List<ApartmentVoteResultDTO>();
+            foreach (var apartment in apartments.OrderBy(x => x.ApartmentNumber))
+            {
+                var apartmentVoteResult = new ApartmentVoteResultDTO();
+                apartmentVoteResult.ApartmentNumber = apartment.ApartmentNumber;
+                apartmentVoteResult.LivingSpace = apartment.LivingSpace;
+
+                var voteChoise = vote.Choices.FirstOrDefault(x => x.ApartmentId == apartment.Id);
+                if (voteChoise == null)
+                {
+                    apartmentVoteResult.VoteRate = apartment.VoteRate;
+                    apartmentVoteResult.VoteChoise = "Не проголосовали";
+                }
+                else
+                {
+                    apartmentVoteResult.VoteRate = voteChoise.VoteRate.GetValueOrDefault();
+                    apartmentVoteResult.VoteChoise = voteChoise.VoteVariant.Text;
+                }
+
+                responseData.Add(apartmentVoteResult);
             }
 
             return this.Ok(responseData);

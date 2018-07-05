@@ -113,14 +113,27 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             return modifiedTenant;
         }
 
-        public async Task DeleteApartmentTenantAsync(Guid tenantId, Guid apartmentId)
+        public async Task<ApartmentTenant> UpdateApartmentTenantAsync(Guid apartmentId, Guid tenantId,
+            ApartmentTenant modifiedApartmentTenant)
         {
             var apartmentTenant =
-                await this.Context.ApartmentTenants.FirstOrDefaultAsync(x =>
-                    x.ApartmentId == apartmentId && x.TenantId == tenantId);
-            if (apartmentTenant != null)
+                await this.Context.ApartmentTenants
+                    .FirstOrDefaultAsync(x => x.ApartmentId == apartmentId && x.TenantId == tenantId);
+
+            this.Context.ApartmentTenants.Remove(apartmentTenant);
+            this.Context.ApartmentTenants.Add(modifiedApartmentTenant);
+            await this.Context.SaveChangesAsync();
+
+            return modifiedApartmentTenant;
+        }
+
+        public async Task DeleteApartmentTenantAsync(Guid tenantId, Guid apartmentId)
+        {
+            var tenant = await this.Context.Tenants.FirstOrDefaultAsync(x =>
+                x.Id == tenantId && x.ApartmentTenants.Any(at => at.ApartmentId == apartmentId));
+            if (tenant != null)
             {
-                this.Context.ApartmentTenants.Remove(apartmentTenant);
+                this.Context.Tenants.Remove(tenant);
                 await this.Context.SaveChangesAsync();
             }
         }

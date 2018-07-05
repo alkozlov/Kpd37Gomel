@@ -11,14 +11,12 @@ namespace Kpd37Gomel.DTO
     public class VoteDTO
     {
         [DataMember]
-        //[JsonConverter(typeof(NullToDefaultConverter<Guid>))]
         public Guid Id { get; set; }
 
         [DataMember]
         public TenantDTO Author { get; set; }
 
         [DataMember]
-        //[JsonConverter(typeof(NullToDefaultConverter<Guid>))]
         public DateTime CreateDateUtc { get; set; }
 
         [DataMember]

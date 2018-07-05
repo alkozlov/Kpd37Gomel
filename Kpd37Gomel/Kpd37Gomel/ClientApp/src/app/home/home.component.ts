@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthenticationService} from "../service/authentication.service";
+import { AuthenticationService } from "../service/authentication.service";
+
+import { IUserData } from '../user-data';
 
 @Component({
   selector: 'app-home',
@@ -8,17 +10,14 @@ import {AuthenticationService} from "../service/authentication.service";
 })
 
 export class HomeComponent implements OnInit {
-  public tenant: string;
-  public apartment: string;
+  public currentUser: IUserData;
 
   constructor(private authService: AuthenticationService) {
-    this.tenant = '';
-    this.apartment = '';
+    this.currentUser = this.authService.getCurrentUser();
   }
 
   ngOnInit(): void {
-    this.tenant = this.authService.getCurrentTenant();
-    this.apartment = this.authService.getCurrentTenantApartment();
+    this.currentUser = this.authService.getCurrentUser();
   }
 
   public logout() {

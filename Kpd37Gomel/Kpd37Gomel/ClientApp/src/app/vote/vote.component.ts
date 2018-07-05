@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {ToastService} from "../service/toast.service";
-import {VoteService} from "../service/vote.service";
-import {VoteResultArea} from "../vote-result-area";
+import { ToastService } from "../service/toast.service";
+import { VoteService } from "../service/vote.service";
+import { AuthenticationService } from "../service/authentication.service";
+
+import { VoteResultArea } from "../vote-result-area";
+import { IUserData } from "../user-data";
+
+import * as AspNetData from "devextreme-aspnet-data";
 
 @Component({
   selector: 'app-vote',
@@ -12,14 +17,19 @@ import {VoteResultArea} from "../vote-result-area";
 export class VoteComponent implements OnInit {
   public voteDetails: any;
   public voteResultAreas: Array<VoteResultArea>;
+  public apartmentVoteResultDataSource: any;
+  public currentUser: IUserData;
+
   private selectedVoteVariant: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private toastService: ToastService,
-    private voteService: VoteService) {
+    private voteService: VoteService,
+    private authService: AuthenticationService) {
 
     this.activatedRoute.params.subscribe(params => this.loadVote(params['id']));
+    this.selectedVoteVariant = '';
     this.voteDetails = {
       isPassed: false,
       vote: {
@@ -29,9 +39,20 @@ export class VoteComponent implements OnInit {
       },
       result: null
     };
+
+    var dataSourceOptions = new Object({
+      loadUrl: 'api/v1/votes/' + this.activatedRoute.snapshot.params.id + '/details',
+      onBeforeSend: function (operation, jQueryAjaxSettings) {
+        jQueryAjaxSettings.headers = { "Authorization": 'Bearer ' + localStorage['auth_token'] };
+      }
+    });
+    this.apartmentVoteResultDataSource = AspNetData.createStore(dataSourceOptions);
+
+    this.currentUser = this.authService.getCurrentUser();
   }
 
   ngOnInit() {
+    this.currentUser = this.authService.getCurrentUser();
   }
 
   private loadVote(id: any) {
@@ -42,7 +63,9 @@ export class VoteComponent implements OnInit {
     this.voteService.getVoteDetails(id).subscribe(
       data => {
         this.voteDetails = data;
-        this.selectedVoteVariant = this.voteDetails.vote.variants[0];
+        this.selectedVoteVariant = this.voteDetails.isPassed
+          ? this.voteDetails.result.voteChoise
+          : this.voteDetails.vote.variants[0].id;
         if (this.voteDetails.isPassed) {
           this.mapVoteResultToChart(this.voteDetails.result);
         }
@@ -64,10 +87,6 @@ export class VoteComponent implements OnInit {
         }
       }
     }
-  }
-
-  public onSelectionChange(voteVariant): void {
-    this.selectedVoteVariant = Object.assign({}, this.selectedVoteVariant, voteVariant);
   }
 
   public sendVote() {

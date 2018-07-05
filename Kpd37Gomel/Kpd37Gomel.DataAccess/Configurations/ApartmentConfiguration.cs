@@ -21,19 +21,12 @@ namespace Kpd37Gomel.DataAccess.Configurations
                 .HasColumnName("ApartmentNumber");
 
             builder.Property(p => p.FloorNumber)
-                .IsRequired()
                 .HasColumnName("FloorNumber");
 
             builder.Property(p => p.TotalAreaSnb)
-                .IsRequired()
-                .HasColumnName("TotalAreaSnb");
-
-            builder.Property(p => p.TotalAreaSnb)
-                .IsRequired()
                 .HasColumnName("TotalAreaSnb");
 
             builder.Property(p => p.TotalArea)
-                .IsRequired()
                 .HasColumnName("TotalArea");
 
             builder.Property(p => p.LivingSpace)
@@ -45,7 +38,6 @@ namespace Kpd37Gomel.DataAccess.Configurations
                 .HasColumnName("VoteRate");
 
             builder.Property(p => p.RoomsCount)
-                .IsRequired()
                 .HasColumnName("RoomsCount");
         }
     }

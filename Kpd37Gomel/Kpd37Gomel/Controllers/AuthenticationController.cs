@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -45,8 +46,12 @@ namespace Kpd37Gomel.Controllers
             var tokenString = this.CreateJwtToken(tenant);
             return this.Ok(new
             {
-                tenant = String.Format("{0} {1}.{2}.", tenant.LastName, tenant.FirstName[0], tenant.MiddleName[0]),
-                apartment = tenant.ApartmentTenants.FirstOrDefault(x => x.IsOwner)?.Apartment.ApartmentNumber ?? String.Empty,
+                tenantTiny = new
+                {
+                    IsAdmin = tenant.IsAdmin,
+                    FullName = String.Format("{0} {1}.{2}.", tenant.LastName, tenant.FirstName[0], tenant.MiddleName[0]),
+                    ApartmentNumber = tenant.ApartmentTenants.FirstOrDefault()?.Apartment.ApartmentNumber ?? String.Empty
+                },
                 token = tokenString
             });
         }
@@ -54,14 +59,17 @@ namespace Kpd37Gomel.Controllers
         private string CreateJwtToken(Tenant tenant)
         {
             // Custom claims
-            var claims = new[]
+            List<Claim> claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.FamilyName, tenant.LastName),
-                new Claim(JwtRegisteredClaimNames.GivenName, tenant.FirstName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("apartment_id", tenant.ApartmentTenants.FirstOrDefault()?.ApartmentId.ToString()),
                 new Claim("tenant_id", tenant.Id.ToString())
             };
+
+            if (tenant.IsAdmin)
+            {
+                claims.Add(new Claim("api_admin", tenant.Id.ToString()));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

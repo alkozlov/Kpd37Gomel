@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { ToastService } from "./toast.service";
 
 import { ILoginModel } from '../login-model';
+import { IUserData, UserData } from '../user-data';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -11,9 +12,6 @@ const httpOptions = {
 
 @Injectable()
 export class AuthenticationService {
-
-  private tenant: string;
-  private apartment: string;
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -23,8 +21,7 @@ export class AuthenticationService {
     return this.http.post('api/v1/authentication/login', loginModel, httpOptions).subscribe(
       data => {
         localStorage['auth_token'] = (data as any).token;
-        this.tenant = (data as any).tenant;
-        this.apartment = (data as any).apartment;
+        localStorage['tenant'] = JSON.stringify((data as any).tenantTiny);
         this.router.navigate(['/']);
       },
       error => {
@@ -35,8 +32,7 @@ export class AuthenticationService {
   public logout() {
     if (localStorage['auth_token']) {
       localStorage.removeItem('auth_token');
-      this.tenant = '';
-      this.apartment = '';
+      localStorage.removeItem('tenant');
       this.router.navigate(['/login']);
     }
   }
@@ -53,11 +49,12 @@ export class AuthenticationService {
     return localStorage.getItem('auth_token') !== null;
   }
 
-  public getCurrentTenant(): string {
-    return this.tenant;
-  }
+  public getCurrentUser(): IUserData {
+    if (localStorage['tenant']) {
+      var parsedUserData = JSON.parse(localStorage['tenant']);
+      return new UserData(parsedUserData.fullName, parsedUserData.apartmentNumber, parsedUserData.isAdmin);
+    }
 
-  public getCurrentTenantApartment(): string {
-    return this.apartment;
+    return UserData.getDefaultUser();
   }
 }

@@ -35,10 +35,11 @@ export class VoteService {
       .map(data => data as any);
   }
 
-  public sendVote(voteId: any, voteVariant: any): Observable<any> {
+  public sendVote(voteId: any, voteVariantId: any): Observable<any> {
+    var data = { id: voteVariantId };
     return this.http.post(
       'api/v1/votes/' + voteId + '/send-vote',
-      voteVariant,
+      data,
       {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
