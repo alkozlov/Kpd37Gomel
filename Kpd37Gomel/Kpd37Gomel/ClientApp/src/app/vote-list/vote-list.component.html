@@ -1,9 +1,9 @@
-<div class="row">
+<div class="row" *ngIf="voteList.length === 0">
   <div class="col-sm-12">
-    <div class="alert alert-info" role="alert">Еще не создано ни одного голосования. <a [routerLink]="['/vote-create']" class="alert-link"><strong>Создать!</strong></a></div>
+    <div class="alert alert-info" role="alert">Еще не создано ни одного голосования. <a *ngIf="currentUser.isAdmin" [routerLink]="['/vote-create']" class="alert-link"><strong>Создать!</strong></a></div>
   </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="voteList.length !== 0">
   <div class="col-sm-12">
     <div class="panel panel-primary" *ngFor="let vote of voteList">
       <div class="panel-heading">

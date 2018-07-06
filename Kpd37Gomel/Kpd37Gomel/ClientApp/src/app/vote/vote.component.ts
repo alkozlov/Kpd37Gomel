@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DxDataGridComponent } from "devextreme-angular";
 import { ActivatedRoute } from '@angular/router';
 import { ToastService } from "../service/toast.service";
 import { VoteService } from "../service/vote.service";
@@ -15,6 +16,8 @@ import * as AspNetData from "devextreme-aspnet-data";
   styleUrls: ['./vote.component.css']
 })
 export class VoteComponent implements OnInit {
+  @ViewChild(DxDataGridComponent) apartmentVoteResultDataGrid: DxDataGridComponent;
+
   public voteDetails: any;
   public voteResultAreas: Array<VoteResultArea>;
   public apartmentVoteResultDataSource: any;
@@ -89,9 +92,14 @@ export class VoteComponent implements OnInit {
     }
   }
 
+  private refreshApartmentVoteResultDataGrid(): void {
+    this.apartmentVoteResultDataGrid.instance.refresh();
+  }
+
   public sendVote() {
     this.voteService.sendVote(this.activatedRoute.snapshot.params.id, this.selectedVoteVariant).subscribe(
       data => {
+        this.refreshApartmentVoteResultDataGrid();
         this.voteDetails = data;
         if (this.voteDetails.isPassed) {
           this.mapVoteResultToChart(this.voteDetails.result);
