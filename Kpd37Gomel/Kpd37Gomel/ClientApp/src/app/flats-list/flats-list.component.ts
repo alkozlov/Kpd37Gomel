@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy  } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import * as AspNetData from "devextreme-aspnet-data";
 

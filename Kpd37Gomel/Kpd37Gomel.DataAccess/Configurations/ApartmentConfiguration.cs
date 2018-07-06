@@ -17,7 +17,6 @@ namespace Kpd37Gomel.DataAccess.Configurations
 
             builder.Property(p => p.ApartmentNumber)
                 .IsRequired()
-                .HasMaxLength(5)
                 .HasColumnName("ApartmentNumber");
 
             builder.Property(p => p.FloorNumber)

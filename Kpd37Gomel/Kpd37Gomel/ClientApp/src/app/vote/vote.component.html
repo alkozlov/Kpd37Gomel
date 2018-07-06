@@ -80,13 +80,8 @@
       <dxo-group-panel [visible]="true"></dxo-group-panel>
       <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
       <dxo-scrolling mode="virtual"></dxo-scrolling>
-      <dxo-paging [pageSize]="20"></dxo-paging>
-      <dxo-pager [showPageSizeSelector]="true"
-                 [allowedPageSizes]="[5, 10, 20]"
-                 [showInfo]="true">
-      </dxo-pager>
 
-      <dxi-column dataField="apartmentNumber" caption="Номер квартиры"></dxi-column>
+      <dxi-column dataField="apartmentNumber" caption="Номер квартиры" dataType="number"></dxi-column>
       <dxi-column dataField="livingSpace" caption="Жилая площадь" dataType="number"></dxi-column>
       <dxi-column dataField="voteRate" caption="Коэффициент голоса" dataType="number">
         <dxo-format type="fixedPoint" [precision]="2"></dxo-format>

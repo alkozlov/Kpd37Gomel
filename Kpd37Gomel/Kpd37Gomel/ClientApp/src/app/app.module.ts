@@ -4,6 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
+import { locale, loadMessages } from 'devextreme/localization';
+import { DxDataGridModule, DxTemplateModule, DxToastModule, DxPieChartModule, DxRadioGroupModule } from 'devextreme-angular';
+import 'devextreme-intl';
+
 import { AuthGuard } from "./guard/auth.guard";
 
 import { AppComponent } from './app.component';
@@ -17,11 +21,15 @@ import { VoteCreateComponent } from './vote-create/vote-create.component';
 import { FlatsListComponent } from './flats-list/flats-list.component';
 import { TenantsListComponent } from './tenants-list/tenants-list.component';
 
-import { DxDataGridModule, DxTemplateModule, DxToastModule, DxPieChartModule, DxRadioGroupModule } from 'devextreme-angular';
 import { VoteService } from './service/vote.service';
 import { ToastService } from './service/toast.service';
 import { AuthenticationService } from './service/authentication.service';
 import { NavigationMenuService } from "./service/navigation-menu.service";
+
+import * as messagesRu from "devextreme/localization/messages/ru.json";
+
+loadMessages(messagesRu);
+locale("ru-Ru");
 
 @NgModule({
   declarations: [

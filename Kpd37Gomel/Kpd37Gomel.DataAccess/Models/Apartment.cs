@@ -6,7 +6,7 @@ namespace Kpd37Gomel.DataAccess.Models
     public class Apartment
     {
         public Guid Id { get; set; }
-        public string ApartmentNumber { get; set; }
+        public int ApartmentNumber { get; set; }
         public int? FloorNumber { get; set; }
         public double? TotalAreaSnb { get; set; }
         public double TotalArea { get; set; }

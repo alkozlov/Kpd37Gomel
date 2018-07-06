@@ -20,6 +20,6 @@ namespace Kpd37Gomel.DTO
 
         [DataMember]
         [Required(ErrorMessage = "Номер квартиры - обязятельное поле для ввода.")]
-        public string ApartmentNumber { get; set; }
+        public int ApartmentNumber { get; set; }
     }
 }

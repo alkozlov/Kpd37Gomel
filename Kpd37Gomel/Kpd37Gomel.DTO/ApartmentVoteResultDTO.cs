@@ -6,7 +6,7 @@ namespace Kpd37Gomel.DTO
     public class ApartmentVoteResultDTO
     {
         [DataMember]
-        public string ApartmentNumber { get; set; }
+        public int ApartmentNumber { get; set; }
 
         [DataMember]
         public double LivingSpace { get; set; }

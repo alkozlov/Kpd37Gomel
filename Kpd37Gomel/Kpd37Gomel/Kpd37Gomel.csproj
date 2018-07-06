@@ -27,6 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ClientApp\src\styles\generic.light.custom.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Kpd37Gomel.DataAccess\Kpd37Gomel.DataAccess.csproj" />
     <ProjectReference Include="..\Kpd37Gomel.DTO\Kpd37Gomel.DTO.csproj" />
   </ItemGroup>

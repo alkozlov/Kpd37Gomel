@@ -10,7 +10,7 @@ namespace Kpd37Gomel.DTO
         public Guid Id { get; set; }
 
         [DataMember]
-        public string ApartmentNumber { get; set; }
+        public int ApartmentNumber { get; set; }
 
         [DataMember]
         public int? FloorNumber { get; set; }
