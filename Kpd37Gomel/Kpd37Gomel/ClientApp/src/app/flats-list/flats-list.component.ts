@@ -4,6 +4,9 @@ import * as AspNetData from "devextreme-aspnet-data";
 
 import { IApartment } from "../apartment";
 
+import ODataStore from "devextreme/data/odata/store";
+import DataSource from "devextreme/data/data_source";
+
 @Component({
   selector: 'app-flats-list',
   templateUrl: './flats-list.component.html',
@@ -16,8 +19,12 @@ export class FlatsListComponent implements OnInit {
 
   private url: string;
 
+  public store: ODataStore;
+  public apartmentsDataSource: any;
+
   constructor() {
     this.url = "api/v1/apartments";
+
     var dataSourceOptions = new Object({
       key: "id",
       loadUrl: this.url,
@@ -28,8 +35,21 @@ export class FlatsListComponent implements OnInit {
         jQueryAjaxSettings.headers = { "Authorization": 'Bearer ' + localStorage['auth_token'] };
       }
     });
-
     this.dataSource = AspNetData.createStore(dataSourceOptions);
+
+
+
+    this.store = new ODataStore({
+      url: "odata/Apartment",
+      key: "Id",
+      keyType: "Guid",
+      version: 4
+      // Other ODataStore options go here
+    });
+
+    this.apartmentsDataSource = {
+      store: this.store
+    };
   }
 
   tenantDataSources = {};

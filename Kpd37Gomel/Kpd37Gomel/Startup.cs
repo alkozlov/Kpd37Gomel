@@ -1,8 +1,13 @@
+using System;
 using System.Text;
 using AutoMapper;
 using Kpd37Gomel.DataAccess;
 using Kpd37Gomel.DataAccess.IServices;
 using Kpd37Gomel.DataAccess.IServices.Implementation;
+using Kpd37Gomel.DataAccess.Models;
+using Microsoft.AspNet.OData.Builder;
+using Microsoft.AspNet.OData.Extensions;
+using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,7 +54,10 @@ namespace Kpd37Gomel
                 options.AddPolicy("OnlyApiAdmin", policy => { policy.RequireClaim("api_admin"); });
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddOData();
+            services.AddTransient<Kpd37GomelModelBuilder>();
+
+            services.AddMvc();//.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var connection = this.Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
@@ -70,21 +78,8 @@ namespace Kpd37Gomel
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Kpd37GomelModelBuilder modelBuilder)
         {
-            //try
-            //{
-            //    using (var serviceScope =
-            //        app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            //    {
-            //        serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    //Log.Error(ex, "Failed to migrate or seed database");
-            //}
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -94,7 +89,6 @@ namespace Kpd37Gomel
                 app.UseExceptionHandler("/Error");
             }
 
-            //app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
@@ -108,6 +102,15 @@ namespace Kpd37Gomel
 
             app.UseMvc(routes =>
             {
+                routes
+                    .Select()
+                    .Expand()
+                    .Filter()
+                    .OrderBy(QueryOptionSetting.Allowed)
+                    .MaxTop(null)
+                    .Count();
+                routes.MapODataServiceRoute("OData", "odata", modelBuilder.GetEdmModel(app.ApplicationServices));
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");

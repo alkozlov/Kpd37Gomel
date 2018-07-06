@@ -46,3 +46,53 @@
   </dxi-column>
 
 </dx-data-grid>
+
+
+<dx-data-grid [dataSource]="apartmentsDataSource"
+              [remoteOperations]="true"
+              [allowColumnReordering]="true"
+              [allowColumnResizing]="true"
+              [columnAutoWidth]="true"
+              height="600"
+              showBorders="true">
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+  <dxo-editing mode="row"
+               [allowAdding]="true"
+               [allowUpdating]="true"
+               [allowDeleting]="true">
+  </dxo-editing>
+  <dxo-paging [pageSize]="15"></dxo-paging>
+  <dxo-pager [showPageSizeSelector]="true"
+             [allowedPageSizes]="[5, 10, 15, 20]"
+             [showInfo]="true">
+  </dxo-pager>
+  <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+
+  <dxi-column dataField="ApartmentNumber" caption="Номер квартиры" dataType="number">
+    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  </dxi-column>
+
+  <dxi-column dataField="FloorNumber" caption="Этаж" dataType="number" [visible]="false">
+  </dxi-column>
+
+  <dxi-column dataField="RoomsCount" caption="Кол-во комнат" dataType="number" [visible]="false">
+  </dxi-column>
+
+  <dxi-column dataField="TotalAreaSnb" caption="Общая площадь (СНБ)" dataType="number" [visible]="false">
+  </dxi-column>
+
+  <dxi-column dataField="TotalArea" caption="Общая площадь" dataType="number">
+    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  </dxi-column>
+
+  <dxi-column dataField="LivingSpace" caption="Жилая площадь" dataType="number" [visible]="false">
+  </dxi-column>
+
+  <dxi-column dataField="VoteRate" caption="Коэффициент голоса" dataType="number">
+    <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
+  </dxi-column>
+
+</dx-data-grid>
