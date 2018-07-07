@@ -1,0 +1,22 @@
+<div>
+  <form [formGroup]="voteEditForm" novalidate (ngSubmit)="onSubmit(voteEditForm.value)">
+    <div class="form-group" [ngClass]="{'has-error':!voteEditForm.controls['title'].valid && voteEditForm.controls['title'].touched,
+         'has-success': voteEditForm.controls['title'].valid && voteEditForm.controls['title'].touched}">
+      <label for="title">Тема голосования</label>
+      <input type="text" class="form-control" id="title" placeholder="Тема голосования" [formControl]="voteEditForm.controls['title']"/>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error':!voteEditForm.controls['description'].valid && voteEditForm.controls['description'].touched,
+         'has-success': voteEditForm.controls['description'].valid && voteEditForm.controls['description'].touched}">
+      <label for="description">Описание</label>
+      <textarea class="form-control" rows="5" id="description" name="description" placeholder="Описание" [formControl]="voteEditForm.controls['description']"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Варианты ответов:</label>
+      <dx-radio-group [items]="variants"
+                      [value]="variants[0]"
+                      [disabled]="true">
+      </dx-radio-group>
+    </div>
+    <button type="submit" [disabled]="voteEditForm.invalid" class="btn btn-primary btn-lg">Сохранить</button>
+  </form>
+</div>

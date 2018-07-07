@@ -14,5 +14,9 @@ namespace Kpd37Gomel.DataAccess.IServices
         Task<Vote> GetVoteByIdAsync(Guid voteId);
 
         Task AcceptVoteChoiseAsync(Guid voteId, Guid voteVariantId, Guid apartmentId, double? voteRate = null);
+
+        Task<Vote> UpdateVoteAsync(Guid voteId, Vote vote);
+
+        Task DeleteVoteAsync(Guid voteId);
     }
 }

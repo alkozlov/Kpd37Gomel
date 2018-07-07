@@ -31,7 +31,7 @@ namespace Kpd37Gomel.Controllers
         public async Task<IActionResult> GetVoteListAsync()
         {
             var voteList = await this._voteService.GetVotesAsync();
-            var responseData = voteList.OrderByDescending(x => x.CreateDateUtc)
+            var responseData = voteList.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreateDateUtc)
                 .Select(x => this._mapper.Map<VoteDTO>(x)).ToList();
 
             return this.Ok(responseData);
@@ -51,9 +51,9 @@ namespace Kpd37Gomel.Controllers
             }
 
             var vote = await this._voteService.GetVoteByIdAsync(voteId);
-            if (vote == null)
+            if (vote == null || vote.IsDeleted)
             {
-                return this.NotFound("Неверный код голосования.");
+                return this.NotFound("Голосование не найдено.");
             }
 
             VoteDetailsDTO responseData = new VoteDetailsDTO();
@@ -212,6 +212,61 @@ namespace Kpd37Gomel.Controllers
             }
 
             return this.Ok(responseData);
+        }
+
+        [HttpPut("{voteId}")]
+        [Authorize(Policy = "OnlyApiAdmin")]
+        public async Task<IActionResult> UpdateVoteAsync([FromRoute] Guid voteId, [FromBody] VoteDTO vote)
+        {
+            try
+            {
+                var currentUser = this.HttpContext.User;
+
+                var tenantIdClaim = currentUser.Claims.FirstOrDefault(x => x.Type == "tenant_id");
+                Guid tenantId;
+                if (tenantIdClaim == null || !Guid.TryParse(tenantIdClaim.Value, out tenantId))
+                {
+                    throw new Exception("Неизвестный пользователь.");
+                }
+
+                var voteToUpdate = new Vote();
+                voteToUpdate.Title = vote.Title;
+                voteToUpdate.Description = vote.Description;
+
+                voteToUpdate = await this._voteService.UpdateVoteAsync(voteId, voteToUpdate);
+                var responseData = this._mapper.Map<VoteDTO>(voteToUpdate);
+
+                return this.Ok(responseData);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new {message = e.Message});
+            }
+        }
+
+        [HttpDelete("{voteId}")]
+        [Authorize(Policy = "OnlyApiAdmin")]
+        public async Task<IActionResult> DeleteVoteAsync([FromRoute] Guid voteId)
+        {
+            try
+            {
+                var currentUser = this.HttpContext.User;
+
+                var tenantIdClaim = currentUser.Claims.FirstOrDefault(x => x.Type == "tenant_id");
+                Guid tenantId;
+                if (tenantIdClaim == null || !Guid.TryParse(tenantIdClaim.Value, out tenantId))
+                {
+                    throw new Exception("Неизвестный пользователь.");
+                }
+
+                await this._voteService.DeleteVoteAsync(voteId);
+
+                return this.Ok();
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { message = e.Message });
+            }
         }
     }
 }

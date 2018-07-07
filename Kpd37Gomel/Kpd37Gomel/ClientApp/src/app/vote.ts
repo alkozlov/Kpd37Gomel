@@ -8,6 +8,7 @@ export interface IVote {
   title: string;
   description: string;
   useVoteRate: boolean;
+  isDeleted: boolean;
   variants: Array<IVoteVariant>;
 }
 
@@ -19,5 +20,6 @@ export class Vote implements IVote {
     public title: string,
     public description: string,
     public useVoteRate: boolean,
+    public isDeleted: boolean,
     public variants: Array<IVoteVariant>) {}
 }

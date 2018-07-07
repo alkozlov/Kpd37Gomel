@@ -15,6 +15,7 @@ namespace Kpd37Gomel.DataAccess.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public bool UseVoteRate { get; set; }
+        public bool IsDeleted { get; set; }
 
         public List<VoteVariant> Variants { get; set; }
         public List<VoteChoice> Choices { get; set; }

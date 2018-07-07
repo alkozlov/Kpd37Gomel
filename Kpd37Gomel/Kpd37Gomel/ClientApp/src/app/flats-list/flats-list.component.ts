@@ -43,7 +43,15 @@ export class FlatsListComponent implements OnInit {
       url: "odata/Apartment",
       key: "Id",
       keyType: "Guid",
-      version: 4
+      version: 4,
+      beforeSend: (e) => {
+        e.headers = {
+          "Authorization": 'Bearer ' + localStorage['auth_token'],
+          'Access-Control-Allow-Origin':'*'
+          //"Cache-Control": 'no-cache',
+          //"Pragma": 'no-cache'
+        };
+      }
       // Other ODataStore options go here
     });
 

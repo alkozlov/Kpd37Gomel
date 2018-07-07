@@ -18,6 +18,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { VoteListComponent } from './vote-list/vote-list.component';
 import { VoteComponent } from './vote/vote.component';
 import { VoteCreateComponent } from './vote-create/vote-create.component';
+import { VoteEditComponent } from './vote-edit/vote-edit.component';
 import { FlatsListComponent } from './flats-list/flats-list.component';
 import { TenantsListComponent } from './tenants-list/tenants-list.component';
 
@@ -41,7 +42,8 @@ locale("ru-Ru");
     VoteComponent,
     FlatsListComponent,
     VoteCreateComponent,
-    TenantsListComponent
+    TenantsListComponent,
+    VoteEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -62,7 +64,8 @@ locale("ru-Ru");
           { path: 'votes/:id', component: VoteComponent, pathMatch: 'full' },
           { path: 'flats', component: FlatsListComponent, pathMatch: 'full' },
           { path: 'tenants', component: TenantsListComponent, pathMatch: 'full' },
-          { path: 'vote-create', component: VoteCreateComponent, pathMatch: 'full' }
+          { path: 'vote-create', component: VoteCreateComponent, pathMatch: 'full' },
+          { path: 'votes/:id/edit', component: VoteEditComponent, pathMatch: 'full' }
         ]
       },
       { path: 'login', component: LoginFormComponent, pathMatch: 'full', canActivate: [AuthGuard] }

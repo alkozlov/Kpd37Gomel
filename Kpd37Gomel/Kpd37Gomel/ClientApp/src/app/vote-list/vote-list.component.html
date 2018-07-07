@@ -14,6 +14,8 @@
         <p>{{vote.description}}</p>
         <div class="pull-right">
           <a [routerLink]="[vote.id]" class="btn btn-primary">Перейти</a>
+          <a *ngIf="currentUser.isAdmin" [routerLink]="[vote.id, 'edit']" class="btn btn-warning">Редактировать</a>
+          <button *ngIf="currentUser.isAdmin" class="btn btn-danger" (click)="deleteVote(vote)">Удалить</button>
         </div>
       </div>
     </div>

@@ -37,6 +37,11 @@ namespace Kpd37Gomel.DataAccess.Configurations
                 .IsRequired()
                 .HasColumnName("UseVoteRate");
 
+            builder.Property(p => p.IsDeleted)
+                .IsRequired()
+                .HasDefaultValue(false)
+                .HasColumnName("IsDeleted");
+
             builder.HasMany(p => p.Variants).WithOne(p => p.Vote).OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(p => p.Choices).WithOne(p => p.Vote).OnDelete(DeleteBehavior.Cascade);
         }

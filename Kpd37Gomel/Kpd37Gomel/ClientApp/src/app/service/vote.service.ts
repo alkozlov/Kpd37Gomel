@@ -23,6 +23,19 @@ export class VoteService {
       .map(data => data as IVote);
   }
 
+  public updateVote(voteId: string, vote: IVote): Observable<IVote> {
+    return this.http.put(
+        'api/v1/votes/' + voteId,
+        vote,
+        {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage['auth_token']
+          })
+        })
+      .map(data => data as IVote);
+  }
+
   public getVoteDetails(voteId: any): Observable<any> {
     return this.http.get(
         'api/v1/votes/' + voteId,
@@ -59,5 +72,16 @@ export class VoteService {
           })
         })
       .map(data => data as Array<IVote>);
+  }
+
+  public deleteVote(voteId: string): Observable<Object> {
+    return this.http.delete(
+      'api/v1/votes/' + voteId,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage['auth_token']
+        })
+      })
   }
 }

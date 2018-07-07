@@ -33,6 +33,9 @@ namespace Kpd37Gomel.DTO
         public bool UseVoteRate { get; set; }
 
         [DataMember]
+        public bool IsDeleted { get; set; }
+
+        [DataMember]
         public List<VoteVariantDTO> Variants { get; set; }
 
         public VoteDTO()

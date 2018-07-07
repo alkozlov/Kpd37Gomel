@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Kpd37Gomel.Controllers
 {
-    //public class ApartmentController : ODataController
     public class ApartmentController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,9 +23,6 @@ namespace Kpd37Gomel.Controllers
 
         [HttpGet]
         [EnableQuery]
-        public IQueryable<Apartment> Get()
-        {
-            return this._context.Apartments.AsQueryable();
-        }
+        public IQueryable<Apartment> Get() => this._context.Apartments.AsQueryable();
     }
 }

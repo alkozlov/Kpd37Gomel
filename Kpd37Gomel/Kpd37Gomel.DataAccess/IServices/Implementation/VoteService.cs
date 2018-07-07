@@ -53,5 +53,36 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             this.Context.VoteChoices.Add(voteChoice);
             await this.Context.SaveChangesAsync();
         }
+
+        public async Task<Vote> UpdateVoteAsync(Guid voteId, Vote vote)
+        {
+            var existingVote = await this.Context.Votes
+                .FirstOrDefaultAsync(x => x.Id == voteId);
+
+            if (existingVote == null || existingVote.IsDeleted)
+            {
+                throw new Exception("Голосование не найдено.");
+            }
+
+            existingVote.Title = vote.Title;
+            existingVote.Description = vote.Description;
+            await this.Context.SaveChangesAsync();
+
+            return existingVote;
+        }
+
+        public async Task DeleteVoteAsync(Guid voteId)
+        {
+            var existingVote = await this.Context.Votes
+                .FirstOrDefaultAsync(x => x.Id == voteId);
+
+            if (existingVote == null || existingVote.IsDeleted)
+            {
+                throw new Exception("Голосование не найдено.");
+            }
+
+            existingVote.IsDeleted = true;
+            await this.Context.SaveChangesAsync();
+        }
     }
 }

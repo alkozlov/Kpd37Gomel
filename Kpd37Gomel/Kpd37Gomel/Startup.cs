@@ -57,7 +57,7 @@ namespace Kpd37Gomel
             services.AddOData();
             services.AddTransient<Kpd37GomelModelBuilder>();
 
-            services.AddMvc();//.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc();
 
             var connection = this.Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
@@ -100,6 +100,9 @@ namespace Kpd37Gomel
 
             app.UseAuthentication();
 
+            var builder = new ODataConventionModelBuilder();
+            builder.EntitySet<Apartment>(nameof(Apartment));
+
             app.UseMvc(routes =>
             {
                 routes
@@ -109,7 +112,9 @@ namespace Kpd37Gomel
                     .OrderBy(QueryOptionSetting.Allowed)
                     .MaxTop(null)
                     .Count();
-                routes.MapODataServiceRoute("OData", "odata", modelBuilder.GetEdmModel(app.ApplicationServices));
+
+                //routes.MapODataServiceRoute("OData", "odata", modelBuilder.GetEdmModel(app.ApplicationServices));
+                routes.MapODataServiceRoute("OData", "odata", builder.GetEdmModel());
 
                 routes.MapRoute(
                     name: "default",
