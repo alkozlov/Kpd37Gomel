@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+    <vote-template #voteTemplate [vote]="selectedVote"></vote-template>
+    <button class="btn btn-primary pull-right" [disabled]="voteTemplate.invalid" (click)="addVote(voteTemplate.vote)">Добавить</button>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+    <dx-list [items]="voteSet" height="100%"
+             [selectionMode]="single"
+             (onSelectionChanged)="onVoteSelected($event)">
+      <div *dxTemplate="let item of 'item'">
+        <div>
+          <span>{{item.title}}</span>
+        </div>
+      </div>
+    </dx-list>
+  </div>
+</div>

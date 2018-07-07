@@ -45,6 +45,7 @@ namespace Kpd37Gomel.Controllers
                 menuItems.Add(new MenuItemDTO{Title = "Квартиры", Route = "/flats", IconClassName = "glyphicon-th" });
                 menuItems.Add(new MenuItemDTO{Title = "Жильцы", Route = "/tenants", IconClassName = "glyphicon-user" });
                 menuItems.Add(new MenuItemDTO{Title = "Создать голосование", Route = "/vote-create", IconClassName = "glyphicon-bullhorn" });
+                menuItems.Add(new MenuItemDTO{Title = "Создать голосование", Route = "/questionnaire", IconClassName = "glyphicon-bullhorn" });
             }
 
             return this.Ok(menuItems);

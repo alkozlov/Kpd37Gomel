@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { locale, loadMessages } from 'devextreme/localization';
-import { DxDataGridModule, DxTemplateModule, DxToastModule, DxPieChartModule, DxRadioGroupModule } from 'devextreme-angular';
+import { DxDataGridModule, DxTemplateModule, DxToastModule, DxPieChartModule, DxRadioGroupModule, DxListModule } from 'devextreme-angular';
 import 'devextreme-intl';
 
 import { AuthGuard } from "./guard/auth.guard";
@@ -19,6 +19,9 @@ import { VoteListComponent } from './vote-list/vote-list.component';
 import { VoteComponent } from './vote/vote.component';
 import { VoteCreateComponent } from './vote-create/vote-create.component';
 import { VoteEditComponent } from './vote-edit/vote-edit.component';
+import { VoteTemplateComponent } from './vote-template/vote-template.component';
+import { VoteSetBuilderComponent } from './vote-set-builder/vote-set-builder.component';
+import { VoteSetCreateComponent } from './vote-set-create/vote-set-create.component';
 import { FlatsListComponent } from './flats-list/flats-list.component';
 import { TenantsListComponent } from './tenants-list/tenants-list.component';
 
@@ -43,7 +46,10 @@ locale("ru-Ru");
     FlatsListComponent,
     VoteCreateComponent,
     TenantsListComponent,
-    VoteEditComponent
+    VoteEditComponent,
+    VoteTemplateComponent,
+    VoteSetBuilderComponent,
+    VoteSetCreateComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -55,6 +61,7 @@ locale("ru-Ru");
     DxToastModule,
     DxPieChartModule,
     DxRadioGroupModule,
+    DxListModule,
     RouterModule.forRoot([
       {
         path: '', component: HomeComponent, canActivate: [AuthGuard],
@@ -65,7 +72,8 @@ locale("ru-Ru");
           { path: 'flats', component: FlatsListComponent, pathMatch: 'full' },
           { path: 'tenants', component: TenantsListComponent, pathMatch: 'full' },
           { path: 'vote-create', component: VoteCreateComponent, pathMatch: 'full' },
-          { path: 'votes/:id/edit', component: VoteEditComponent, pathMatch: 'full' }
+          { path: 'votes/:id/edit', component: VoteEditComponent, pathMatch: 'full' },
+          { path: 'questionnaire', component: VoteSetCreateComponent, pathMatch: 'full' }
         ]
       },
       { path: 'login', component: LoginFormComponent, pathMatch: 'full', canActivate: [AuthGuard] }
