@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { VoteService } from "../service/vote.service";
 import { IVote } from "../vote";
 import { ToastService } from "../service/toast.service";
@@ -32,7 +33,7 @@ export class VoteListComponent implements OnInit {
     this.currentUser = this.authService.getCurrentUser();
     this.voteService.getVoteList().subscribe(
       data => { this.voteList = data; },
-      error => { this.toastService.showErrorToast(error.message); },
+      error => { this.handleHttpErrorResponse(error); },
       () => { this.loadingVisible = false; });
   }
 
@@ -55,5 +56,13 @@ export class VoteListComponent implements OnInit {
         );
       }
     });
+  }
+
+  private handleHttpErrorResponse(error: HttpErrorResponse) {
+    if (error.status === 401) {
+      
+    } else {
+      this.toastService.showErrorToast(error.error.message);
+    }
   }
 }

@@ -1,5 +1,5 @@
 <div>
-  <form [formGroup]="voteTemplateForm" novalidate (ngSubmit)="onSubmit(voteTemplateForm.value)">
+  <form [formGroup]="voteTemplateForm" novalidate>
     <div class="form-group" [ngClass]="{'has-error':!voteTemplateForm.controls['title'].valid && voteTemplateForm.controls['title'].touched,
          'has-success': voteTemplateForm.controls['title'].valid && voteTemplateForm.controls['title'].touched}">
       <label for="title">Тема голосования</label>

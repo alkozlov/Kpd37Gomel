@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { NavigationMenuService } from "../service/navigation-menu.service";
-import {ToastService} from "../service/toast.service";
-import {IMenuItem} from "../menu-item";
+import { ToastService } from "../service/toast.service";
+import { IMenuItem } from "../menu-item";
 
 @Component({
   selector: 'app-nav-menu',
@@ -33,6 +34,14 @@ export class NavMenuComponent implements OnInit {
       data => {
         this.menuItems = data;
       },
-      error => { this.toastService.showErrorToast(error.message); });
+      error => { this.handleHttpErrorResponse(error); });
+  }
+
+  private handleHttpErrorResponse(error: HttpErrorResponse) {
+    if (error.status === 401) {
+
+    } else {
+      this.toastService.showErrorToast(error.error.message);
+    }
   }
 }
