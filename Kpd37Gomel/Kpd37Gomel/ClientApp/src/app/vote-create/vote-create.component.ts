@@ -13,6 +13,7 @@ import { ToastService } from "../service/toast.service";
 export class VoteCreateComponent implements OnInit {
   public voteCreateForm: FormGroup;
   public variants: Array<any>;
+  public loadingVisible: boolean = false;
 
   constructor(private router: Router, private voteService: VoteService, private toastService: ToastService) {
     this.voteCreateForm = new FormGroup({
@@ -32,9 +33,11 @@ export class VoteCreateComponent implements OnInit {
   onSubmit(value: any) {
     if (this.voteCreateForm.valid) {
       var vote = { title: value.title, description: value.description, useVoteRate: true, variants: this.variants };
+      this.loadingVisible = true;
       this.voteService.createVote(vote as Vote).subscribe(
         data => { this.router.navigate(['votes', data.id], { queryParams: { msg: 'Опрос успено создан!' } }); },
-        error => { this.toastService.showErrorToast(error.message); });
+        error => { this.toastService.showErrorToast(error.message); },
+        () => { this.loadingVisible = false; });
     }
   }
 }

@@ -22,6 +22,7 @@ export class VoteComponent implements OnInit {
   public voteResultAreas: Array<VoteResultArea>;
   public apartmentVoteResultDataSource: any;
   public currentUser: IUserData;
+  public loadingVisible: boolean = false;
 
   private selectedVoteVariant: any;
 
@@ -45,7 +46,7 @@ export class VoteComponent implements OnInit {
 
     var dataSourceOptions = new Object({
       loadUrl: 'api/v1/votes/' + this.activatedRoute.snapshot.params.id + '/details',
-      onBeforeSend: function (operation, jQueryAjaxSettings) {
+      onBeforeSend(operation, jQueryAjaxSettings) {
         jQueryAjaxSettings.headers = { "Authorization": 'Bearer ' + localStorage['auth_token'] };
       }
     });
@@ -63,6 +64,7 @@ export class VoteComponent implements OnInit {
       this.toastService.showSuccessToast(this.activatedRoute.snapshot.queryParams['msg']);
     }
 
+    this.loadingVisible = true;
     this.voteService.getVoteDetails(id).subscribe(
       data => {
         this.voteDetails = data;
@@ -73,7 +75,8 @@ export class VoteComponent implements OnInit {
           this.mapVoteResultToChart(this.voteDetails.result);
         }
       },
-      error => { this.toastService.showErrorToast(error.message); });
+      error => { this.toastService.showErrorToast(error.message); },
+      () => { this.loadingVisible = false; });
   }
 
   private mapVoteResultToChart(voreResult: any): void {
@@ -97,6 +100,7 @@ export class VoteComponent implements OnInit {
   }
 
   public sendVote() {
+    this.loadingVisible = true;
     this.voteService.sendVote(this.activatedRoute.snapshot.params.id, this.selectedVoteVariant).subscribe(
       data => {
         this.refreshApartmentVoteResultDataGrid();
@@ -105,6 +109,7 @@ export class VoteComponent implements OnInit {
           this.mapVoteResultToChart(this.voteDetails.result);
         }
       },
-      error => { this.toastService.showErrorToast(error.message); });
+      error => { this.toastService.showErrorToast(error.message); },
+      () => { this.loadingVisible = false; });
   }
 }

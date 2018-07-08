@@ -1,12 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-import { locale, loadMessages } from 'devextreme/localization';
-import { DxDataGridModule, DxTemplateModule, DxToastModule, DxPieChartModule, DxRadioGroupModule, DxListModule } from 'devextreme-angular';
-import 'devextreme-intl';
+import {
+  DxDataGridModule,
+  DxTemplateModule,
+  DxToastModule,
+  DxPieChartModule,
+  DxRadioGroupModule,
+  DxListModule,
+  DxLoadIndicatorModule,
+  DxLoadPanelModule
+} from 'devextreme-angular';
 
 import { AuthGuard } from "./guard/auth.guard";
 
@@ -14,7 +21,6 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { LoginFormComponent } from './login-form/login-form.component';
-
 import { VoteListComponent } from './vote-list/vote-list.component';
 import { VoteComponent } from './vote/vote.component';
 import { VoteCreateComponent } from './vote-create/vote-create.component';
@@ -28,8 +34,12 @@ import { TenantsListComponent } from './tenants-list/tenants-list.component';
 import { VoteService } from './service/vote.service';
 import { ToastService } from './service/toast.service';
 import { AuthenticationService } from './service/authentication.service';
-import { NavigationMenuService } from "./service/navigation-menu.service";
+import { NavigationMenuService } from './service/navigation-menu.service';
 
+import { JwtInterceptor } from './auth/jwt.interceptor';
+
+import { locale, loadMessages } from 'devextreme/localization';
+import 'devextreme-intl';
 import * as messagesRu from "devextreme/localization/messages/ru.json";
 
 loadMessages(messagesRu);
@@ -62,6 +72,8 @@ locale("ru-Ru");
     DxPieChartModule,
     DxRadioGroupModule,
     DxListModule,
+    DxLoadIndicatorModule,
+    DxLoadPanelModule,
     RouterModule.forRoot([
       {
         path: '', component: HomeComponent, canActivate: [AuthGuard],
@@ -79,7 +91,12 @@ locale("ru-Ru");
       { path: 'login', component: LoginFormComponent, pathMatch: 'full', canActivate: [AuthGuard] }
     ])
   ],
-  providers: [AuthGuard, VoteService, ToastService, AuthenticationService, NavigationMenuService],
+  providers: [AuthGuard, VoteService, ToastService, AuthenticationService, NavigationMenuService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

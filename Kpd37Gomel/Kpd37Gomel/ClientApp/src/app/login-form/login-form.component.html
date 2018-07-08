@@ -4,7 +4,7 @@
       <!--<img src="https://www.tutorialrepublic.com/examples/images/avatar.png" alt="Avatar">-->
       <img src="kpd37-avatar.jpg" class="img-thumbnail" alt="Avatar">
     </div>
-    <h2 class="text-center">КПД 37</h2>
+    <h2 class="text-center">ТС "ЭлитФорт"</h2>
     <h4 class="text-center">г. Гомель, ул. Григория Денисенко, д. 12</h4>
     <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['lastName'].valid && loginForm.controls['lastName'].touched,
          'has-success': loginForm.controls['lastName'].valid && loginForm.controls['lastName'].touched}">
@@ -27,3 +27,13 @@
     </div>
   </form>
 </div>
+
+<dx-load-panel
+      #loadPanel
+      shadingColor="rgba(0,0,0,0.4)"
+      [(visible)]="loadingVisible"
+      [showIndicator]="true"
+      [showPane]="true"
+      [shading]="true"
+      [closeOnOutsideClick]="false">
+</dx-load-panel>

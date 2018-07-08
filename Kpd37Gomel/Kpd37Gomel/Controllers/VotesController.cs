@@ -58,6 +58,7 @@ namespace Kpd37Gomel.Controllers
 
             VoteDetailsDTO responseData = new VoteDetailsDTO();
             responseData.Vote = this._mapper.Map<VoteDTO>(vote);
+            responseData.Vote.Variants = responseData.Vote.Variants.OrderBy(x => x.SequenceIndex).ToList();
             if (vote.Choices.Any(x => x.ApartmentId == apartmentId))
             {
                 var apartmentVoteChoise = vote.Choices.First(x => x.ApartmentId == apartmentId);
@@ -109,6 +110,7 @@ namespace Kpd37Gomel.Controllers
 
             var createdVote = await this._voteService.CreateVoteAsync(voteToCreate);
             var responseData = this._mapper.Map<VoteDTO>(createdVote);
+            responseData.Variants = responseData.Variants.OrderBy(x => x.SequenceIndex).ToList();
 
             return this.Ok(responseData);
         }
@@ -151,6 +153,7 @@ namespace Kpd37Gomel.Controllers
 
             VoteDetailsDTO responseData = new VoteDetailsDTO();
             responseData.Vote = this._mapper.Map<VoteDTO>(vote);
+            responseData.Vote.Variants = responseData.Vote.Variants.OrderBy(x => x.SequenceIndex).ToList();
             if (vote.Choices.Any(x => x.ApartmentId == apartmentId))
             {
                 responseData.IsPassed = true;
@@ -235,6 +238,7 @@ namespace Kpd37Gomel.Controllers
 
                 voteToUpdate = await this._voteService.UpdateVoteAsync(voteId, voteToUpdate);
                 var responseData = this._mapper.Map<VoteDTO>(voteToUpdate);
+                responseData.Variants = responseData.Variants.OrderBy(x => x.SequenceIndex).ToList();
 
                 return this.Ok(responseData);
             }

@@ -1,17 +1,23 @@
 <div class="row">
   <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-    <vote-template #voteTemplate [vote]="selectedVote"></vote-template>
-    <button class="btn btn-primary pull-right" [disabled]="voteTemplate.invalid" (click)="addVote(voteTemplate.vote)">Добавить</button>
+    <vote-template #voteTemplate [vote]="currentVote"></vote-template>
+    <button class="btn btn-primary pull-right" [disabled]="voteTemplate.invalid" (click)="addVote(voteTemplate.vote)">
+      <span *ngIf="currentVote.id === null">Добавить</span>
+      <span *ngIf="currentVote.id !== null">Сохранить</span>
+    </button>
   </div>
   <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-    <dx-list [items]="voteSet" height="100%"
-             [selectionMode]="single"
-             (onSelectionChanged)="onVoteSelected($event)">
+    <dx-list [dataSource]="voteSet"
+             selectionMode="single"
+             (onSelectionChanged)=listSelectionChanged($event)>
       <div *dxTemplate="let item of 'item'">
         <div>
           <span>{{item.title}}</span>
         </div>
       </div>
     </dx-list>
+    <div class="center-block">
+      <button *ngIf="currentVote.id !== null" class="btn btn-link" (click)="addNewVote()"><span class="glyphicon glyphicon-plus"></span> Новое голосование</button>
+    </div>
   </div>
 </div>

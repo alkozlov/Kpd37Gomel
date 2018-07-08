@@ -15,6 +15,7 @@ export class VoteEditComponent implements OnInit {
 
   public voteEditForm: FormGroup;
   public variants: Array<any>;
+  public loadingVisible: boolean = false;
 
   constructor(
     private router: Router,
@@ -39,21 +40,25 @@ export class VoteEditComponent implements OnInit {
   }
 
   private loadVote(id: any) {
+    this.loadingVisible = true;
     this.voteService.getVoteDetails(id).subscribe(
       data => {
         this.vote = data.vote;
         this.voteEditForm.controls['title'].setValue(this.vote.title);
         this.voteEditForm.controls['description'].setValue(this.vote.description);
       },
-      error => { this.toastService.showErrorToast(error.message); });
+      error => { this.toastService.showErrorToast(error.message); },
+      () => { this.loadingVisible = false; });
   }
 
   onSubmit(value: any) {
     if (this.voteEditForm.valid) {
       var vote = { title: value.title, description: value.description };
+      this.loadingVisible = true;
       this.voteService.updateVote(this.activatedRoute.snapshot.params.id, vote as IVote).subscribe(
         data => { this.toastService.showSuccessToast('Данные успешно обновлены.'); },
-        error => { this.toastService.showErrorToast(error.message); });
+        error => { this.toastService.showErrorToast(error.message); },
+        () => { this.loadingVisible = false; });
     }
   }
 }

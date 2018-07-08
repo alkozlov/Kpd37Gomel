@@ -12,7 +12,7 @@
 </div>
 
 <div class="row" *ngIf="!voteDetails.isPassed">
-  <div class="col-sm-12">
+  <div class="col-sm-12">  
     <form>
       <div class="form-group">
         <label for="voteVariantsRadioGroup">Варианты ответов:</label>
@@ -102,3 +102,12 @@
     </dx-data-grid>
   </div>
 </div>
+
+<dx-load-panel #loadPanel
+               shadingColor="rgba(0,0,0,0.4)"
+               [(visible)]="loadingVisible"
+               [showIndicator]="true"
+               [showPane]="true"
+               [shading]="true"
+               [closeOnOutsideClick]="false">
+</dx-load-panel>

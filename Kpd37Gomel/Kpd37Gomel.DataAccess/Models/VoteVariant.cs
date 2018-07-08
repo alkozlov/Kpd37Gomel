@@ -11,6 +11,7 @@ namespace Kpd37Gomel.DataAccess.Models
         public Vote Vote { get; set; }
 
         public string Text { get; set; }
+        public int SequenceIndex { get; set; }
 
         public List<VoteChoice> VoteChoices { get; set; }
 

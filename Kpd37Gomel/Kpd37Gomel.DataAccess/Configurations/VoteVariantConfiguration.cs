@@ -24,6 +24,11 @@ namespace Kpd37Gomel.DataAccess.Configurations
                 .HasMaxLength(200)
                 .HasColumnName("Text");
 
+            builder.Property(p => p.SequenceIndex)
+                .IsRequired()
+                .HasDefaultValue(0)
+                .HasColumnName("SequenceIndex");
+
             builder.HasOne(p => p.Vote)
                 .WithMany(p => p.Variants)
                 .HasForeignKey(p => p.VoteId);

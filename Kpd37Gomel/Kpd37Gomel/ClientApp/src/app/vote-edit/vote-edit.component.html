@@ -20,3 +20,12 @@
     <button type="submit" [disabled]="voteEditForm.invalid" class="btn btn-primary btn-lg">Сохранить</button>
   </form>
 </div>
+
+<dx-load-panel #loadPanel
+               shadingColor="rgba(0,0,0,0.4)"
+               [(visible)]="loadingVisible"
+               [showIndicator]="true"
+               [showPane]="true"
+               [shading]="true"
+               [closeOnOutsideClick]="false">
+</dx-load-panel>

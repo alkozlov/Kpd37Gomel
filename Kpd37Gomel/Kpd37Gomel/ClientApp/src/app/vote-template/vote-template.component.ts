@@ -9,22 +9,24 @@ import { IVote } from '../vote';
   styleUrls: ['./vote-template.component.css']
 })
 export class VoteTemplateComponent {
+  private _vote: IVote;
+
   public voteTemplateForm: FormGroup;
   public variants: Array<any>;
 
   @Input()
   public set vote(data: IVote) {
-    this.voteTemplateForm.controls['title'].setValue(data.title);
-    this.voteTemplateForm.controls['description'].setValue(data.description);
-    this.variants = this.variants;
+    this._vote = data;
+    this.voteTemplateForm.controls['title'].setValue(this._vote.title);
+    this.voteTemplateForm.controls['description'].setValue(this._vote.description);
+    this.variants = this._vote.variants;
   }
 
   public get vote(): IVote {
-    return {
-      title: this.voteTemplateForm.controls['title'].value,
-      description: this.voteTemplateForm.controls['description'].value,
-      variants: this.variants
-    } as IVote;
+    this._vote.title = this.voteTemplateForm.controls['title'].value;
+    this._vote.description = this.voteTemplateForm.controls['description'].value;
+
+    return this._vote;
   }
 
   @Input()
@@ -37,10 +39,5 @@ export class VoteTemplateComponent {
       'title': new FormControl('', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(200)])),
       'description': new FormControl('', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)]))
     });
-
-    this.variants = new Array<any>();
-    this.variants.push({ text: 'За' });
-    this.variants.push({ text: 'Против' });
-    this.variants.push({ text: 'Воздержаться' });
   }
 }

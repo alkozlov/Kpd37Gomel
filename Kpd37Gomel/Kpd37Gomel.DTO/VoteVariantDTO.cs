@@ -17,5 +17,8 @@ namespace Kpd37Gomel.DTO
 
         [DataMember]
         public string Text { get; set; }
+
+        [DataMember]
+        public int SequenceIndex { get; set; }
     }
 }

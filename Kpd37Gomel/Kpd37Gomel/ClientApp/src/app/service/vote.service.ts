@@ -82,6 +82,6 @@ export class VoteService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + localStorage['auth_token']
         })
-      })
+      });
   }
 }
