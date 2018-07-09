@@ -5,39 +5,40 @@ using System.Runtime.Serialization;
 
 namespace Kpd37Gomel.DTO
 {
-    [DataContract]
+    //[DataContract]
     public class TenantDTO
     {
-        [DataMember]
+        //[DataMember]
+        [Key]
         public Guid Id { get; set; }
 
-        [DataMember]
+        //[DataMember]
         [Required(ErrorMessage = "Имя не указано.")]
         [MaxLength(500, ErrorMessage = "Максимальная длина имени 100 символов.")]
         public string FirstName { get; set; }
 
-        [DataMember]
+        //[DataMember]
         [Required(ErrorMessage = "Отчество не указано.")]
         [MaxLength(500, ErrorMessage = "Максимальная длина отчества 100 символов.")]
         public string MiddleName { get; set; }
 
-        [DataMember]
+        //[DataMember]
         [Required(ErrorMessage = "Фамилия не указана.")]
         [MaxLength(500, ErrorMessage = "Максимальная длина фамилия 100 символов.")]
         public string LastName { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public bool IsOwner { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public bool IsAdmin { get; set; }
 
-        [DataMember]
-        public List<ApartmentDTO> Apartments { get; set; }
+        //[DataMember]
+        public List<ApartmentTenantDTO> ApartmentTenants { get; set; }
 
         public TenantDTO()
         {
-            this.Apartments = new List<ApartmentDTO>();
+            this.ApartmentTenants = new List<ApartmentTenantDTO>();
         }
     }
 }

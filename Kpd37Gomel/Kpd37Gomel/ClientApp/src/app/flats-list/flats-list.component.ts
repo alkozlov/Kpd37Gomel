@@ -47,17 +47,16 @@ export class FlatsListComponent implements OnInit {
       beforeSend: (e) => {
         e.headers = {
           "Authorization": 'Bearer ' + localStorage['auth_token'],
-          'Access-Control-Allow-Origin':'*'
-          //"Cache-Control": 'no-cache',
-          //"Pragma": 'no-cache'
         };
       }
       // Other ODataStore options go here
     });
 
-    this.apartmentsDataSource = {
-      store: this.store
-    };
+    this.apartmentsDataSource = new DataSource(new Object({
+        store: this.store,
+        sort: [{ selector: 'ApartmentNumber', desc: false }]
+      })
+    );
   }
 
   tenantDataSources = {};

@@ -39,9 +39,9 @@ namespace Kpd37Gomel.Controllers
                 {
                     var responseItem = new ApartmentTenantDTO();
                     responseItem.TenantId = apartmentTenant.TenantId;
-                    responseItem.FirstName = apartmentTenant.Tenant.FirstName;
-                    responseItem.MiddleName = apartmentTenant.Tenant.MiddleName;
-                    responseItem.LastName = apartmentTenant.Tenant.LastName;
+                    //responseItem.FirstName = apartmentTenant.Tenant.FirstName;
+                    //responseItem.MiddleName = apartmentTenant.Tenant.MiddleName;
+                    //responseItem.LastName = apartmentTenant.Tenant.LastName;
                     responseItem.ApartmentId = apartmentTenant.ApartmentId;
                     responseItem.IsOwner = apartmentTenant.IsOwner;
 
@@ -58,12 +58,12 @@ namespace Kpd37Gomel.Controllers
             var requestData = new ApartmentTenantDTO();
             JsonConvert.PopulateObject(values, requestData);
 
-            if (String.IsNullOrEmpty(requestData.FirstName) ||
-                String.IsNullOrEmpty(requestData.MiddleName) ||
-                String.IsNullOrEmpty(requestData.LastName))
-            {
-                throw new Exception("Фамилия, имя и отчество - обязательные данные.");
-            }
+            //if (String.IsNullOrEmpty(requestData.FirstName) ||
+            //    String.IsNullOrEmpty(requestData.MiddleName) ||
+            //    String.IsNullOrEmpty(requestData.LastName))
+            //{
+            //    throw new Exception("Фамилия, имя и отчество - обязательные данные.");
+            //}
 
             var apartment = await this._apartmentService.GetApartmentByIdAsync(requestData.ApartmentId);
             if (apartment == null)
@@ -73,9 +73,9 @@ namespace Kpd37Gomel.Controllers
 
             Tenant tenant = new Tenant();
             tenant.Id = Guid.NewGuid();
-            tenant.FirstName = requestData.FirstName;
-            tenant.MiddleName = requestData.MiddleName;
-            tenant.LastName = requestData.LastName;
+            //tenant.FirstName = requestData.FirstName;
+            //tenant.MiddleName = requestData.MiddleName;
+            //tenant.LastName = requestData.LastName;
 
             ApartmentTenant apartmentTenant = new ApartmentTenant();
             apartmentTenant.TenantId = tenant.Id;
@@ -87,9 +87,9 @@ namespace Kpd37Gomel.Controllers
 
             var responseData = new ApartmentTenantDTO();
             responseData.TenantId = apartmentTenant.TenantId;
-            responseData.FirstName = tenant.FirstName;
-            responseData.MiddleName = tenant.MiddleName;
-            responseData.LastName = tenant.LastName;
+            //responseData.FirstName = tenant.FirstName;
+            //responseData.MiddleName = tenant.MiddleName;
+            //responseData.LastName = tenant.LastName;
             responseData.ApartmentId = apartmentTenant.ApartmentId;
             responseData.IsOwner = apartmentTenant.IsOwner;
 
@@ -139,9 +139,9 @@ namespace Kpd37Gomel.Controllers
 
             var responseData = new ApartmentTenantDTO();
             responseData.TenantId = apartmentTenant.TenantId;
-            responseData.FirstName = tenant.FirstName;
-            responseData.MiddleName = tenant.MiddleName;
-            responseData.LastName = tenant.LastName;
+            //responseData.FirstName = tenant.FirstName;
+            //responseData.MiddleName = tenant.MiddleName;
+            //responseData.LastName = tenant.LastName;
             responseData.ApartmentId = apartmentTenant.ApartmentId;
             responseData.IsOwner = apartmentTenant.IsOwner;
 

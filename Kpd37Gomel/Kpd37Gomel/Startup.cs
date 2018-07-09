@@ -5,6 +5,7 @@ using Kpd37Gomel.DataAccess;
 using Kpd37Gomel.DataAccess.IServices;
 using Kpd37Gomel.DataAccess.IServices.Implementation;
 using Kpd37Gomel.DataAccess.Models;
+using Kpd37Gomel.DTO;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNet.OData.Query;
@@ -101,20 +102,20 @@ namespace Kpd37Gomel
             app.UseAuthentication();
 
             var builder = new ODataConventionModelBuilder();
-            builder.EntitySet<Apartment>(nameof(Apartment));
+            //builder.EntitySet<ApartmentDTO>("Apartment");
 
             app.UseMvc(routes =>
             {
-                routes
-                    .Select()
-                    .Expand()
-                    .Filter()
-                    .OrderBy(QueryOptionSetting.Allowed)
-                    .MaxTop(null)
-                    .Count();
+                //routes
+                //    .Select()
+                //    .Expand()
+                //    .Filter()
+                //    .OrderBy(QueryOptionSetting.Allowed)
+                //    .MaxTop(null)
+                //    .Count();
 
-                //routes.MapODataServiceRoute("OData", "odata", modelBuilder.GetEdmModel(app.ApplicationServices));
-                routes.MapODataServiceRoute("OData", "odata", builder.GetEdmModel());
+                routes.MapODataServiceRoute("OData", "odata", modelBuilder.GetEdmModel(app.ApplicationServices));
+                //routes.MapODataServiceRoute("OData", "odata", builder.GetEdmModel());
 
                 routes.MapRoute(
                     name: "default",
