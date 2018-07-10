@@ -1,14 +1,9 @@
-using System;
 using System.Text;
 using AutoMapper;
 using Kpd37Gomel.DataAccess;
 using Kpd37Gomel.DataAccess.IServices;
 using Kpd37Gomel.DataAccess.IServices.Implementation;
-using Kpd37Gomel.DataAccess.Models;
-using Kpd37Gomel.DTO;
-using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
-using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -56,9 +51,7 @@ namespace Kpd37Gomel
             });
 
             services.AddOData();
-            services.AddTransient<Kpd37GomelModelBuilder>();
-
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var connection = this.Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
@@ -79,7 +72,7 @@ namespace Kpd37Gomel
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Kpd37GomelModelBuilder modelBuilder)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -101,25 +94,14 @@ namespace Kpd37Gomel
 
             app.UseAuthentication();
 
-            var builder = new ODataConventionModelBuilder();
-            //builder.EntitySet<ApartmentDTO>("Apartment");
-
             app.UseMvc(routes =>
             {
-                //routes
-                //    .Select()
-                //    .Expand()
-                //    .Filter()
-                //    .OrderBy(QueryOptionSetting.Allowed)
-                //    .MaxTop(null)
-                //    .Count();
-
-                routes.MapODataServiceRoute("OData", "odata", modelBuilder.GetEdmModel(app.ApplicationServices));
-                //routes.MapODataServiceRoute("OData", "odata", builder.GetEdmModel());
-
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
+
+                routes.Select().Expand().Filter().OrderBy().MaxTop(null).Count();
+                routes.MapODataServiceRoute("OData", "odata", Kpd37ODataConventionModelBuilder.GetEdmModel());
             });
 
             app.UseSpa(spa =>

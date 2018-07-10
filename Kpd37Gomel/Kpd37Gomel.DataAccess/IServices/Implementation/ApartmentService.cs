@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Kpd37Gomel.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
@@ -12,14 +12,14 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
         {
         }
 
-        public async Task<IEnumerable<Apartment>> GetApartmentsAsync()
+        public async Task<IQueryable<Apartment>> GetApartmentsAsync()
         {
             var apartments = await this.Context.Apartments
                 .AsNoTracking()
                 .Include(i => i.ApartmentTenants).ThenInclude(i => i.Tenant)
                 .ToListAsync();
 
-            return apartments;
+            return apartments.AsQueryable();
         }
 
         public async Task<Apartment> GetApartmentByIdAsync(Guid apartmentId)

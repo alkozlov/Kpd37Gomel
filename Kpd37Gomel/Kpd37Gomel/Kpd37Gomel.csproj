@@ -41,6 +41,7 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\guard\" />
+    <Folder Include="Configurations\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
