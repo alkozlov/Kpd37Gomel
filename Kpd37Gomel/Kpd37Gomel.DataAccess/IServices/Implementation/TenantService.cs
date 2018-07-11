@@ -27,6 +27,15 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             return apartment.ApartmentTenants.Select(x => x.Tenant);
         }
 
+        public async Task<ApartmentTenant> GetApartmentTenantAsync(Guid apartmentId, Guid tenantId)
+        {
+            return await this.Context.ApartmentTenants
+                .AsNoTracking()
+                .Include(i => i.Apartment)
+                .Include(i => i.Tenant)
+                .FirstOrDefaultAsync(x => x.ApartmentId == apartmentId && x.TenantId == tenantId);
+        }
+
         public async Task<IEnumerable<Tenant>> GetTenantsAsync()
         {
             var tenants = await this.Context.Tenants
@@ -82,6 +91,14 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             return apartmentTenant;
         }
 
+        public async Task<ApartmentTenant> CreateApartmentTenantAsync(ApartmentTenant apartmentTenant)
+        {
+            this.Context.ApartmentTenants.Add(apartmentTenant);
+            await this.Context.SaveChangesAsync();
+
+            return apartmentTenant;
+        }
+
         public async Task<Tenant> UpdateTenantAsync(Guid tenantId, Guid apartmentId, bool isOwner, Tenant modifiedTenant)
         {
             var tenant = await this.Context.Tenants.FirstOrDefaultAsync(x => x.Id == tenantId);
@@ -127,7 +144,7 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             return modifiedApartmentTenant;
         }
 
-        public async Task DeleteApartmentTenantAsync(Guid tenantId, Guid apartmentId)
+        public async Task DeleteApartmentTenantAsync(Guid apartmentId, Guid tenantId)
         {
             var tenant = await this.Context.Tenants.FirstOrDefaultAsync(x =>
                 x.Id == tenantId && x.ApartmentTenants.Any(at => at.ApartmentId == apartmentId));

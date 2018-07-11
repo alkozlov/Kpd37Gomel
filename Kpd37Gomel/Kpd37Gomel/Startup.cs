@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace Kpd37Gomel
 {
@@ -51,7 +52,12 @@ namespace Kpd37Gomel
             });
 
             services.AddOData();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(options =>
+                    {
+                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    });
 
             var connection = this.Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
@@ -96,12 +102,12 @@ namespace Kpd37Gomel
 
             app.UseMvc(routes =>
             {
+                routes.Select().Expand().Filter().OrderBy().MaxTop(null).Count();
+                routes.MapODataServiceRoute("OData", "odata", Kpd37ODataConventionModelBuilder.GetEdmModel());
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
-
-                routes.Select().Expand().Filter().OrderBy().MaxTop(null).Count();
-                routes.MapODataServiceRoute("OData", "odata", Kpd37ODataConventionModelBuilder.GetEdmModel());
             });
 
             app.UseSpa(spa =>

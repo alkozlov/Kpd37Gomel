@@ -65,7 +65,7 @@
   </dxo-pager>
   <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
 
-  <dxi-column dataField="Apartment.Id" caption="№ Кв.">
+  <dxi-column dataField="ApartmentId" calculateDisplayValue="Apartment.ApartmentNumber" caption="№ Кв." [allowEditing]="false">
     <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
     <dxo-lookup [dataSource]="apartmentsDataSource" valueExpr="id" displayExpr="apartmentNumber"></dxo-lookup>
   </dxi-column>

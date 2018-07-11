@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Kpd37Gomel.DataAccess;
 using Kpd37Gomel.DataAccess.IServices;
 using Kpd37Gomel.DataAccess.Models;
 using Kpd37Gomel.DTO;
+using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -19,15 +21,18 @@ namespace Kpd37Gomel.Controllers
     [Authorize(Policy = "OnlyApiAdmin")]
     public class ApartmentsController : Controller
     {
+        private readonly ApplicationDbContext _dbContext;
+
         private readonly IMapper _mapper;
         private readonly IApartmentService _apartmentService;
         private readonly ITenantService _tenantService;
 
-        public ApartmentsController(IMapper mapper, IApartmentService apartmentService, ITenantService tenantService)
+        public ApartmentsController(IMapper mapper, IApartmentService apartmentService, ITenantService tenantService, ApplicationDbContext dbContext)
         {
             this._mapper = mapper;
             this._apartmentService = apartmentService;
             this._tenantService = tenantService;
+            this._dbContext = dbContext;
         }
 
         [HttpGet]
