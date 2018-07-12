@@ -42,7 +42,7 @@
 
 </dx-data-grid>-->
 
-<dx-data-grid [dataSource]="apartmentTenantsDataSource"
+<dx-data-grid [dataSource]="tenantsDataSource"
               [remoteOperations]="true"
               [allowColumnReordering]="true"
               [allowColumnResizing]="true"
@@ -65,20 +65,20 @@
   </dxo-pager>
   <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
 
-  <dxi-column dataField="ApartmentId" calculateDisplayValue="Apartment.ApartmentNumber" caption="№ Кв." [allowEditing]="false">
+  <dxi-column dataField="ApartmentId" calculateDisplayValue="Apartment.ApartmentNumber" caption="№ Кв.">
     <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
     <dxo-lookup [dataSource]="apartmentsDataSource" valueExpr="id" displayExpr="apartmentNumber"></dxo-lookup>
   </dxi-column>
 
-  <dxi-column dataField="Tenant.LastName" caption="Фамилия">
+  <dxi-column dataField="LastName" caption="Фамилия">
     <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
   </dxi-column>
 
-  <dxi-column dataField="Tenant.FirstName" caption="Имя">
+  <dxi-column dataField="FirstName" caption="Имя">
     <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
   </dxi-column>
 
-  <dxi-column dataField="Tenant.MiddleName" caption="Отчество">
+  <dxi-column dataField="MiddleName" caption="Отчество">
     <dxi-validation-rule type="required" message="Обязательное поле."></dxi-validation-rule>
   </dxi-column>
 

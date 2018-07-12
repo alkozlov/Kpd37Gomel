@@ -34,11 +34,6 @@ namespace Kpd37Gomel.DTO
         public bool IsAdmin { get; set; }
 
         //[DataMember]
-        public List<ApartmentTenantDTO> ApartmentTenants { get; set; }
-
-        public TenantDTO()
-        {
-            this.ApartmentTenants = new List<ApartmentTenantDTO>();
-        }
+        public ApartmentDTO Apartment { get; set; }
     }
 }

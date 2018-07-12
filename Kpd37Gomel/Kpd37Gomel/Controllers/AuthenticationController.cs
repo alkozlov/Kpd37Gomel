@@ -34,20 +34,14 @@ namespace Kpd37Gomel.Controllers
         {
             var tenants = await this._tenantService.GetTenantsAsync();
             var tenant = tenants.FirstOrDefault(x =>
-                String.Compare(x.FirstName, loginModel.FirstName, StringComparison.OrdinalIgnoreCase) == 0 &&
-                String.Compare(x.MiddleName, loginModel.MiddleName, StringComparison.OrdinalIgnoreCase) == 0 &&
-                String.Compare(x.LastName, loginModel.LastName, StringComparison.OrdinalIgnoreCase) == 0);
+                String.Compare(x.FirstName, loginModel.FirstName.Trim(), StringComparison.OrdinalIgnoreCase) == 0 &&
+                String.Compare(x.MiddleName, loginModel.MiddleName.Trim(), StringComparison.OrdinalIgnoreCase) == 0 &&
+                String.Compare(x.LastName, loginModel.LastName.Trim(), StringComparison.OrdinalIgnoreCase) == 0 &&
+                x.Apartment.ApartmentNumber == loginModel.ApartmentNumber);
 
             if (tenant == null)
             {
                 return this.BadRequest(new {message = "Такой жилец не найден."});
-            }
-
-            var apartment = tenant.ApartmentTenants.Select(x => x.Apartment)
-                .FirstOrDefault(x => x.ApartmentNumber == loginModel.ApartmentNumber);
-            if (apartment == null)
-            {
-                return this.BadRequest(new { message = "Такой жилец не найден." });
             }
 
             var tokenString = this.CreateJwtToken(tenant);
@@ -57,7 +51,7 @@ namespace Kpd37Gomel.Controllers
                 {
                     IsAdmin = tenant.IsAdmin,
                     FullName = String.Format("{0} {1}.{2}.", tenant.LastName, tenant.FirstName[0], tenant.MiddleName[0]),
-                    ApartmentNumber = apartment.ApartmentNumber
+                    ApartmentNumber = tenant.Apartment.ApartmentNumber
                 },
                 token = tokenString
             });
@@ -69,7 +63,7 @@ namespace Kpd37Gomel.Controllers
             List<Claim> claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("apartment_id", tenant.ApartmentTenants.FirstOrDefault()?.ApartmentId.ToString()),
+                new Claim("apartment_id", tenant.ApartmentId.ToString()),
                 new Claim("tenant_id", tenant.Id.ToString())
             };
 

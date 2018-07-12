@@ -14,11 +14,11 @@ namespace Kpd37Gomel.DataAccess.Models
         public double VoteRate { get; set; }
         public int? RoomsCount { get; set; }
 
-        public List<ApartmentTenant> ApartmentTenants { get; set; }
+        public List<Tenant> Tenants { get; set; }
 
         public Apartment()
         {
-            this.ApartmentTenants = new List<ApartmentTenant>();
+            this.Tenants = new List<Tenant>();
         }
     }
 }

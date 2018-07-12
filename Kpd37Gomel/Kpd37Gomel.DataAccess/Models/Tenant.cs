@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Kpd37Gomel.DataAccess.Models
 {
@@ -10,12 +9,9 @@ namespace Kpd37Gomel.DataAccess.Models
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public bool IsAdmin { get; set; }
+        public bool IsOwner { get; set; }
 
-        public List<ApartmentTenant> ApartmentTenants { get; set; }
-
-        public Tenant()
-        {
-            this.ApartmentTenants = new List<ApartmentTenant>();
-        }
+        public Guid ApartmentId { get; set; }
+        public Apartment Apartment { get; set; }
     }
 }

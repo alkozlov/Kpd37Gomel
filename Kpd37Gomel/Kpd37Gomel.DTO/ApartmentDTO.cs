@@ -33,11 +33,11 @@ namespace Kpd37Gomel.DTO
         //[DataMember]
         public int? RoomsCount { get; set; }
 
-        public List<ApartmentTenantDTO> ApartmentTenants { get; set; }
+        public List<TenantDTO> Tenants { get; set; }
 
         public ApartmentDTO()
         {
-            this.ApartmentTenants = new List<ApartmentTenantDTO>();
+            this.Tenants = new List<TenantDTO>();
         }
     }
 }

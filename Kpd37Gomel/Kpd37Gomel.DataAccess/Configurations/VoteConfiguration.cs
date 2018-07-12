@@ -23,6 +23,9 @@ namespace Kpd37Gomel.DataAccess.Configurations
                 .IsRequired()
                 .HasColumnName("CreateDateUtc");
 
+            builder.Property(p => p.DeleteDateUtc)
+                .HasColumnName("DeleteDateUtc");
+
             builder.Property(p => p.Title)
                 .IsRequired()
                 .HasMaxLength(150)

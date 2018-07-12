@@ -11,6 +11,7 @@ namespace Kpd37Gomel.DataAccess.Models
         public Tenant Author { get; set; }
 
         public DateTime CreateDateUtc { get; set; }
+        public DateTime? DeleteDateUtc { get; set; }
 
         public string Title { get; set; }
         public string Description { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Kpd37Gomel.DataAccess.Models;
 
@@ -9,9 +10,9 @@ namespace Kpd37Gomel.DataAccess.IServices
     {
         Task<IEnumerable<Tenant>> GetApartmentTenantsAsync(Guid apartmentId);
 
-        Task<ApartmentTenant> GetApartmentTenantAsync(Guid apartmentId, Guid tenantId);
+        //Task<ApartmentTenant> GetApartmentTenantAsync(Guid apartmentId, Guid tenantId);
 
-        Task<IEnumerable<Tenant>> GetTenantsAsync();
+        Task<IQueryable<Tenant>> GetTenantsAsync();
 
         Task<Tenant> GetTenantByIdAsync(Guid tenantId);
 
@@ -19,17 +20,19 @@ namespace Kpd37Gomel.DataAccess.IServices
 
         Task<Tenant> CreateTenantAsync(Tenant tenant);
 
-        Task<ApartmentTenant> CreateApartmentTenantAsync(Guid tenantId, Guid apartmentId, bool isOwner);
+        //Task<ApartmentTenant> CreateApartmentTenantAsync(Guid tenantId, Guid apartmentId, bool isOwner);
 
-        Task<ApartmentTenant> CreateApartmentTenantAsync(ApartmentTenant apartmentTenant);
+        //Task<ApartmentTenant> CreateApartmentTenantAsync(ApartmentTenant apartmentTenant);
 
         Task<Tenant> UpdateTenantAsync(Guid tenantId, Guid apartmentId, bool isOwner, Tenant modifiedTenant);
 
         Task<Tenant> UpdateTenantAsync(Tenant modifiedTenant);
 
-        Task<ApartmentTenant> UpdateApartmentTenantAsync(Guid apartmentId, Guid tenantId,
-            ApartmentTenant modifiedApartmentTenant);
+        //Task<ApartmentTenant> UpdateApartmentTenantAsync(Guid apartmentId, Guid tenantId,
+        //    ApartmentTenant modifiedApartmentTenant);
 
         Task DeleteApartmentTenantAsync(Guid apartmentId, Guid tenantId);
+
+        Task DeleteTenantAsync(Guid tenantId);
     }
 }

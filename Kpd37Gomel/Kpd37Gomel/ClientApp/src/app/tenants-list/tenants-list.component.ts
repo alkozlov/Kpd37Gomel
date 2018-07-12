@@ -10,15 +10,16 @@ import DataSource from "devextreme/data/data_source";
   styleUrls: ['./tenants-list.component.css']
 })
 export class TenantsListComponent implements OnInit {
-  private apartmentTenantsApiUrl: string;
+  private tenantsApiUrl: string;
   private apartmentsApiUrl: string;
 
   public apartmentsDataSource: any;
-  private apartmentTenantsDataStore: any;
-  public apartmentTenantsDataSource: any;
+
+  private tenantsDataStore: any;
+  public tenantsDataSource: any;
 
   constructor() {
-    this.apartmentTenantsApiUrl = "odata/ApartmentTenant";
+    this.tenantsApiUrl = "odata/Tenant";
     this.apartmentsApiUrl = "api/v1/apartments";
 
     var apartmentsDataSourceOptions = new Object({
@@ -30,24 +31,21 @@ export class TenantsListComponent implements OnInit {
     });
     this.apartmentsDataSource = AspNetData.createStore(apartmentsDataSourceOptions);
 
-    this.apartmentTenantsDataStore = new ODataStore({
-      url: this.apartmentTenantsApiUrl,
-      key: ['ApartmentId', 'TenantId'],
-      keyType: { ApartmentId: "Guid", TenantId: "Guid" },
+    this.tenantsDataStore = new ODataStore({
+      url: this.tenantsApiUrl,
+      key: 'Id',
+      keyType: 'Guid',
       version: 4,
       beforeSend: (e) => {
-        if (e.method === 'PATCH') {
-          e.method = 'PUT';
-        }
         e.headers = {
           "Authorization": 'Bearer ' + localStorage['auth_token'],
         };
       }
     });
 
-    this.apartmentTenantsDataSource = new DataSource(new Object({
-      store: this.apartmentTenantsDataStore,
-      expand: ["Apartment($select=Id,ApartmentNumber)", "Tenant"],
+    this.tenantsDataSource = new DataSource(new Object({
+      store: this.tenantsDataStore,
+      expand: ["Apartment($select=Id,ApartmentNumber)"],
       sort: [{ selector: 'ApartmentId', desc: false }]
       })
     );

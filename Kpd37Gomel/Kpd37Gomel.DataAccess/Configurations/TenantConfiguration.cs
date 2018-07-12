@@ -1,6 +1,7 @@
 ﻿using Kpd37Gomel.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace Kpd37Gomel.DataAccess.Configurations
 {
@@ -15,6 +16,11 @@ namespace Kpd37Gomel.DataAccess.Configurations
             builder.Property(p => p.Id)
                 .HasColumnName("Id");
 
+            builder.Property(p => p.ApartmentId)
+                .IsRequired()
+                .HasDefaultValue(Guid.Empty)
+                .HasColumnName("ApartmentId");
+
             builder.Property(p => p.FirstName)
                 .IsRequired()
                 .HasMaxLength(100)
@@ -24,12 +30,24 @@ namespace Kpd37Gomel.DataAccess.Configurations
                 .IsRequired()
                 .HasMaxLength(100)
                 .HasColumnName("MiddleName");
-                
 
             builder.Property(p => p.LastName)
                 .IsRequired()
                 .HasMaxLength(100)
                 .HasColumnName("LastName");
+
+            builder.Property(p => p.IsAdmin)
+                .IsRequired()
+                .HasColumnName("IsAdmin");
+
+            builder.Property(p => p.IsOwner)
+                .IsRequired()
+                .HasDefaultValue(true)
+                .HasColumnName("IsOwner");
+
+            builder.HasOne(p => p.Apartment)
+                .WithMany(p => p.Tenants)
+                .HasForeignKey(p => p.ApartmentId);
         }
     }
 }

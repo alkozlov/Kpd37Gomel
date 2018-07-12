@@ -24,14 +24,22 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Compile Remove="ClientApp\src\styles\**" />
+    <Compile Remove="Configurations\**" />
     <Content Remove="$(SpaRoot)**" />
     <Content Remove="ClientApp\src\styles\**" />
+    <Content Remove="Configurations\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Remove="ClientApp\src\styles\**" />
+    <EmbeddedResource Remove="Configurations\**" />
     <None Remove="ClientApp\src\styles\**" />
+    <None Remove="Configurations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\TenantsController.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,7 +49,6 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\guard\" />
-    <Folder Include="Configurations\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -17,40 +17,40 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
         {
             var apartment = await this.Context.Apartments
                 .AsNoTracking()
-                .Include(i => i.ApartmentTenants).ThenInclude(i => i.Tenant).ThenInclude(i => i.ApartmentTenants)
+                //.Include(i => i.ApartmentTenants).ThenInclude(i => i.Tenant).ThenInclude(i => i.ApartmentTenants)
                 .FirstOrDefaultAsync(x => x.Id == apartmentId);
             if (apartment == null)
             {
                 throw new Exception("Apartment not found.");
             }
 
-            return apartment.ApartmentTenants.Select(x => x.Tenant);
+            return apartment.Tenants;
         }
 
-        public async Task<ApartmentTenant> GetApartmentTenantAsync(Guid apartmentId, Guid tenantId)
-        {
-            return await this.Context.ApartmentTenants
-                .AsNoTracking()
-                .Include(i => i.Apartment)
-                .Include(i => i.Tenant)
-                .FirstOrDefaultAsync(x => x.ApartmentId == apartmentId && x.TenantId == tenantId);
-        }
+        //public async Task<ApartmentTenant> GetApartmentTenantAsync(Guid apartmentId, Guid tenantId)
+        //{
+        //    return await this.Context.ApartmentTenants
+        //        .AsNoTracking()
+        //        .Include(i => i.Apartment)
+        //        .Include(i => i.Tenant)
+        //        .FirstOrDefaultAsync(x => x.ApartmentId == apartmentId && x.TenantId == tenantId);
+        //}
 
-        public async Task<IEnumerable<Tenant>> GetTenantsAsync()
+        public async Task<IQueryable<Tenant>> GetTenantsAsync()
         {
             var tenants = await this.Context.Tenants
                 .AsNoTracking()
-                .Include(i => i.ApartmentTenants).ThenInclude(i => i.Apartment)
+                .Include(i => i.Apartment)
                 .ToListAsync();
 
-            return tenants;
+            return tenants.AsQueryable();
         }
 
         public async Task<Tenant> GetTenantByIdAsync(Guid tenantId)
         {
             var tenant = await this.Context.Tenants
                 .AsNoTracking()
-                .Include(i => i.ApartmentTenants)
+                //.Include(i => i.ApartmentTenants)
                 .FirstOrDefaultAsync(x => x.Id == tenantId);
 
             return tenant;
@@ -58,13 +58,13 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
 
         public async Task<Tenant> CreateTenantAsync(Tenant tenant, Guid apartmentId, bool isOwner)
         {
-            ApartmentTenant apartmentTenant = new ApartmentTenant();
-            apartmentTenant.ApartmentId = apartmentId;
-            apartmentTenant.TenantId = tenant.Id;
-            apartmentTenant.IsOwner = isOwner;
+            //ApartmentTenant apartmentTenant = new ApartmentTenant();
+            //apartmentTenant.ApartmentId = apartmentId;
+            //apartmentTenant.TenantId = tenant.Id;
+            //apartmentTenant.IsOwner = isOwner;
 
             this.Context.Tenants.Add(tenant);
-            this.Context.ApartmentTenants.Add(apartmentTenant);
+            //this.Context.ApartmentTenants.Add(apartmentTenant);
             await this.Context.SaveChangesAsync();
 
             return tenant;
@@ -78,26 +78,26 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             return tenant;
         }
 
-        public async Task<ApartmentTenant> CreateApartmentTenantAsync(Guid tenantId, Guid apartmentId, bool isOwner)
-        {
-            ApartmentTenant apartmentTenant = new ApartmentTenant();
-            apartmentTenant.ApartmentId = apartmentId;
-            apartmentTenant.TenantId = tenantId;
-            apartmentTenant.IsOwner = isOwner;
+        //public async Task<ApartmentTenant> CreateApartmentTenantAsync(Guid tenantId, Guid apartmentId, bool isOwner)
+        //{
+        //    ApartmentTenant apartmentTenant = new ApartmentTenant();
+        //    apartmentTenant.ApartmentId = apartmentId;
+        //    apartmentTenant.TenantId = tenantId;
+        //    apartmentTenant.IsOwner = isOwner;
 
-            this.Context.ApartmentTenants.Add(apartmentTenant);
-            await this.Context.SaveChangesAsync();
+        //    this.Context.ApartmentTenants.Add(apartmentTenant);
+        //    await this.Context.SaveChangesAsync();
 
-            return apartmentTenant;
-        }
+        //    return apartmentTenant;
+        //}
 
-        public async Task<ApartmentTenant> CreateApartmentTenantAsync(ApartmentTenant apartmentTenant)
-        {
-            this.Context.ApartmentTenants.Add(apartmentTenant);
-            await this.Context.SaveChangesAsync();
+        //public async Task<ApartmentTenant> CreateApartmentTenantAsync(ApartmentTenant apartmentTenant)
+        //{
+        //    this.Context.ApartmentTenants.Add(apartmentTenant);
+        //    await this.Context.SaveChangesAsync();
 
-            return apartmentTenant;
-        }
+        //    return apartmentTenant;
+        //}
 
         public async Task<Tenant> UpdateTenantAsync(Guid tenantId, Guid apartmentId, bool isOwner, Tenant modifiedTenant)
         {
@@ -108,15 +108,15 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             tenant.MiddleName = modifiedTenant.MiddleName;
             tenant.LastName = modifiedTenant.LastName;
 
-            var apartmentTenant =
-                await this.Context.ApartmentTenants.FirstOrDefaultAsync(x =>
-                    x.ApartmentId == apartmentId && x.TenantId == tenantId);
-            if (apartmentTenant == null) throw new Exception("Tenant's apartment not found.");
+            //var apartmentTenant =
+            //    await this.Context.ApartmentTenants.FirstOrDefaultAsync(x =>
+            //        x.ApartmentId == apartmentId && x.TenantId == tenantId);
+            //if (apartmentTenant == null) throw new Exception("Tenant's apartment not found.");
 
-            apartmentTenant.IsOwner = isOwner;
+            //apartmentTenant.IsOwner = isOwner;
 
             this.Context.Tenants.Update(tenant);
-            this.Context.ApartmentTenants.Update(apartmentTenant);
+            //this.Context.ApartmentTenants.Update(apartmentTenant);
             await this.Context.SaveChangesAsync();
 
             return tenant;
@@ -130,24 +130,34 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             return modifiedTenant;
         }
 
-        public async Task<ApartmentTenant> UpdateApartmentTenantAsync(Guid apartmentId, Guid tenantId,
-            ApartmentTenant modifiedApartmentTenant)
-        {
-            var apartmentTenant =
-                await this.Context.ApartmentTenants
-                    .FirstOrDefaultAsync(x => x.ApartmentId == apartmentId && x.TenantId == tenantId);
+        //public async Task<ApartmentTenant> UpdateApartmentTenantAsync(Guid apartmentId, Guid tenantId,
+        //    ApartmentTenant modifiedApartmentTenant)
+        //{
+        //    var apartmentTenant =
+        //        await this.Context.ApartmentTenants
+        //            .FirstOrDefaultAsync(x => x.ApartmentId == apartmentId && x.TenantId == tenantId);
 
-            this.Context.ApartmentTenants.Remove(apartmentTenant);
-            this.Context.ApartmentTenants.Add(modifiedApartmentTenant);
-            await this.Context.SaveChangesAsync();
+        //    this.Context.ApartmentTenants.Remove(apartmentTenant);
+        //    this.Context.ApartmentTenants.Add(modifiedApartmentTenant);
+        //    await this.Context.SaveChangesAsync();
 
-            return modifiedApartmentTenant;
-        }
+        //    return modifiedApartmentTenant;
+        //}
 
         public async Task DeleteApartmentTenantAsync(Guid apartmentId, Guid tenantId)
         {
-            var tenant = await this.Context.Tenants.FirstOrDefaultAsync(x =>
-                x.Id == tenantId && x.ApartmentTenants.Any(at => at.ApartmentId == apartmentId));
+            //var tenant = await this.Context.Tenants.FirstOrDefaultAsync(x =>
+            //    x.Id == tenantId && x.ApartmentTenants.Any(at => at.ApartmentId == apartmentId));
+            //if (tenant != null)
+            //{
+            //    this.Context.Tenants.Remove(tenant);
+            //    await this.Context.SaveChangesAsync();
+            //}
+        }
+
+        public async Task DeleteTenantAsync(Guid tenantId)
+        {
+            var tenant = await this.Context.Tenants.FirstOrDefaultAsync(x => x.Id == tenantId);
             if (tenant != null)
             {
                 this.Context.Tenants.Remove(tenant);

@@ -11,8 +11,6 @@ namespace Kpd37Gomel
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
 
             builder.EntitySet<Apartment>("Apartment");
-            builder.EntitySet<ApartmentTenant>("ApartmentTenant").EntityType
-                .HasKey(x => new {x.ApartmentId, x.TenantId});
             builder.EntitySet<Tenant>("Tenant");
             builder.EntitySet<Vote>("Vote");
             builder.EntitySet<VoteVariant>("VoteVariant");
