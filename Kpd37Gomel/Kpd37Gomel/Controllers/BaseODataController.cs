@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OData;
 
 namespace Kpd37Gomel.Controllers
 {
@@ -7,7 +8,7 @@ namespace Kpd37Gomel.Controllers
     {
         protected BadRequestObjectResult BadRequest(string errorMessage)
         {
-            return this.BadRequest(new {error = new {message = errorMessage}});
+            return this.BadRequest(new ODataError { Message = errorMessage });
         }
     }
 }

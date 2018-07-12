@@ -17,14 +17,14 @@ export class VoteTemplateComponent {
   @Input()
   public set vote(data: IVote) {
     this._vote = data;
-    this.voteTemplateForm.controls['title'].setValue(this._vote.title);
-    this.voteTemplateForm.controls['description'].setValue(this._vote.description);
-    this.variants = this._vote.variants;
+    this.voteTemplateForm.controls['title'].setValue(this._vote.Title);
+    this.voteTemplateForm.controls['description'].setValue(this._vote.Description);
+    this.variants = this._vote.Variants;
   }
 
   public get vote(): IVote {
-    this._vote.title = this.voteTemplateForm.controls['title'].value;
-    this._vote.description = this.voteTemplateForm.controls['description'].value;
+    this._vote.Title = this.voteTemplateForm.controls['title'].value;
+    this._vote.Description = this.voteTemplateForm.controls['description'].value;
 
     return this._vote;
   }

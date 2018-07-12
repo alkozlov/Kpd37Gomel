@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Kpd37Gomel.DataAccess.Models;
 
@@ -9,7 +9,7 @@ namespace Kpd37Gomel.DataAccess.IServices
     {
         Task<Vote> CreateVoteAsync(Vote vote);
 
-        Task<IEnumerable<Vote>> GetVotesAsync();
+        Task<IQueryable<Vote>> GetVotesAsync();
 
         Task<Vote> GetVoteByIdAsync(Guid voteId);
 

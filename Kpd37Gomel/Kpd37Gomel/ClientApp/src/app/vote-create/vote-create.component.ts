@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { VoteService } from "../service/vote.service";
-import { Vote } from "../vote";
+import { IVote } from "../vote";
 import { ToastService } from "../service/toast.service";
 
 @Component({
@@ -32,10 +32,10 @@ export class VoteCreateComponent implements OnInit {
 
   onSubmit(value: any) {
     if (this.voteCreateForm.valid) {
-      var vote = { title: value.title, description: value.description, useVoteRate: true, variants: this.variants };
+      var vote = { Title: value.title, Description: value.description, UseVoteRate: true, Variants: this.variants };
       this.loadingVisible = true;
-      this.voteService.createVote(vote as Vote).subscribe(
-        data => { this.router.navigate(['votes', data.id], { queryParams: { msg: 'Опрос успено создан!' } }); },
+      this.voteService.createVote(vote as IVote).subscribe(
+        data => { this.router.navigate(['votes', data.Id], { queryParams: { msg: 'Опрос успено создан!' } }); },
         error => { this.toastService.showErrorToast(error.message); },
         () => { this.loadingVisible = false; });
     }

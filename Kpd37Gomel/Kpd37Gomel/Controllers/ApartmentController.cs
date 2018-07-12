@@ -31,7 +31,7 @@ namespace Kpd37Gomel.Controllers
             }
             catch (Exception)
             {
-                return this.BadRequest(new { error = new { message = "Произошла непредвиденная ошибка. Пожалуйста обратитесь к администратору." } });
+                return this.BadRequest("Произошла непредвиденная ошибка. Пожалуйста обратитесь к администратору.");
             }
         }
 
@@ -44,7 +44,7 @@ namespace Kpd37Gomel.Controllers
                 var apartments = await this._apartmentService.GetApartmentsAsync();
                 if (apartments.Any(x => x.ApartmentNumber == requestApartment.ApartmentNumber))
                 {
-                    return this.BadRequest(new { error = new { message = "Квартира с таким номером уже существует в базе." } });
+                    return this.BadRequest("Квартира с таким номером уже существует в базе.");
                 }
 
                 requestApartment.Id = Guid.NewGuid();
@@ -54,7 +54,7 @@ namespace Kpd37Gomel.Controllers
             }
             catch (Exception)
             {
-                return this.BadRequest(new { error = new { message = "Произошла непредвиденная ошибка. Пожалуйста обратитесь к администратору." } });
+                return this.BadRequest("Произошла непредвиденная ошибка. Пожалуйста обратитесь к администратору.");
             }
         }
 
@@ -67,7 +67,7 @@ namespace Kpd37Gomel.Controllers
                 var existingApartment = await this._apartmentService.GetApartmentByIdAsync(key);
                 if (existingApartment == null)
                 {
-                    return this.BadRequest(new { error = new { message = "Квартира не найдена." } });
+                    return this.BadRequest("Квартира не найдена.");
                 }
 
                 requestApartment.CopyChangedValues(existingApartment);
@@ -77,7 +77,7 @@ namespace Kpd37Gomel.Controllers
             }
             catch (Exception)
             {
-                return this.BadRequest(new { error = new { message = "Произошла непредвиденная ошибка. Пожалуйста обратитесь к администратору." } });
+                return this.BadRequest("Произошла непредвиденная ошибка. Пожалуйста обратитесь к администратору.");
             }
         }
 
@@ -89,7 +89,7 @@ namespace Kpd37Gomel.Controllers
                 var existingApartment = await this._apartmentService.GetApartmentByIdAsync(key);
                 if (existingApartment == null)
                 {
-                    return this.BadRequest(new { error = new { message = "Квартира не найдена." } });
+                    return this.BadRequest("Квартира не найдена.");
                 }
 
                 await this._apartmentService.DeleteApartmentAsync(key);
@@ -97,7 +97,7 @@ namespace Kpd37Gomel.Controllers
             }
             catch (Exception)
             {
-                return this.BadRequest(new { error = new { message = "Произошла непредвиденная ошибка. Пожалуйста обратитесь к администратору." } });
+                return this.BadRequest("Произошла непредвиденная ошибка. Пожалуйста обратитесь к администратору.");
             }
         }
     }

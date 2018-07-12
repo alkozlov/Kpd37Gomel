@@ -7,14 +7,14 @@
   <div class="col-sm-12">
     <div class="panel panel-primary" *ngFor="let vote of voteList">
       <div class="panel-heading">
-        {{vote.title}}
-        <span class="pull-right">{{vote.createDateUtc | date:'dd/MM/yyyy'}}</span>
+        {{vote.Title}}
+        <span class="pull-right">{{vote.CreateDateUtc | date:'dd/MM/yyyy'}}</span>
       </div>
       <div class="panel-body">
-        <p>{{vote.description}}</p>
+        <p>{{vote.Description}}</p>
         <div class="pull-right">
-          <a [routerLink]="[vote.id]" class="btn btn-primary">Перейти</a>
-          <a *ngIf="currentUser.isAdmin" [routerLink]="[vote.id, 'edit']" class="btn btn-warning">Редактировать</a>
+          <a [routerLink]="[vote.Id]" class="btn btn-primary">Перейти</a>
+          <a *ngIf="currentUser.isAdmin" [routerLink]="[vote.Id.toString(), 'edit']" class="btn btn-warning">Редактировать</a>
           <button *ngIf="currentUser.isAdmin" class="btn btn-danger" (click)="deleteVote(vote)">Удалить</button>
         </div>
       </div>

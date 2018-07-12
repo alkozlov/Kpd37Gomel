@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Kpd37Gomel.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
@@ -20,11 +21,14 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             return vote;
         }
 
-        public async Task<IEnumerable<Vote>> GetVotesAsync()
+        public async Task<IQueryable<Vote>> GetVotesAsync()
         {
-            var votes = await this.Context.Votes.ToListAsync();
+            var votes = await this.Context.Votes
+                .Include(i => i.Author)
+                .Include(i => i.Variants).ThenInclude(i => i.VoteChoices)
+                .ToListAsync();
 
-            return votes;
+            return votes.AsQueryable();
         }
 
         public async Task<Vote> GetVoteByIdAsync(Guid voteId)

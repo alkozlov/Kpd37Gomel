@@ -2,24 +2,24 @@ import { ITenant } from "./tenant";
 import { IVoteVariant } from "./vote-variant";
 
 export interface IVote {
-  id: string;
-  author: ITenant;
-  createDateUtc: number;
-  title: string;
-  description: string;
-  useVoteRate: boolean;
-  isDeleted: boolean;
-  variants: Array<IVoteVariant>;
+  Id: string;
+  Author: ITenant;
+  CreateDateUtc: number;
+  Title: string;
+  Description: string;
+  UseVoteRate: boolean;
+  IsDeleted: boolean;
+  Variants: Array<IVoteVariant>;
 }
 
 export class Vote implements IVote {
   constructor(
-    public id: string,
-    public author: ITenant,
-    public createDateUtc: number,
-    public title: string,
-    public description: string,
-    public useVoteRate: boolean,
-    public isDeleted: boolean,
-    public variants: Array<IVoteVariant>) {}
+    public Id: string,
+    public Author: ITenant,
+    public CreateDateUtc: number,
+    public Title: string,
+    public Description: string,
+    public UseVoteRate: boolean,
+    public IsDeleted: boolean,
+    public Variants: Array<IVoteVariant>) {}
 }
