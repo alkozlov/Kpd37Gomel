@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import * as AspNetData from "devextreme-aspnet-data";
 import ODataStore from "devextreme/data/odata/store";
 import DataSource from "devextreme/data/data_source";
+
+import { IApartment } from "../apartment"
 
 @Component({
   selector: 'app-tenants-list',
@@ -13,23 +15,15 @@ export class TenantsListComponent implements OnInit {
   private tenantsApiUrl: string;
   private apartmentsApiUrl: string;
 
-  public apartmentsDataSource: any;
+  public apartmentsDataSource: Array<IApartment>;
 
   private tenantsDataStore: any;
   public tenantsDataSource: any;
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
+    this.apartmentsDataSource = new Array<IApartment>();
     this.tenantsApiUrl = "odata/Tenant";
     this.apartmentsApiUrl = "api/v1/apartments";
-
-    var apartmentsDataSourceOptions = new Object({
-      key: "id",
-      loadUrl: 'api/v1/apartments',
-      onBeforeSend(operation, jQueryAjaxSettings) {
-        jQueryAjaxSettings.headers = { "Authorization": 'Bearer ' + localStorage['auth_token'] };
-      }
-    });
-    this.apartmentsDataSource = AspNetData.createStore(apartmentsDataSourceOptions);
 
     this.tenantsDataStore = new ODataStore({
       url: this.tenantsApiUrl,
@@ -52,5 +46,13 @@ export class TenantsListComponent implements OnInit {
   }
 
   ngOnInit() {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage['auth_token']
+    });
+    this.httpClient.get<Array<IApartment>>(this.apartmentsApiUrl, { headers }).subscribe(data => {
+        this.apartmentsDataSource = data;
+      },
+      error => { console.log(error); }
+    );
   }
 }
