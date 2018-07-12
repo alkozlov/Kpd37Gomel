@@ -1,5 +1,5 @@
 ﻿### Migration guide
-1) Use Package Manager Console to add new migration or for other migration operations.
+1) Use Package Manager Console to add new migration or run other migration operations.
 
 2) New migration:
 ````powershell
@@ -16,4 +16,4 @@ update-database -Migration <MigrationName> -Context Kpd37Gomel.DataAccess.Applic
 update-database -Context Kpd37Gomel.DataAccess.ApplicationDbContext -Project Kpd37Gomel.DataAccess -StartupProject Kpd37Gomel
 ````
 
-5) Migration tool use Connection string from appsettings.json file placed in -StartupProject.
+5) Migration tool use Connection String from appsettings.json file placed in -StartupProject.
