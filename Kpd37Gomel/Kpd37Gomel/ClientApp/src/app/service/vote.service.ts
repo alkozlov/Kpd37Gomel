@@ -7,23 +7,24 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { IVote } from '../vote';
+import tabs from 'devextreme/ui/tabs';
 
 @Injectable()
 export class VoteService {
   constructor(private http: HttpClient) { }
 
-  public createVote(vote: IVote): Observable<IVote> {
-    return this.http.post(
-      'api/v1/votes',
-      vote,
-      {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage['auth_token']
-        })
-      })
-      .map(data => data as IVote);
-  }
+  //public createVote(vote: IVote): Observable<IVote> {
+  //  return this.http.post(
+  //    'api/v1/votes',
+  //    vote,
+  //    {
+  //      headers: new HttpHeaders({
+  //        'Content-Type': 'application/json',
+  //        'Authorization': 'Bearer ' + localStorage['auth_token']
+  //      })
+  //    })
+  //    .map(data => data as IVote);
+  //}
 
   //public updateVote(voteId: string, vote: IVote): Observable<IVote> {
   //  return this.http.put(
@@ -76,19 +77,40 @@ export class VoteService {
       .map(data => data as Array<IVote>);
   }
 
-  public deleteVote(voteId: string): Observable<Object> {
-    return this.http.delete(
-      'api/v1/votes/' + voteId,
-      {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage['auth_token']
-        })
-      });
-  }
+  //public deleteVote(voteId: string): Observable<Object> {
+  //  return this.http.delete(
+  //    'api/v1/votes/' + voteId,
+  //    {
+  //      headers: new HttpHeaders({
+  //        'Content-Type': 'application/json',
+  //        'Authorization': 'Bearer ' + localStorage['auth_token']
+  //      })
+  //    });
+  //}
 
   // =============== OData implementation
   private voteODataApiUrl: string = 'odata/Vote';
+
+  public createVote(vote: IVote, params: HttpParams = null): Observable<IVote> {
+    if (params === null) {
+      params = new HttpParams();
+    }
+
+    var headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage['auth_token']
+    });
+
+    return this.http.post(
+        this.voteODataApiUrl,
+        vote,
+        {
+          headers,
+          params
+        })
+      .map((response: IVote) => response)
+      .catch(this.handleError);
+  }
 
   public getVotes(params: HttpParams = null): Observable<Array<IVote>> {
     if (params === null) {
@@ -152,7 +174,22 @@ export class VoteService {
       .catch(this.handleError);
   }
 
+  public deleteVote(key: any): Observable<void> {
+    var headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage['auth_token']
+    });
+
+    return this.http.delete(
+        this.voteODataApiUrl + '(' + key + ')',
+        {
+          headers
+        })
+      .catch(this.handleError);
+  }
+
   private handleError(errorResponse: HttpErrorResponse) {
-    return Observable.throw(errorResponse.error.error.message || 'Произошла неизвестная ошибка. Пожалуйста обратитесь к администратору.');
+    return Observable.throw(errorResponse.error.error.message ||
+      'Произошла неизвестная ошибка. Пожалуйста обратитесь к администратору.');
   }
 }

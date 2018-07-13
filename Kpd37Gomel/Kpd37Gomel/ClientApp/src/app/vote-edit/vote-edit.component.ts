@@ -30,9 +30,9 @@ export class VoteEditComponent implements OnInit {
     });
 
     this.variants = new Array<any>();
-    this.variants.push({ text: 'За', SequenceIndex: 0 });
-    this.variants.push({ text: 'Против', SequenceIndex: 1 });
-    this.variants.push({ text: 'Воздержаться', SequenceIndex: 2 });
+    this.variants.push({ Text: 'За', SequenceIndex: 0 });
+    this.variants.push({ Text: 'Против', SequenceIndex: 1 });
+    this.variants.push({ Text: 'Воздержаться', SequenceIndex: 2 });
 
     this.activatedRoute.params.subscribe(params => this.loadVote(params['id']));
   }
@@ -67,10 +67,7 @@ export class VoteEditComponent implements OnInit {
       var vote = { Title: value.title, Description: value.description };
       this.loadingVisible = true;
 
-      var params: HttpParams = new HttpParams();
-      params = params.append('$select', ['Id', 'Title', 'Description', 'CreateDateUtc'].join(','));
-
-      this.voteService.updateVote(this.activatedRoute.snapshot.params.id, vote as IVote, params)
+      this.voteService.updateVote(this.activatedRoute.snapshot.params.id, vote as IVote)
         .subscribe(
           data => this.toastService.showSuccessToast('Данные успешно обновлены.'),
           error => {

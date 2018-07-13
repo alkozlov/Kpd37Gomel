@@ -4,6 +4,7 @@ import { ToastService } from "../service/toast.service";
 import { AuthenticationService } from "../service/authentication.service";
 import { HttpParams } from '@angular/common/http';
 import { confirm } from 'devextreme/ui/dialog';
+
 import { IUserData } from "../user-data";
 import { IVote } from "../vote";
 
@@ -24,8 +25,6 @@ export class VoteListComponent implements OnInit {
 
     this.voteList = new Array<IVote>();
     this.currentUser = this.authService.getCurrentUser();
-
-    
   }
 
   ngOnInit() {

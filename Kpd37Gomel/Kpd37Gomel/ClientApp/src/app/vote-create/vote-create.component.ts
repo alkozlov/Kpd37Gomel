@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpParams } from '@angular/common/http';
 import { VoteService } from "../service/vote.service";
 import { IVote } from "../vote";
 import { ToastService } from "../service/toast.service";
@@ -22,9 +23,9 @@ export class VoteCreateComponent implements OnInit {
     });
 
     this.variants = new Array<any>();
-    this.variants.push({ text: 'За' });
-    this.variants.push({ text: 'Против' });
-    this.variants.push({ text: 'Воздержаться' });
+    this.variants.push({ Text: 'За', SequenceIndex: 0 });
+    this.variants.push({ Text: 'Против', SequenceIndex: 1 });
+    this.variants.push({ Text: 'Воздержаться', SequenceIndex: 2 });
   }
 
   ngOnInit() {
@@ -34,10 +35,16 @@ export class VoteCreateComponent implements OnInit {
     if (this.voteCreateForm.valid) {
       var vote = { Title: value.title, Description: value.description, UseVoteRate: true, Variants: this.variants };
       this.loadingVisible = true;
+
       this.voteService.createVote(vote as IVote).subscribe(
-        data => { this.router.navigate(['votes', data.Id], { queryParams: { msg: 'Опрос успено создан!' } }); },
-        error => { this.toastService.showErrorToast(error.message); },
-        () => { this.loadingVisible = false; });
+        data => {
+          this.router.navigate(['votes', data.Id], { queryParams: { msg: 'Опрос успено создан!' } });
+        },
+        error => {
+          this.loadingVisible = false;
+          this.toastService.showErrorToast(error.message);
+        },
+        () => this.loadingVisible = false);
     }
   }
 }
