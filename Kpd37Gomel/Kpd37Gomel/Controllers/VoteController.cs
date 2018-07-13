@@ -16,11 +16,14 @@ namespace Kpd37Gomel.Controllers
     {
         private readonly IVoteService _voteService;
         private readonly ITenantService _tenantService;
+        private readonly IApartmentService _apartmentService;
 
-        public VoteController(IVoteService voteService, ITenantService tenantService)
+        public VoteController(IVoteService voteService, ITenantService tenantService,
+            IApartmentService apartmentService)
         {
             this._voteService = voteService;
             this._tenantService = tenantService;
+            this._apartmentService = apartmentService;
         }
 
         [HttpGet]
@@ -178,6 +181,55 @@ namespace Kpd37Gomel.Controllers
                 }
 
                 await this._voteService.DeleteVoteAsync(key);
+
+                return this.NoContent();
+            }
+            catch (Exception)
+            {
+                return this.BadRequest("Произошла непредвиденная ошибка. Пожалуйста обратитесь к администратору.");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendVote([FromODataUri] Guid key, ODataActionParameters parameters)
+        {
+            try
+            {
+                var currentUser = this.HttpContext.User;
+
+                var apartmentIdClaim = currentUser.Claims.FirstOrDefault(x => x.Type == "apartment_id");
+                if (apartmentIdClaim == null || !Guid.TryParse(apartmentIdClaim.Value, out var apartmentId))
+                {
+                    return this.BadRequest("Неизвестный пользователь.");
+                }
+
+                var apartment = await this._apartmentService.GetApartmentByIdAsync(apartmentId);
+                if (apartment == null)
+                {
+                    return this.BadRequest("Неизвестный пользователь.");
+                }
+
+                var vote = await this._voteService.GetVoteByIdAsync(key);
+                if (vote == null)
+                {
+                    return this.BadRequest("Голосование не найдено.");
+                }
+
+                if (parameters == null ||
+                    !parameters.ContainsKey("VariantId") ||
+                    !Guid.TryParse(parameters["VariantId"].ToString(), out var variantId) ||
+                    vote.Variants.All(x => x.Id != variantId))
+                {
+                    return this.BadRequest("Выбранный ответ не найден.");
+                }
+
+                if (vote.Choices.Any(x => x.ApartmentId == apartmentId))
+                {
+                    return this.BadRequest("Вы уже приняли участие в этом голосовании.");
+                }
+
+                await this._voteService.CreateVoteChoiseAsync(key, variantId, apartmentId,
+                    vote.UseVoteRate ? apartment.VoteRate : (double?) null);
 
                 return this.NoContent();
             }

@@ -146,7 +146,7 @@ namespace Kpd37Gomel.Controllers
 
             var apartment = await this._apartmentService.GetApartmentByIdAsync(apartmentId);
 
-            await this._voteService.AcceptVoteChoiseAsync(voteId, voteVariant.Id, apartmentId,
+            await this._voteService.CreateVoteChoiseAsync(voteId, voteVariant.Id, apartmentId,
                 vote.UseVoteRate ? apartment.VoteRate : (double?) null);
 
             vote = await this._voteService.GetVoteByIdAsync(voteId);

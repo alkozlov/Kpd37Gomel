@@ -43,7 +43,7 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             return vote;
         }
 
-        public async Task AcceptVoteChoiseAsync(Guid voteId, Guid voteVariantId, Guid apartmentId,
+        public async Task<VoteChoice> CreateVoteChoiseAsync(Guid voteId, Guid voteVariantId, Guid apartmentId,
             double? voteRate = null)
         {
             VoteChoice voteChoice = new VoteChoice();
@@ -56,6 +56,8 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
 
             this.Context.VoteChoices.Add(voteChoice);
             await this.Context.SaveChangesAsync();
+
+            return voteChoice;
         }
 
         public async Task<Vote> UpdateVoteAsync(Guid voteId, Vote vote)
