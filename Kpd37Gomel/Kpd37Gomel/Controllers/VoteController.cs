@@ -48,11 +48,27 @@ namespace Kpd37Gomel.Controllers
         {
             try
             {
+                var currentUser = this.HttpContext.User;
+
+                var apartmentIdClaim = currentUser.Claims.FirstOrDefault(x => x.Type == "apartment_id");
+                if (apartmentIdClaim == null || !Guid.TryParse(apartmentIdClaim.Value, out var apartmentId))
+                {
+                    return this.BadRequest("Неизвестный пользователь.");
+                }
+
+                var apartment = await this._apartmentService.GetApartmentByIdAsync(apartmentId);
+                if (apartment == null)
+                {
+                    return this.BadRequest("Неизвестный пользователь.");
+                }
+
                 var vote = await this._voteService.GetVoteByIdAsync(key);
                 if (vote == null || vote.IsDeleted)
                 {
                     return this.BadRequest("Голосование не найдено.");
                 }
+
+                vote.IsPassed = vote.Choices.Any(x => x.ApartmentId == apartmentId);
 
                 return this.Ok(vote);
             }

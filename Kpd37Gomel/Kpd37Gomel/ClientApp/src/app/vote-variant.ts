@@ -1,12 +1,12 @@
 export interface IVoteVariant {
-  id: string;
-  voteId: string;
-  text: string;
+  Id: string;
+  VoteId: string;
+  Text: string;
 }
 
 export class VoteVariant implements IVoteVariant {
   constructor(
-    public id: string,
-    public voteId: string,
-    public text: string) {}
+    public Id: string,
+    public VoteId: string,
+    public Text: string) {}
 }

@@ -1,4 +1,4 @@
-<div class="row" *ngIf="voteDetails.isPassed">
+<div class="row" *ngIf="vote.IsPassed">
   <div class="col-sm-12">
     <div class="alert alert-success" role="alert">Вы уже приняли участие в этом голосовании!</div>
   </div>
@@ -6,22 +6,23 @@
 
 <div class="row">
   <div class="col-sm-12">
-    <h3>{{voteDetails.vote.title}}</h3>
-    <p>{{voteDetails.vote.description}}</p>
+    <h3>{{vote.Title}}</h3>
+    <p>{{vote.Description}}</p>
   </div>
 </div>
 
-<div class="row" *ngIf="!voteDetails.isPassed">
+<div class="row">
   <div class="col-sm-12">  
     <form>
       <div class="form-group">
         <label for="voteVariantsRadioGroup">Варианты ответов:</label>
         <dx-radio-group #voteVariantsRadioGroup
                         id="radio-group-with-selection"
-                        [dataSource]="voteDetails.vote.variants"
-                        displayExpr="text"
-                        valueExpr="id"
-                        [(value)]="selectedVoteVariant">
+                        [dataSource]="vote.Variants"
+                        displayExpr="Text"
+                        valueExpr="Id"
+                        [(value)]="selectedVoteVariant"
+                        [disabled]="vote.IsPassed">
         </dx-radio-group>
       </div>
       <button type="button" class="btn btn-primary btn-lg" (click)="sendVote()">Голосовать</button>
@@ -29,25 +30,25 @@
   </div>
 </div>
 
-<div class="row" *ngIf="voteDetails.isPassed">
+<!--<div class="row" *ngIf="vote.IsPassed">
   <div class="col-sm-12">
     <form>
       <div class="form-group">
         <label for="voteVariantsRadioGroup">Варианты ответов:</label>
         <dx-radio-group #voteVariantsRadioGroup
                         id="radio-group-with-selection"
-                        [dataSource]="voteDetails.vote.variants"
-                        displayExpr="text"
-                        valueExpr="id"
+                        [dataSource]="vote.Variants"
+                        displayExpr="Text"
+                        valueExpr="Id"
                         [value]="selectedVoteVariant"
                         [disabled]="true">
         </dx-radio-group>
       </div>
     </form>
   </div>
-</div>
+</div>-->
 
-<div class="row" *ngIf="voteDetails.isPassed">
+<div class="row" *ngIf="vote.IsPassed">
   <div class="col-sm-12">
     <dx-pie-chart
       id="pie"

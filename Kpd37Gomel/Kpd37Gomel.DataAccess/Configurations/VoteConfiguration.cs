@@ -26,9 +26,6 @@ namespace Kpd37Gomel.DataAccess.Configurations
             builder.Property(p => p.DeleteDateUtc)
                 .HasColumnName("DeleteDateUtc");
 
-            builder.Property(p => p.VotingDateUtc)
-                .HasColumnName("VotingDateUtc");
-
             builder.Property(p => p.Title)
                 .IsRequired()
                 .HasMaxLength(150)
@@ -47,6 +44,8 @@ namespace Kpd37Gomel.DataAccess.Configurations
                 .IsRequired()
                 .HasDefaultValue(false)
                 .HasColumnName("IsDeleted");
+
+            builder.Ignore(x => x.IsPassed);
 
             builder.HasMany(p => p.Variants).WithOne(p => p.Vote).OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(p => p.Choices).WithOne(p => p.Vote).OnDelete(DeleteBehavior.Cascade);

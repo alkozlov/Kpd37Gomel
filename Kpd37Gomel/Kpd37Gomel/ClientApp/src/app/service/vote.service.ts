@@ -51,19 +51,19 @@ export class VoteService {
       .map(data => data as any);
   }
 
-  public sendVote(voteId: any, voteVariantId: any): Observable<any> {
-    var data = { id: voteVariantId };
-    return this.http.post(
-      'api/v1/votes/' + voteId + '/send-vote',
-      data,
-      {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage['auth_token']
-        })
-      })
-      .map(data => data as any);
-  }
+  //public sendVote(voteId: any, voteVariantId: any): Observable<any> {
+  //  var data = { id: voteVariantId };
+  //  return this.http.post(
+  //    'api/v1/votes/' + voteId + '/send-vote',
+  //    data,
+  //    {
+  //      headers: new HttpHeaders({
+  //        'Content-Type': 'application/json',
+  //        'Authorization': 'Bearer ' + localStorage['auth_token']
+  //      })
+  //    })
+  //    .map(data => data as any);
+  //}
 
   public getVoteList(): Observable<Array<IVote>> {
     return this.http.get(
@@ -182,6 +182,20 @@ export class VoteService {
 
     return this.http.delete(
         this.voteODataApiUrl + '(' + key + ')',
+        {
+          headers
+        })
+      .catch(this.handleError);
+  }
+
+  public sendVote(voteVariandId: any): Observable<void> {
+    var headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage['auth_token']
+    });
+
+    return this.http.post(
+        this.voteODataApiUrl + '/Default.SendVote(VariantId=' + voteVariandId + ')',
         {
           headers
         })
