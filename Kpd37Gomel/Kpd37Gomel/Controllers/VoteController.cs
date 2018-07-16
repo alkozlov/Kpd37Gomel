@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Kpd37Gomel.DataAccess.IServices;
 using Kpd37Gomel.DataAccess.Models;
+using Kpd37Gomel.DTO;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -248,6 +249,57 @@ namespace Kpd37Gomel.Controllers
                     vote.UseVoteRate ? apartment.VoteRate : (double?) null);
 
                 return this.NoContent();
+            }
+            catch (Exception)
+            {
+                return this.BadRequest("Произошла непредвиденная ошибка. Пожалуйста обратитесь к администратору.");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCommonResult([FromODataUri] Guid key)
+        {
+            try
+            {
+                var currentUser = this.HttpContext.User;
+
+                var apartmentIdClaim = currentUser.Claims.FirstOrDefault(x => x.Type == "apartment_id");
+                if (apartmentIdClaim == null || !Guid.TryParse(apartmentIdClaim.Value, out var apartmentId))
+                {
+                    return this.BadRequest("Неизвестный пользователь.");
+                }
+
+                var apartment = await this._apartmentService.GetApartmentByIdAsync(apartmentId);
+                if (apartment == null)
+                {
+                    return this.BadRequest("Неизвестный пользователь.");
+                }
+
+                var vote = await this._voteService.GetVoteByIdAsync(key);
+                if (vote == null)
+                {
+                    return this.BadRequest("Голосование не найдено.");
+                }
+
+                if (vote.Choices.All(x => x.ApartmentId != apartment.Id))
+                {
+                    return this.BadRequest("Просмотр результатов доступен только после голосования.");
+                }
+
+                var responseData = new List<VoteChoiseTinyDTO>();
+                foreach (var voteVariant in vote.Variants.OrderBy(x => x.SequenceIndex))
+                {
+                    var responseItem = new VoteChoiseTinyDTO();
+                    responseItem.Id = voteVariant.Id;
+                    responseItem.Text = voteVariant.Text;
+                    responseItem.Value = vote.UseVoteRate
+                        ? vote.Choices.Where(x => x.VoteVariantId == voteVariant.Id)
+                            .Sum(x => x.VoteRate.GetValueOrDefault())
+                        : vote.Choices.Count(x => x.VoteVariantId == voteVariant.Id);
+                    responseData.Add(responseItem);
+                }
+
+                return this.Ok(responseData);
             }
             catch (Exception)
             {

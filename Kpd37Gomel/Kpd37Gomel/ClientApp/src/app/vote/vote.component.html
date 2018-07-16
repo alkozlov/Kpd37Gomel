@@ -21,11 +21,11 @@
                         [dataSource]="vote.Variants"
                         displayExpr="Text"
                         valueExpr="Id"
-                        [(value)]="selectedVoteVariant"
+                        [(value)]="selectedVoteVariantId"
                         [disabled]="vote.IsPassed">
         </dx-radio-group>
       </div>
-      <button type="button" class="btn btn-primary btn-lg" (click)="sendVote()">Голосовать</button>
+      <button *ngIf="!vote.IsPassed" type="button" class="btn btn-primary btn-lg" (click)="sendVote()">Голосовать</button>
     </form>
   </div>
 </div>
@@ -54,8 +54,8 @@
       id="pie"
       title="Результаты голосования"
       palette="bright"
-      [dataSource]="voteResultAreas">
-      <dxi-series argumentField="answer" valueField="result">
+      [dataSource]="pieChartDataSource">
+      <dxi-series argumentField="Text" valueField="Value">
         <dxo-label [visible]="true">
           <dxo-connector [visible]="true" [width]="1"></dxo-connector>
           <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
@@ -79,7 +79,7 @@
       <dxo-selection mode="multiple"></dxo-selection>
       <dxo-export [enabled]="true" fileName="Результаты голосования" [allowExportSelectedData]="true"></dxo-export>
       <dxo-group-panel [visible]="true"></dxo-group-panel>
-      <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+      <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
       <dxo-scrolling mode="virtual"></dxo-scrolling>
 
       <dxi-column dataField="apartmentNumber" caption="Номер квартиры" dataType="number"></dxi-column>

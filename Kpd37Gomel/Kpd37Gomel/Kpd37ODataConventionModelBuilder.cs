@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Kpd37Gomel.DataAccess.Models;
+using Kpd37Gomel.DTO;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.OData.Edm;
 
@@ -20,6 +22,10 @@ namespace Kpd37Gomel
             builder.EntityType<Vote>()
                 .Action("SendVote")
                 .Parameter<Guid>("VariantId");
+
+            builder.EntityType<Vote>()
+                .Function("GetCommonResult")
+                .ReturnsCollection<VoteChoiseTinyDTO>();
 
             return builder.GetEdmModel();
         }

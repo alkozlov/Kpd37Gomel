@@ -188,17 +188,35 @@ export class VoteService {
       .catch(this.handleError);
   }
 
-  public sendVote(voteVariandId: any): Observable<void> {
+  public sendVote(voteId: any, voteVariandId: any): Observable<void> {
     var headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage['auth_token']
     });
 
+    var data = { VariantId: voteVariandId };
+
     return this.http.post(
-        this.voteODataApiUrl + '/Default.SendVote(VariantId=' + voteVariandId + ')',
+        this.voteODataApiUrl + '(' + voteId + ')' + '/Default.SendVote',
+        data,
         {
           headers
         })
+      .catch(this.handleError);
+  }
+
+  public getVoteCommonResult(voteId: any): Observable<any> {
+    var headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage['auth_token']
+    });
+
+    return this.http.get(
+        this.voteODataApiUrl + '(' + voteId + ')' + '/Default.GetCommonResult',
+        {
+          headers
+        })
+      .map((response: any) => response)
       .catch(this.handleError);
   }
 

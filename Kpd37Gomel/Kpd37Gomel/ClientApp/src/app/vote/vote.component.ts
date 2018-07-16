@@ -6,6 +6,10 @@ import { ToastService } from "../service/toast.service";
 import { VoteService } from "../service/vote.service";
 import { AuthenticationService } from "../service/authentication.service";
 import * as AspNetData from "devextreme-aspnet-data";
+import ODataStore from "devextreme/data/odata/store";
+import DataSource from "devextreme/data/data_source";
+import CustomStore from 'devextreme/data/custom_store';
+import 'rxjs/add/operator/toPromise';
 
 import { VoteResultArea } from "../vote-result-area";
 import { IUserData } from "../user-data";
@@ -20,14 +24,15 @@ import { IVoteVariant } from '../vote-variant';
 export class VoteComponent implements OnInit {
   @ViewChild(DxDataGridComponent) apartmentVoteResultDataGrid: DxDataGridComponent;
 
-  private vote: IVote;
-  //public voteDetails: any;
+  public vote: IVote;
   public voteResultAreas: Array<VoteResultArea>;
   public apartmentVoteResultDataSource: any;
   public currentUser: IUserData;
   public loadingVisible: boolean = false;
 
-  private selectedVoteVariant: IVoteVariant;
+  public pieChartDataSource: any;
+
+  public selectedVoteVariantId: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -36,17 +41,8 @@ export class VoteComponent implements OnInit {
     private authService: AuthenticationService) {
 
     this.activatedRoute.params.subscribe(params => this.loadVote(params['id']));
-    this.selectedVoteVariant = null;
-    this.vote = { IsPassed: false, Title: '', Description: '', Variants: [] } as IVote;
-    //this.voteDetails = {
-    //  isPassed: false,
-    //  vote: {
-    //    title: '',
-    //    description: '',
-    //    variants: []
-    //  },
-    //  result: null
-    //};
+    this.selectedVoteVariantId = null;
+    this.vote = { Id: null, IsPassed: false, Title: '', Description: '', Variants: [] } as IVote;
 
     var dataSourceOptions = new Object({
       loadUrl: 'api/v1/votes/' + this.activatedRoute.snapshot.params.id + '/details',
@@ -76,7 +72,21 @@ export class VoteComponent implements OnInit {
       .subscribe(
         data => {
           this.vote = data;
-          this.selectedVoteVariant = this.vote.Variants[0];
+          this.selectedVoteVariantId = this.vote.Variants[0].Id;
+
+          this.pieChartDataSource = new DataSource({
+            store: {
+              type: 'odata',
+              url: 'odata/Vote' + '(' + this.vote.Id + ')' + '/Default.GetCommonResult',
+              key: 'Id',
+              beforeSend: (e) => {
+                e.headers = {
+                  "Authorization": 'Bearer ' + localStorage['auth_token'],
+                };
+              }
+            },
+            paginate: false
+          });
         },
         error => {
           this.loadingVisible = false;
@@ -84,37 +94,7 @@ export class VoteComponent implements OnInit {
         },
         () => this.loadingVisible = false
       );
-
-    //this.loadingVisible = true;
-    //this.voteService.getVoteDetails(id).subscribe(
-    //  data => {
-    //    this.voteDetails = data;
-    //    this.selectedVoteVariant = this.voteDetails.isPassed
-    //      ? this.voteDetails.result.voteChoise
-    //      : this.voteDetails.vote.variants[0].id;
-    //    if (this.voteDetails.isPassed) {
-    //      this.mapVoteResultToChart(this.voteDetails.result);
-    //    }
-    //  },
-    //  error => { this.toastService.showErrorToast(error.message); },
-    //  () => { this.loadingVisible = false; });
   }
-
-  //private mapVoteResultToChart(voreResult: any): void {
-  //  this.voteResultAreas = new Array<VoteResultArea>();
-  //  for (var key in voreResult.voices) {
-  //    if (voreResult.voices.hasOwnProperty(key)) {
-  //      for (var i = 0; i < this.voteDetails.vote.variants.length; i++) {
-  //        if (this.voteDetails.vote.variants[i].id === key) {
-  //          var voiceResult: VoteResultArea = new VoteResultArea();
-  //          voiceResult.answer = this.voteDetails.vote.variants[i].text;
-  //          voiceResult.result = Math.round(voreResult.voices[key] * 100) / 100;
-  //          this.voteResultAreas.push(voiceResult);
-  //        }
-  //      }
-  //    }
-  //  }
-  //}
 
   private refreshApartmentVoteResultDataGrid(): void {
     this.apartmentVoteResultDataGrid.instance.refresh();
@@ -123,10 +103,11 @@ export class VoteComponent implements OnInit {
   public sendVote() {
     this.loadingVisible = true;
 
-    this.voteService.sendVote(this.selectedVoteVariant.Id).subscribe(
+    this.voteService.sendVote(this.vote.Id, this.selectedVoteVariantId).subscribe(
       () => {
         this.vote.IsPassed = true;
         this.toastService.showSuccessToast('Ваш голос принят.');
+        this.refreshApartmentVoteResultDataGrid();
       },
       error => {
         this.loadingVisible = false;
@@ -134,18 +115,5 @@ export class VoteComponent implements OnInit {
       },
       () => this.loadingVisible = false
     );
-
-
-    //this.loadingVisible = true;
-    //this.voteService.sendVote(this.activatedRoute.snapshot.params.id, this.selectedVoteVariant).subscribe(
-    //  data => {
-    //    this.refreshApartmentVoteResultDataGrid();
-    //    this.voteDetails = data;
-    //    if (this.voteDetails.isPassed) {
-    //      this.mapVoteResultToChart(this.voteDetails.result);
-    //    }
-    //  },
-    //  error => { this.toastService.showErrorToast(error.message); },
-    //  () => { this.loadingVisible = false; });
   }
 }

@@ -157,7 +157,7 @@ namespace Kpd37Gomel.Controllers
             if (vote.Choices.Any(x => x.ApartmentId == apartmentId))
             {
                 responseData.IsPassed = true;
-                var voteResult = vote.Variants.GroupBy(x => x.Id).ToDictionary(x => x.Key, x => (double)0);
+                var voteResult = vote.Variants.GroupBy(x => x.Id).ToDictionary(x => x.Key, x => (double) 0);
                 foreach (var voteChoice in vote.Choices)
                 {
                     voteResult[voteChoice.VoteVariant.Id] +=
