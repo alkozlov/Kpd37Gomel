@@ -38,6 +38,24 @@ namespace Kpd37Gomel.DataAccess.Configurations
 
             builder.Property(p => p.RoomsCount)
                 .HasColumnName("RoomsCount");
+
+            builder.Property(p => p.IsDeleted)
+                .IsRequired()
+                .HasDefaultValue(false)
+                .HasColumnName("IsDeleted");
+
+            builder.Property(p => p.DeletionDateUtc)
+                .HasColumnName("DeletionDateUtc");
+
+            builder.HasMany(p => p.Tenants)
+                .WithOne(p => p.Apartment)
+                .HasForeignKey(p => p.ApartmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.ApartmentVoteChoices)
+                .WithOne(p => p.Apartment)
+                .HasForeignKey(p => p.ApartmentId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

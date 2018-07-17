@@ -13,12 +13,10 @@ namespace Kpd37Gomel.DataAccess.Models
         public double? LivingSpace { get; set; }
         public double VoteRate { get; set; }
         public int? RoomsCount { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime? DeletionDateUtc { get; set; }
 
-        public List<Tenant> Tenants { get; set; }
-
-        public Apartment()
-        {
-            this.Tenants = new List<Tenant>();
-        }
+        public virtual ICollection<Tenant> Tenants { get; set; } = new List<Tenant>();
+        public virtual ICollection<ApartmentVoteChoice> ApartmentVoteChoices { get; set; } = new List<ApartmentVoteChoice>();
     }
 }

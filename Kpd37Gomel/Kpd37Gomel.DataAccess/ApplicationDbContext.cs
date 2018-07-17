@@ -10,7 +10,7 @@ namespace Kpd37Gomel.DataAccess
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Vote> Votes { get; set; }
         public DbSet<VoteVariant> VoteVariants { get; set; }
-        public DbSet<VoteChoice> VoteChoices { get; set; }
+        public DbSet<ApartmentVoteChoice> ApartmentVoteChoices { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -25,7 +25,7 @@ namespace Kpd37Gomel.DataAccess
             modelBuilder.ApplyConfiguration(new ApartmentConfiguration());
             modelBuilder.ApplyConfiguration(new VoteConfiguration());
             modelBuilder.ApplyConfiguration(new VoteVariantConfiguration());
-            modelBuilder.ApplyConfiguration(new VoteChoiceConfiguration());
+            modelBuilder.ApplyConfiguration(new ApartmentVoteChoiceConfiguration());
         }
     }
 }

@@ -10,6 +10,8 @@ namespace Kpd37Gomel.DataAccess.Models
         public string LastName { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsOwner { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime? DeletionDateUtc { get; set; }
 
         public Guid ApartmentId { get; set; }
         public Apartment Apartment { get; set; }

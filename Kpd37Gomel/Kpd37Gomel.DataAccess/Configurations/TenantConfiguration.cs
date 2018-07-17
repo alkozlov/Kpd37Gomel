@@ -45,9 +45,13 @@ namespace Kpd37Gomel.DataAccess.Configurations
                 .HasDefaultValue(true)
                 .HasColumnName("IsOwner");
 
-            builder.HasOne(p => p.Apartment)
-                .WithMany(p => p.Tenants)
-                .HasForeignKey(p => p.ApartmentId);
+            builder.Property(p => p.IsDeleted)
+                .IsRequired()
+                .HasDefaultValue(false)
+                .HasColumnName("IsDeleted");
+
+            builder.Property(p => p.DeletionDateUtc)
+                .HasColumnName("DeletionDateUtc");
         }
     }
 }

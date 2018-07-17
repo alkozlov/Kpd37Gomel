@@ -33,9 +33,9 @@ namespace Kpd37Gomel.DataAccess.Configurations
                 .WithMany(p => p.Variants)
                 .HasForeignKey(p => p.VoteId);
 
-            builder.HasMany(p => p.VoteChoices)
+            builder.HasMany(p => p.ApartmentVoteChoices)
                 .WithOne(p => p.VoteVariant)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

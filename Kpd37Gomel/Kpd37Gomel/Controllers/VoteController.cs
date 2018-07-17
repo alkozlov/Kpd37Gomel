@@ -69,7 +69,7 @@ namespace Kpd37Gomel.Controllers
                     return this.BadRequest("Голосование не найдено.");
                 }
 
-                vote.IsPassed = vote.Choices.Any(x => x.ApartmentId == apartmentId);
+                vote.IsPassed = vote.Variants.SelectMany(x => x.ApartmentVoteChoices).Any(x => x.ApartmentId == apartmentId);
 
                 return this.Ok(vote);
             }
@@ -240,12 +240,12 @@ namespace Kpd37Gomel.Controllers
                     return this.BadRequest("Выбранный ответ не найден.");
                 }
 
-                if (vote.Choices.Any(x => x.ApartmentId == apartmentId))
+                if (vote.Variants.SelectMany(x => x.ApartmentVoteChoices).Any(x => x.ApartmentId == apartmentId))
                 {
                     return this.BadRequest("Вы уже приняли участие в этом голосовании.");
                 }
 
-                await this._voteService.CreateVoteChoiseAsync(key, variantId, apartmentId,
+                await this._voteService.CreateVoteChoiseAsync(variantId, apartmentId,
                     vote.UseVoteRate ? apartment.VoteRate : (double?) null);
 
                 return this.NoContent();
@@ -257,6 +257,7 @@ namespace Kpd37Gomel.Controllers
         }
 
         [HttpGet]
+        [EnableQuery]
         public async Task<IActionResult> GetCommonResult([FromODataUri] Guid key)
         {
             try
@@ -281,7 +282,7 @@ namespace Kpd37Gomel.Controllers
                     return this.BadRequest("Голосование не найдено.");
                 }
 
-                if (vote.Choices.All(x => x.ApartmentId != apartment.Id))
+                if (vote.Variants.SelectMany(x => x.ApartmentVoteChoices).All(x => x.ApartmentId != apartment.Id))
                 {
                     return this.BadRequest("Просмотр результатов доступен только после голосования.");
                 }
@@ -293,9 +294,9 @@ namespace Kpd37Gomel.Controllers
                     responseItem.Id = voteVariant.Id;
                     responseItem.Text = voteVariant.Text;
                     responseItem.Value = vote.UseVoteRate
-                        ? vote.Choices.Where(x => x.VoteVariantId == voteVariant.Id)
+                        ? vote.Variants.SelectMany(x => x.ApartmentVoteChoices).Where(x => x.VoteVariantId == voteVariant.Id)
                             .Sum(x => x.VoteRate.GetValueOrDefault())
-                        : vote.Choices.Count(x => x.VoteVariantId == voteVariant.Id);
+                        : vote.Variants.SelectMany(x => x.ApartmentVoteChoices).Count(x => x.VoteVariantId == voteVariant.Id);
                     responseData.Add(responseItem);
                 }
 

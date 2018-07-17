@@ -13,11 +13,6 @@ namespace Kpd37Gomel.DataAccess.Models
         public string Text { get; set; }
         public int SequenceIndex { get; set; }
 
-        public List<VoteChoice> VoteChoices { get; set; }
-
-        public VoteVariant()
-        {
-            this.VoteChoices = new List<VoteChoice>();
-        }
+        public virtual ICollection<ApartmentVoteChoice> ApartmentVoteChoices { get; set; } = new List<ApartmentVoteChoice>();
     }
 }

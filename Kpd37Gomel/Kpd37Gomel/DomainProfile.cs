@@ -11,13 +11,11 @@ namespace Kpd37Gomel
             this.CreateMap<Apartment, ApartmentDTO>();
             this.CreateMap<Tenant, TenantDTO>();
             this.CreateMap<VoteVariant, VoteVariantDTO>();
-            this.CreateMap<VoteChoice, VoteChoiceDTO>();
             this.CreateMap<Vote, VoteDTO>();
 
             this.CreateMap<ApartmentDTO, Apartment>();
             this.CreateMap<TenantDTO, Tenant>();
             this.CreateMap<VoteVariantDTO, VoteVariant>();
-            this.CreateMap<VoteChoiceDTO, VoteChoice>();
             this.CreateMap<VoteDTO, Vote>();
         }
     }

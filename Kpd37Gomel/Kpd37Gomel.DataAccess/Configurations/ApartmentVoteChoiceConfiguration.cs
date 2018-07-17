@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Kpd37Gomel.DataAccess.Configurations
 {
-    class VoteChoiceConfiguration : IEntityTypeConfiguration<VoteChoice>
+    public class ApartmentVoteChoiceConfiguration : IEntityTypeConfiguration<ApartmentVoteChoice>
     {
-        public void Configure(EntityTypeBuilder<VoteChoice> builder)
+        public void Configure(EntityTypeBuilder<ApartmentVoteChoice> builder)
         {
             builder.ToTable("VoteChoice");
 
@@ -14,10 +14,6 @@ namespace Kpd37Gomel.DataAccess.Configurations
 
             builder.Property(p => p.Id)
                 .HasColumnName("Id");
-
-            builder.Property(p => p.VoteId)
-                .IsRequired()
-                .HasColumnName("VoteId");
 
             builder.Property(p => p.VoteVariantId)
                 .IsRequired()
@@ -30,13 +26,9 @@ namespace Kpd37Gomel.DataAccess.Configurations
             builder.Property(p => p.VoteRate)
                 .HasColumnName("VoteRate");
 
-            builder.Property(p => p.VoteDateUtc)
+            builder.Property(p => p.ParticipationDateUtc)
                 .IsRequired()
-                .HasColumnName("VoteDateUtc");
-
-            builder.HasOne(p => p.Vote)
-                .WithMany(p => p.Choices)
-                .HasForeignKey(p => p.VoteId);
+                .HasColumnName("ParticipationDateUtc");
         }
     }
 }

@@ -59,12 +59,12 @@ namespace Kpd37Gomel.Controllers
             VoteDetailsDTO responseData = new VoteDetailsDTO();
             responseData.Vote = this._mapper.Map<VoteDTO>(vote);
             responseData.Vote.Variants = responseData.Vote.Variants.OrderBy(x => x.SequenceIndex).ToList();
-            if (vote.Choices.Any(x => x.ApartmentId == apartmentId))
+            if (vote.Variants.SelectMany(x => x.ApartmentVoteChoices).Any(x => x.ApartmentId == apartmentId))
             {
-                var apartmentVoteChoise = vote.Choices.First(x => x.ApartmentId == apartmentId);
+                var apartmentVoteChoise = vote.Variants.SelectMany(x => x.ApartmentVoteChoices).First(x => x.ApartmentId == apartmentId);
                 responseData.IsPassed = true;
                 var voteResult = vote.Variants.GroupBy(x => x.Id).ToDictionary(x => x.Key, x => (double) 0);
-                foreach (var voteChoice in vote.Choices)
+                foreach (var voteChoice in vote.Variants.SelectMany(x => x.ApartmentVoteChoices))
                 {
                     voteResult[voteChoice.VoteVariant.Id] +=
                         vote.UseVoteRate ? voteChoice.VoteRate.GetValueOrDefault() : 1;
@@ -115,61 +115,6 @@ namespace Kpd37Gomel.Controllers
             return this.Ok(responseData);
         }
 
-        [HttpPost("{voteId}/send-vote")]
-        public async Task<IActionResult> AcceptVoteChoiseAsync([FromRoute] Guid voteId, [FromBody] VoteVariantDTO voteVariant)
-        {
-            if (voteVariant == null || voteVariant.Id == Guid.Empty)
-            {
-                return this.BadRequest();
-            }
-
-            var currentUser = this.HttpContext.User;
-            var tenantIdClaim = currentUser.Claims.FirstOrDefault(x => x.Type == "tenant_id");
-            var apartmentIdClaim = currentUser.Claims.FirstOrDefault(x => x.Type == "apartment_id");
-            Guid tenantId, apartmentId;
-            if (tenantIdClaim == null || !Guid.TryParse(tenantIdClaim.Value, out tenantId) ||
-                apartmentIdClaim == null || !Guid.TryParse(apartmentIdClaim.Value, out apartmentId))
-            {
-                throw new Exception("Неизвестный пользователь.");
-            }
-
-            var vote = await this._voteService.GetVoteByIdAsync(voteId);
-            if (vote == null)
-            {
-                return this.NotFound("Неверный код голосования.");
-            }
-
-            if (vote.Choices.Any(x => x.ApartmentId == apartmentId))
-            {
-                throw new Exception("Вы уже приняли участие в этом голосовании.");
-            }
-
-            var apartment = await this._apartmentService.GetApartmentByIdAsync(apartmentId);
-
-            await this._voteService.CreateVoteChoiseAsync(voteId, voteVariant.Id, apartmentId,
-                vote.UseVoteRate ? apartment.VoteRate : (double?) null);
-
-            vote = await this._voteService.GetVoteByIdAsync(voteId);
-
-            VoteDetailsDTO responseData = new VoteDetailsDTO();
-            responseData.Vote = this._mapper.Map<VoteDTO>(vote);
-            responseData.Vote.Variants = responseData.Vote.Variants.OrderBy(x => x.SequenceIndex).ToList();
-            if (vote.Choices.Any(x => x.ApartmentId == apartmentId))
-            {
-                responseData.IsPassed = true;
-                var voteResult = vote.Variants.GroupBy(x => x.Id).ToDictionary(x => x.Key, x => (double) 0);
-                foreach (var voteChoice in vote.Choices)
-                {
-                    voteResult[voteChoice.VoteVariant.Id] +=
-                        vote.UseVoteRate ? voteChoice.VoteRate.GetValueOrDefault() : 1;
-                }
-
-                responseData.Result = new VoteResultTinyDTO { Voices = voteResult };
-            }
-
-            return this.Ok(responseData);
-        }
-
         [HttpGet("{voteId}/details")]
         [Authorize(Policy = "OnlyApiAdmin")]
         public async Task<IActionResult> GetDetailedVotingListAsync([FromRoute] Guid voteId)
@@ -199,7 +144,7 @@ namespace Kpd37Gomel.Controllers
                 apartmentVoteResult.ApartmentNumber = apartment.ApartmentNumber;
                 apartmentVoteResult.LivingSpace = apartment.TotalArea; // TODO: FIX ASAP
 
-                var voteChoise = vote.Choices.FirstOrDefault(x => x.ApartmentId == apartment.Id);
+                var voteChoise = vote.Variants.SelectMany(x => x.ApartmentVoteChoices).FirstOrDefault(x => x.ApartmentId == apartment.Id);
                 if (voteChoise == null)
                 {
                     apartmentVoteResult.VoteRate = apartment.VoteRate;

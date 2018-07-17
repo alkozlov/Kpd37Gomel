@@ -11,21 +11,14 @@ namespace Kpd37Gomel.DataAccess.Models
         public Tenant Author { get; set; }
 
         public DateTime CreateDateUtc { get; set; }
-        public DateTime? DeleteDateUtc { get; set; }
         public bool IsPassed { get; set; }
 
         public string Title { get; set; }
         public string Description { get; set; }
         public bool UseVoteRate { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime? DeletionDateUtc { get; set; }
 
-        public List<VoteVariant> Variants { get; set; }
-        public List<VoteChoice> Choices { get; set; }
-
-        public Vote()
-        {
-            this.Variants = new List<VoteVariant>();
-            this.Choices = new List<VoteChoice>();
-        }
+        public virtual ICollection<VoteVariant> Variants { get; set; } = new List<VoteVariant>();
     }
 }

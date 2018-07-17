@@ -2,12 +2,9 @@
 
 namespace Kpd37Gomel.DataAccess.Models
 {
-    public class VoteChoice
+    public class ApartmentVoteChoice
     {
         public Guid Id { get; set; }
-
-        public Guid VoteId { get; set; }
-        public Vote Vote { get; set; }
 
         public Guid VoteVariantId { get; set; }
         public VoteVariant VoteVariant { get; set; }
@@ -17,6 +14,6 @@ namespace Kpd37Gomel.DataAccess.Models
 
         public double? VoteRate { get; set; }
 
-        public DateTime VoteDateUtc { get; set; }
+        public DateTime ParticipationDateUtc { get; set; }
     }
 }

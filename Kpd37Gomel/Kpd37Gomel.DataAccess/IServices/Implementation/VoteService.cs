@@ -25,7 +25,7 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
         {
             var votes = await this.Context.Votes
                 .Include(i => i.Author)
-                .Include(i => i.Variants).ThenInclude(i => i.VoteChoices)
+                .Include(i => i.Variants).ThenInclude(i => i.ApartmentVoteChoices).ThenInclude(i => i.Apartment)
                 .ToListAsync();
 
             return votes.AsQueryable();
@@ -36,25 +36,25 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             var vote = await this.Context.Votes
                 .AsTracking()
                 .Include(i => i.Variants)
-                .Include(i => i.Choices).ThenInclude(i => i.Apartment)
+                .ThenInclude(i => i.ApartmentVoteChoices)
+                .ThenInclude(i => i.Apartment)
                 .Include(i => i.Author)
                 .FirstOrDefaultAsync(x => x.Id == voteId);
 
             return vote;
         }
 
-        public async Task<VoteChoice> CreateVoteChoiseAsync(Guid voteId, Guid voteVariantId, Guid apartmentId,
+        public async Task<ApartmentVoteChoice> CreateVoteChoiseAsync(Guid voteVariantId, Guid apartmentId,
             double? voteRate = null)
         {
-            VoteChoice voteChoice = new VoteChoice();
+            ApartmentVoteChoice voteChoice = new ApartmentVoteChoice();
             voteChoice.Id = Guid.NewGuid();
-            voteChoice.VoteId = voteId;
             voteChoice.VoteVariantId = voteVariantId;
             voteChoice.ApartmentId = apartmentId;
-            voteChoice.VoteDateUtc = DateTime.UtcNow;
+            voteChoice.ParticipationDateUtc = DateTime.UtcNow;
             voteChoice.VoteRate = voteRate;
 
-            this.Context.VoteChoices.Add(voteChoice);
+            this.Context.ApartmentVoteChoices.Add(voteChoice);
             await this.Context.SaveChangesAsync();
 
             return voteChoice;
