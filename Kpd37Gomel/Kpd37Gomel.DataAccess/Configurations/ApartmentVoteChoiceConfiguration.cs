@@ -8,7 +8,7 @@ namespace Kpd37Gomel.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<ApartmentVoteChoice> builder)
         {
-            builder.ToTable("VoteChoice");
+            builder.ToTable("ApartmentVoteChoice");
 
             builder.HasKey(p => p.Id);
 

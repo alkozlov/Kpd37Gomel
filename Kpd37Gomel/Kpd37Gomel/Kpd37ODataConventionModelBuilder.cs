@@ -16,8 +16,8 @@ namespace Kpd37Gomel
             builder.EntitySet<Apartment>("Apartment");
             builder.EntitySet<Tenant>("Tenant");
             builder.EntitySet<Vote>("Vote");
-            builder.EntitySet<VoteVariant>("VoteVariant");
-            builder.EntitySet<ApartmentVoteChoice>("ApartmentVoteChoice");
+            //builder.EntitySet<VoteVariant>("VoteVariant");
+            //builder.EntitySet<ApartmentVoteChoice>("ApartmentVoteChoice");
 
             builder.EntityType<Vote>()
                 .Action("SendVote")
