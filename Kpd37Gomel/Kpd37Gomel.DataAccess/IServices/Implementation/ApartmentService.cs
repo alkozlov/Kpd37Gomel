@@ -12,11 +12,11 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
         {
         }
 
-        public async Task<IQueryable<Apartment>> GetApartmentsAsync()
+        public async Task<IQueryable<Apartment>> GetApartmentsAsync(bool includeDeleted = false)
         {
             var apartments = await this.Context.Apartments
-                .AsNoTracking()
                 .Include(i => i.Tenants)
+                .Where(x => x.IsDeleted == includeDeleted)
                 .ToListAsync();
 
             return apartments.AsQueryable();
@@ -62,11 +62,15 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
         public async Task DeleteApartmentAsync(Guid apartmentId)
         {
             var apartment = await this.Context.Apartments.FirstOrDefaultAsync(x => x.Id == apartmentId);
-            if (apartment != null)
+
+            if (apartment == null || apartment.IsDeleted)
             {
-                this.Context.Apartments.Remove(apartment);
-                await this.Context.SaveChangesAsync();
+                throw new Exception("Квартира не найдена.");
             }
+
+            apartment.IsDeleted = true;
+            apartment.DeletionDateUtc = DateTime.UtcNow;
+            await this.Context.SaveChangesAsync();
         }
     }
 }

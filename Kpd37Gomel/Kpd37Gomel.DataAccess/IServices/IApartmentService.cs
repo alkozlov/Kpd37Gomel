@@ -7,7 +7,7 @@ namespace Kpd37Gomel.DataAccess.IServices
 {
     public interface IApartmentService
     {
-        Task<IQueryable<Apartment>> GetApartmentsAsync();
+        Task<IQueryable<Apartment>> GetApartmentsAsync(bool includeDeleted = false);
         Task<Apartment> GetApartmentByIdAsync(Guid apartmentId);
         Task<Apartment> CreateApartmentAsync(Apartment apartment);
         Task<Apartment> UpdateApartmentAsync(Guid apartmentId, Apartment modifiedApartment);

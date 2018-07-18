@@ -16,16 +16,18 @@ namespace Kpd37Gomel
             builder.EntitySet<Apartment>("Apartment");
             builder.EntitySet<Tenant>("Tenant");
             builder.EntitySet<Vote>("Vote");
-            //builder.EntitySet<VoteVariant>("VoteVariant");
-            //builder.EntitySet<ApartmentVoteChoice>("ApartmentVoteChoice");
+            builder.EntitySet<VoteVariant>("VoteVariant");
+            builder.EntitySet<ApartmentVoteChoice>("ApartmentVoteChoice");
 
             builder.EntityType<Vote>()
                 .Action("SendVote")
                 .Parameter<Guid>("VariantId");
 
-            builder.EntityType<Vote>()
-                .Function("GetCommonResult")
-                .ReturnsCollection<VoteChoiseTinyDTO>();
+            var getCommonResultsFunction = builder.EntityType<Vote>().Function("GetCommonResults");
+            getCommonResultsFunction.ReturnsCollection<VoteChoiseTinyDTO>();
+
+            var getDetailedResultsFunction = builder.EntityType<Vote>().Function("GetDetailedResults");
+            getDetailedResultsFunction.ReturnsCollectionFromEntitySet<ApartmentVoteChoice>("ApartmentVoteChoice");
 
             return builder.GetEdmModel();
         }

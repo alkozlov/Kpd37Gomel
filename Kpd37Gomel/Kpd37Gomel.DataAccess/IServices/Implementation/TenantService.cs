@@ -17,7 +17,6 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
         {
             var apartment = await this.Context.Apartments
                 .AsNoTracking()
-                //.Include(i => i.ApartmentTenants).ThenInclude(i => i.Tenant).ThenInclude(i => i.ApartmentTenants)
                 .FirstOrDefaultAsync(x => x.Id == apartmentId);
             if (apartment == null)
             {
@@ -27,20 +26,12 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             return apartment.Tenants;
         }
 
-        //public async Task<ApartmentTenant> GetApartmentTenantAsync(Guid apartmentId, Guid tenantId)
-        //{
-        //    return await this.Context.ApartmentTenants
-        //        .AsNoTracking()
-        //        .Include(i => i.Apartment)
-        //        .Include(i => i.Tenant)
-        //        .FirstOrDefaultAsync(x => x.ApartmentId == apartmentId && x.TenantId == tenantId);
-        //}
-
-        public async Task<IQueryable<Tenant>> GetTenantsAsync()
+        public async Task<IQueryable<Tenant>> GetTenantsAsync(bool includeDeleted = false)
         {
             var tenants = await this.Context.Tenants
                 .AsNoTracking()
                 .Include(i => i.Apartment)
+                .Where(x => x.IsDeleted == includeDeleted)
                 .ToListAsync();
 
             return tenants.AsQueryable();
@@ -78,27 +69,6 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             return tenant;
         }
 
-        //public async Task<ApartmentTenant> CreateApartmentTenantAsync(Guid tenantId, Guid apartmentId, bool isOwner)
-        //{
-        //    ApartmentTenant apartmentTenant = new ApartmentTenant();
-        //    apartmentTenant.ApartmentId = apartmentId;
-        //    apartmentTenant.TenantId = tenantId;
-        //    apartmentTenant.IsOwner = isOwner;
-
-        //    this.Context.ApartmentTenants.Add(apartmentTenant);
-        //    await this.Context.SaveChangesAsync();
-
-        //    return apartmentTenant;
-        //}
-
-        //public async Task<ApartmentTenant> CreateApartmentTenantAsync(ApartmentTenant apartmentTenant)
-        //{
-        //    this.Context.ApartmentTenants.Add(apartmentTenant);
-        //    await this.Context.SaveChangesAsync();
-
-        //    return apartmentTenant;
-        //}
-
         public async Task<Tenant> UpdateTenantAsync(Guid tenantId, Guid apartmentId, bool isOwner, Tenant modifiedTenant)
         {
             var tenant = await this.Context.Tenants.FirstOrDefaultAsync(x => x.Id == tenantId);
@@ -130,39 +100,18 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             return modifiedTenant;
         }
 
-        //public async Task<ApartmentTenant> UpdateApartmentTenantAsync(Guid apartmentId, Guid tenantId,
-        //    ApartmentTenant modifiedApartmentTenant)
-        //{
-        //    var apartmentTenant =
-        //        await this.Context.ApartmentTenants
-        //            .FirstOrDefaultAsync(x => x.ApartmentId == apartmentId && x.TenantId == tenantId);
-
-        //    this.Context.ApartmentTenants.Remove(apartmentTenant);
-        //    this.Context.ApartmentTenants.Add(modifiedApartmentTenant);
-        //    await this.Context.SaveChangesAsync();
-
-        //    return modifiedApartmentTenant;
-        //}
-
-        public async Task DeleteApartmentTenantAsync(Guid apartmentId, Guid tenantId)
-        {
-            //var tenant = await this.Context.Tenants.FirstOrDefaultAsync(x =>
-            //    x.Id == tenantId && x.ApartmentTenants.Any(at => at.ApartmentId == apartmentId));
-            //if (tenant != null)
-            //{
-            //    this.Context.Tenants.Remove(tenant);
-            //    await this.Context.SaveChangesAsync();
-            //}
-        }
-
         public async Task DeleteTenantAsync(Guid tenantId)
         {
             var tenant = await this.Context.Tenants.FirstOrDefaultAsync(x => x.Id == tenantId);
-            if (tenant != null)
+
+            if (tenant == null || tenant.IsDeleted)
             {
-                this.Context.Tenants.Remove(tenant);
-                await this.Context.SaveChangesAsync();
+                throw new Exception("Жилец не найден.");
             }
+
+            tenant.IsDeleted = true;
+            tenant.DeletionDateUtc = DateTime.UtcNow;
+            await this.Context.SaveChangesAsync();
         }
     }
 }

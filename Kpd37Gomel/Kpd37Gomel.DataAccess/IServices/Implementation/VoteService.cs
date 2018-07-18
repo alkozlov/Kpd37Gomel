@@ -21,11 +21,12 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             return vote;
         }
 
-        public async Task<IQueryable<Vote>> GetVotesAsync()
+        public async Task<IQueryable<Vote>> GetVotesAsync(bool includeDeleted = false)
         {
             var votes = await this.Context.Votes
                 .Include(i => i.Author)
                 .Include(i => i.Variants).ThenInclude(i => i.ApartmentVoteChoices).ThenInclude(i => i.Apartment)
+                .Where(x => x.IsDeleted == includeDeleted)
                 .ToListAsync();
 
             return votes.AsQueryable();
@@ -88,6 +89,7 @@ namespace Kpd37Gomel.DataAccess.IServices.Implementation
             }
 
             existingVote.IsDeleted = true;
+            existingVote.DeletionDateUtc = DateTime.UtcNow;
             await this.Context.SaveChangesAsync();
         }
     }

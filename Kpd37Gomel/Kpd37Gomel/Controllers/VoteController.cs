@@ -258,7 +258,7 @@ namespace Kpd37Gomel.Controllers
 
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetCommonResult([FromODataUri] Guid key)
+        public async Task<IActionResult> GetCommonResults([FromODataUri] Guid key)
         {
             try
             {
@@ -301,6 +301,58 @@ namespace Kpd37Gomel.Controllers
                 }
 
                 return this.Ok(responseData);
+            }
+            catch (Exception)
+            {
+                return this.BadRequest("Произошла непредвиденная ошибка. Пожалуйста обратитесь к администратору.");
+            }
+        }
+
+        [HttpGet]
+        [EnableQuery]
+        [Authorize(Policy = "OnlyApiAdmin")]
+        public async Task<IActionResult> GetDetailedResults([FromODataUri] Guid key)
+        {
+            try
+            {
+                var currentUser = this.HttpContext.User;
+
+                var apartmentIdClaim = currentUser.Claims.FirstOrDefault(x => x.Type == "apartment_id");
+                if (apartmentIdClaim == null || !Guid.TryParse(apartmentIdClaim.Value, out var apartmentId))
+                {
+                    return this.BadRequest("Неизвестный пользователь.");
+                }
+
+                var apartment = await this._apartmentService.GetApartmentByIdAsync(apartmentId);
+                if (apartment == null)
+                {
+                    return this.BadRequest("Неизвестный пользователь.");
+                }
+
+                var vote = await this._voteService.GetVoteByIdAsync(key);
+                if (vote == null)
+                {
+                    return this.BadRequest("Голосование не найдено.");
+                }
+
+                var apartments = await this._apartmentService.GetApartmentsAsync();
+
+                var voteParticipants = vote.Variants.SelectMany(x => x.ApartmentVoteChoices);
+                var participantApartmentIds = voteParticipants.Select(x => x.ApartmentId).Distinct();
+                var notParticipantApartments = apartments.Where(x => !participantApartmentIds.Contains(x.Id));
+                var notParticipants = notParticipantApartments.Select(x => new ApartmentVoteChoice
+                {
+                    Id = Guid.NewGuid(),
+                    ApartmentId = x.Id,
+                    Apartment = x,
+                    VoteVariantId = Guid.Empty,
+                    VoteVariant = new VoteVariant {Id = Guid.Empty, Text = "Не проголосовали"},
+                    VoteRate = x.VoteRate,
+                    ParticipationDateUtc = DateTime.MinValue
+                });
+
+
+                return this.Ok(voteParticipants.Concat(notParticipants).AsQueryable());
             }
             catch (Exception)
             {

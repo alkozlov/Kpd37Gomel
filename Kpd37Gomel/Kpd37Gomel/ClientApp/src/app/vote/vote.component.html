@@ -11,42 +11,23 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-sm-12">  
-    <form>
-      <div class="form-group">
-        <label for="voteVariantsRadioGroup">Варианты ответов:</label>
-        <dx-radio-group #voteVariantsRadioGroup
-                        id="radio-group-with-selection"
-                        [dataSource]="vote.Variants"
-                        displayExpr="Text"
-                        valueExpr="Id"
-                        [(value)]="selectedVoteVariantId"
-                        [disabled]="vote.IsPassed">
-        </dx-radio-group>
-      </div>
+<div class="row form-group">
+  <div class="col-sm-12">
+    <div>
+      <dx-radio-group #voteVariantsRadioGroup
+                      id="radio-group-with-selection"
+                      [dataSource]="vote.Variants"
+                      displayExpr="Text"
+                      valueExpr="Id"
+                      [(value)]="selectedVoteVariantId"
+                      [disabled]="vote.IsPassed">
+      </dx-radio-group>
+    </div>
+    <div>
       <button *ngIf="!vote.IsPassed" type="button" class="btn btn-primary btn-lg" (click)="sendVote()">Голосовать</button>
-    </form>
+    </div>
   </div>
 </div>
-
-<!--<div class="row" *ngIf="vote.IsPassed">
-  <div class="col-sm-12">
-    <form>
-      <div class="form-group">
-        <label for="voteVariantsRadioGroup">Варианты ответов:</label>
-        <dx-radio-group #voteVariantsRadioGroup
-                        id="radio-group-with-selection"
-                        [dataSource]="vote.Variants"
-                        displayExpr="Text"
-                        valueExpr="Id"
-                        [value]="selectedVoteVariant"
-                        [disabled]="true">
-        </dx-radio-group>
-      </div>
-    </form>
-  </div>
-</div>-->
 
 <div class="row" *ngIf="vote.IsPassed">
   <div class="col-sm-12">
@@ -82,15 +63,16 @@
       <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
       <dxo-scrolling mode="virtual"></dxo-scrolling>
 
-      <dxi-column dataField="apartmentNumber" caption="Номер квартиры" dataType="number"></dxi-column>
-      <dxi-column dataField="livingSpace" caption="Жилая площадь" dataType="number"></dxi-column>
-      <dxi-column dataField="voteRate" caption="Коэффициент голоса" dataType="number">
+      <dxi-column dataField="Apartment.ApartmentNumber" caption="Номер квартиры" dataType="number" sortOrder="asc"></dxi-column>
+      <dxi-column caption="Собственник" [calculateCellValue]="calculateCellValue"></dxi-column>
+      <dxi-column dataField="Apartment.TotalArea" caption="Жилая площадь" dataType="number"></dxi-column>
+      <dxi-column dataField="VoteRate" caption="Коэффициент голоса" dataType="number">
         <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
       </dxi-column>
-      <dxi-column dataField="voteChoise" caption="Голос" [groupIndex]="0"></dxi-column>
+      <dxi-column dataField="VoteVariant.Text" caption="Голос" [groupIndex]="0"></dxi-column>
 
       <dxo-summary>
-        <dxi-group-item column="voteRate"
+        <dxi-group-item column="VoteRate"
                         summaryType="sum"
                         valueFormat="fixedPoint"
                         [precision]="2"

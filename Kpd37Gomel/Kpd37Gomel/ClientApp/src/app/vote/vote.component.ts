@@ -44,13 +44,13 @@ export class VoteComponent implements OnInit {
     this.selectedVoteVariantId = null;
     this.vote = { Id: null, IsPassed: false, Title: '', Description: '', Variants: [] } as IVote;
 
-    var dataSourceOptions = new Object({
-      loadUrl: 'api/v1/votes/' + this.activatedRoute.snapshot.params.id + '/details',
-      onBeforeSend(operation, jQueryAjaxSettings) {
-        jQueryAjaxSettings.headers = { "Authorization": 'Bearer ' + localStorage['auth_token'] };
-      }
-    });
-    this.apartmentVoteResultDataSource = AspNetData.createStore(dataSourceOptions);
+    //var dataSourceOptions = new Object({
+    //  loadUrl: 'api/v1/votes/' + this.activatedRoute.snapshot.params.id + '/details',
+    //  onBeforeSend(operation, jQueryAjaxSettings) {
+    //    jQueryAjaxSettings.headers = { "Authorization": 'Bearer ' + localStorage['auth_token'] };
+    //  }
+    //});
+    //this.apartmentVoteResultDataSource = AspNetData.createStore(dataSourceOptions);
 
     this.currentUser = this.authService.getCurrentUser();
   }
@@ -77,7 +77,21 @@ export class VoteComponent implements OnInit {
           this.pieChartDataSource = new DataSource({
             store: {
               type: 'odata',
-              url: 'odata/Vote' + '(' + this.vote.Id + ')' + '/Default.GetCommonResult',
+              url: 'odata/Vote' + '(' + this.vote.Id + ')' + '/Default.GetCommonResults',
+              key: 'Id',
+              beforeSend: (e) => {
+                e.headers = {
+                  "Authorization": 'Bearer ' + localStorage['auth_token'],
+                };
+              }
+            },
+            paginate: false
+          });
+
+          this.apartmentVoteResultDataSource = new DataSource({
+            store: {
+              type: 'odata',
+              url: 'odata/Vote' + '(' + this.vote.Id + ')' + '/Default.GetDetailedResults' + '?$select=Id,VoteRate&$expand=Apartment($select=Id,ApartmentNumber,TotalArea;$expand=Tenants($filter=IsOwner eq true)),VoteVariant($select=Id,Text)',
               key: 'Id',
               beforeSend: (e) => {
                 e.headers = {
@@ -115,5 +129,16 @@ export class VoteComponent implements OnInit {
       },
       () => this.loadingVisible = false
     );
+  }
+
+  public calculateCellValue(data): string {
+    if (data.Apartment.Tenants && data.Apartment.Tenants.length > 0) {
+      return [
+        data.Apartment.Tenants[0].LastName, data.Apartment.Tenants[0].FirstName.substring(0, 1) + '.',
+        data.Apartment.Tenants[0].MiddleName.substring(0, 1) + '.'
+      ].join(" ");
+    } else {
+      return "СОБСТВЕННИК НЕ ЗАДАН!";
+    }
   }
 }

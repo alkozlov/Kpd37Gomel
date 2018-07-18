@@ -9,7 +9,7 @@ namespace Kpd37Gomel.DataAccess.IServices
     {
         Task<Vote> CreateVoteAsync(Vote vote);
 
-        Task<IQueryable<Vote>> GetVotesAsync();
+        Task<IQueryable<Vote>> GetVotesAsync(bool includeDeleted = false);
 
         Task<Vote> GetVoteByIdAsync(Guid voteId);
 
