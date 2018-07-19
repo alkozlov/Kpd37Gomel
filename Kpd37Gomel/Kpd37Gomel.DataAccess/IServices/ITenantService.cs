@@ -10,7 +10,7 @@ namespace Kpd37Gomel.DataAccess.IServices
     {
         Task<IEnumerable<Tenant>> GetApartmentTenantsAsync(Guid apartmentId);
 
-        Task<IQueryable<Tenant>> GetTenantsAsync(bool inclideDeleted = false);
+        Task<IQueryable<Tenant>> GetTenantsAsync(bool includeDeleted = false);
 
         Task<Tenant> GetTenantByIdAsync(Guid tenantId);
 
