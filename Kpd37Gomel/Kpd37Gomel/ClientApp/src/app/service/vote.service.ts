@@ -1,10 +1,13 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
+
+import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/throw'
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
+
+
+
+
 
 import { IVote } from '../vote';
 import tabs from 'devextreme/ui/tabs';
@@ -47,8 +50,8 @@ export class VoteService {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage['auth_token']
           })
-        })
-      .map(data => data as any);
+        }).pipe(
+      map(data => data as any));
   }
 
   //public sendVote(voteId: any, voteVariantId: any): Observable<any> {
@@ -73,8 +76,8 @@ export class VoteService {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage['auth_token']
           })
-        })
-      .map(data => data as Array<IVote>);
+        }).pipe(
+      map(data => data as Array<IVote>));
   }
 
   //public deleteVote(voteId: string): Observable<Object> {
@@ -107,9 +110,9 @@ export class VoteService {
         {
           headers,
           params
-        })
-      .map((response: IVote) => response)
-      .catch(this.handleError);
+        }).pipe(
+      map((response: IVote) => response),
+      catchError(this.handleError),);
   }
 
   public getVotes(params: HttpParams = null): Observable<Array<IVote>> {
@@ -127,9 +130,9 @@ export class VoteService {
         {
           headers,
           params
-        })
-      .map((response: HttpResponse<any>) => (response as any).value as Array<IVote>)
-      .catch(this.handleError);
+        }).pipe(
+      map((response: HttpResponse<any>) => (response as any).value as Array<IVote>),
+      catchError(this.handleError),);
   }
 
   public getVoteById(key: any, params: HttpParams = null): Observable<IVote> {
@@ -147,9 +150,9 @@ export class VoteService {
         {
           headers,
           params
-        })
-      .map((response: IVote) => response)
-      .catch(this.handleError);
+        }).pipe(
+      map((response: IVote) => response),
+      catchError(this.handleError),);
   }
   
   public updateVote(key: any, vote: IVote, params: HttpParams = null): Observable<IVote> {
@@ -169,12 +172,12 @@ export class VoteService {
           headers,
           params
         }
-      )
-      .map((response: IVote) => response)
-      .catch(this.handleError);
+      ).pipe(
+      map((response: IVote) => response),
+      catchError(this.handleError),);
   }
 
-  public deleteVote(key: any): Observable<void> {
+  public deleteVote(key: any): Observable<Object> {
     var headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage['auth_token']
@@ -184,11 +187,11 @@ export class VoteService {
         this.voteODataApiUrl + '(' + key + ')',
         {
           headers
-        })
-      .catch(this.handleError);
+        }).pipe(
+      catchError(this.handleError));
   }
 
-  public sendVote(voteId: any, voteVariandId: any): Observable<void> {
+  public sendVote(voteId: any, voteVariandId: any): Observable<Object> {
     var headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage['auth_token']
@@ -201,8 +204,8 @@ export class VoteService {
         data,
         {
           headers
-        })
-      .catch(this.handleError);
+        }).pipe(
+      catchError(this.handleError));
   }
 
   public getVoteCommonResult(voteId: any): Observable<any> {
@@ -215,13 +218,13 @@ export class VoteService {
         this.voteODataApiUrl + '(' + voteId + ')' + '/Default.GetCommonResult',
         {
           headers
-        })
-      .map((response: any) => response)
-      .catch(this.handleError);
+        }).pipe(
+      map((response: any) => response),
+      catchError(this.handleError),);
   }
 
   private handleError(errorResponse: HttpErrorResponse) {
-    return Observable.throw(errorResponse.error.error.message ||
+    return observableThrowError(errorResponse.error.error.message ||
       'Произошла неизвестная ошибка. Пожалуйста обратитесь к администратору.');
   }
 }
