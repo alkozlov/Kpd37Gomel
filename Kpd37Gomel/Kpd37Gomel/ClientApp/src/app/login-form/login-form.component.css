@@ -1,11 +1,8 @@
-.form-control {
+/*.form-control {
   min-height: 41px;
-  /*background: #fff;*/
   box-shadow: none !important;
-  /*border-color: #e3e3e3;*/
 }
 .form-control:focus {
-  /*border-color: #70c5c0;*/
 }
 .form-control, .btn {        
   border-radius: 2px;
@@ -51,25 +48,50 @@
 .login-form .btn {        
   font-size: 16px;
   font-weight: bold;
-  /*background: #70c5c0;*/
   border: none;
   margin-bottom: 20px;
 }
 .login-form .btn:hover, .login-form .btn:focus {
-  /*background: #50b8b3;*/
   outline: none !important;
 }    
 .login-form a {
-  /*color: #fff;*/
   text-decoration: underline;
 }
 .login-form a:hover {
   text-decoration: none;
 }
 .login-form form a {
-  /*color: #7a7a7a;*/
   text-decoration: none;
 }
 .login-form form a:hover {
   text-decoration: underline;
+}*/
+
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  height: 100vh;
+  background: #ddd;
+  background-color: #23bdf5;
+  background: linear-gradient(to bottom, #34b9f7 0%, #34b9f7 40%, #f0f0f0 40%, #f0f0f0 100%);
+  position: relative;
+  text-align: center;
+  overflow: auto;
+}
+
+.center-content {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 50px;
+  right: 50px;
+}
+
+.form-element {
+  height: 50vh;
+  background: white;
 }
