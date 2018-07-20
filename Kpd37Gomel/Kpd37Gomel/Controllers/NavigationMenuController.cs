@@ -39,12 +39,12 @@ namespace Kpd37Gomel.Controllers
             }
 
             List<MenuItemDTO> menuItems = new List<MenuItemDTO>();
-            menuItems.Add(new MenuItemDTO {Title = "Голосования", Route = "/votes", IconClassName = "glyphicon-home"});
+            menuItems.Add(new MenuItemDTO {Title = "Голосования", Route = "/votes", IconClassName = "how_to_vote" });
             if (tenant.IsAdmin)
             {
-                menuItems.Add(new MenuItemDTO{Title = "Квартиры", Route = "/flats", IconClassName = "glyphicon-th" });
-                menuItems.Add(new MenuItemDTO{Title = "Жильцы", Route = "/tenants", IconClassName = "glyphicon-user" });
-                menuItems.Add(new MenuItemDTO{Title = "Создать голосование", Route = "/vote-create", IconClassName = "glyphicon-bullhorn" });
+                menuItems.Add(new MenuItemDTO{Title = "Квартиры", Route = "/flats", IconClassName = "home" });
+                menuItems.Add(new MenuItemDTO{Title = "Жильцы", Route = "/tenants", IconClassName = "people" });
+                menuItems.Add(new MenuItemDTO{Title = "Создать голосование", Route = "/vote-create", IconClassName = "note_add" });
                 //menuItems.Add(new MenuItemDTO{Title = "Создать опросник", Route = "/questionnaire", IconClassName = "glyphicon-bullhorn" });
             }
 

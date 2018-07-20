@@ -1,97 +1,17 @@
-/*.form-control {
-  min-height: 41px;
-  box-shadow: none !important;
-}
-.form-control:focus {
-}
-.form-control, .btn {        
-  border-radius: 2px;
-}
-.login-form {
-  width: 350px;
-  margin: 0 auto;
-  padding: 100px 0 30px;		
-}
-.login-form form {
-  color: #7a7a7a;
-  border-radius: 2px;
-  margin-bottom: 15px;
-  font-size: 13px;
-  padding: 30px;	
-  position: relative;	
-}
-.login-form h2 {
-  font-size: 22px;
-  margin: 35px 0 5px;
-}
-  .login-form h4 {
-    font-size: 12px;
-    margin: 5px 0 25px;
-  }
-.login-form .avatar {
-  position: absolute;
-  margin: 0 auto;
-  left: 0;
-  right: 0;
-  top: -50px;
-  width: 95px;
-  height: 95px;
-  z-index: 9;
-  padding: 15px;
-}
-.login-form .avatar img {
-  width: 100%;
-}	
-.login-form input[type="checkbox"] {
-  margin-top: 2px;
-}
-.login-form .btn {        
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  margin-bottom: 20px;
-}
-.login-form .btn:hover, .login-form .btn:focus {
-  outline: none !important;
-}    
-.login-form a {
-  text-decoration: underline;
-}
-.login-form a:hover {
-  text-decoration: none;
-}
-.login-form form a {
-  text-decoration: none;
-}
-.login-form form a:hover {
-  text-decoration: underline;
-}*/
-
-
-body {
-  margin: 0;
-  padding: 0;
-}
-
-.container {
-  height: 100vh;
-  background: #ddd;
-  background-color: #23bdf5;
-  background: linear-gradient(to bottom, #34b9f7 0%, #34b9f7 40%, #f0f0f0 40%, #f0f0f0 100%);
-  position: relative;
+mat-card {
+  max-width: 400px;
+  margin: 2em auto;
   text-align: center;
-  overflow: auto;
 }
 
-.center-content {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 50px;
-  right: 50px;
+.signin-content {
+  padding: 60px 1rem;
 }
 
-.form-element {
-  height: 50vh;
-  background: white;
+.full-width-input {
+  width: 100%;
+}
+
+.form-avatar {
+  margin: 0 auto;
 }

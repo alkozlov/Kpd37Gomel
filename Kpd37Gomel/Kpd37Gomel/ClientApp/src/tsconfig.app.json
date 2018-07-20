@@ -4,7 +4,12 @@
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
     "module": "es2015",
-    "types": [ "jquery" ]
+    "types": [ "jquery" ],
+    "paths": {
+      "jszip": [
+        "../node_modules/jszip/dist/jszip.js"
+      ]
+    }
   },
   "exclude": [
     "test.ts",

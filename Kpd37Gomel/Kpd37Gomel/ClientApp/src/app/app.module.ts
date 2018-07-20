@@ -52,7 +52,10 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatTreeModule} from '@angular/material';
+  MatTreeModule
+} from '@angular/material';
+
+import { OverlayModule } from '@angular/cdk/overlay';
 
 import { AuthGuard } from "./guard/auth.guard";
 
@@ -69,11 +72,13 @@ import { VoteSetBuilderComponent } from './vote-set-builder/vote-set-builder.com
 import { VoteSetCreateComponent } from './vote-set-create/vote-set-create.component';
 import { FlatsListComponent } from './flats-list/flats-list.component';
 import { TenantsListComponent } from './tenants-list/tenants-list.component';
+import { LoaderOverlayComponent } from './loader-overlay/loader-overlay.component';
 
 import { VoteService } from './service/vote.service';
 import { ToastService } from './service/toast.service';
 import { AuthenticationService } from './service/authentication.service';
 import { NavigationMenuService } from './service/navigation-menu.service';
+import { LoaderOverlayService } from "./service/loader-overlay.service";
 
 import { JwtInterceptor } from './auth/jwt.interceptor';
 
@@ -98,7 +103,8 @@ locale("ru-Ru");
     VoteEditComponent,
     VoteTemplateComponent,
     VoteSetBuilderComponent,
-    VoteSetCreateComponent
+    VoteSetCreateComponent,
+    LoaderOverlayComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -153,6 +159,8 @@ locale("ru-Ru");
     MatTooltipModule,
     MatTreeModule,
 
+    OverlayModule,
+
     RouterModule.forRoot([
       {
         path: '', component: HomeComponent, canActivate: [AuthGuard],
@@ -170,12 +178,15 @@ locale("ru-Ru");
       { path: 'login', component: LoginFormComponent, pathMatch: 'full', canActivate: [AuthGuard] }
     ])
   ],
-  providers: [AuthGuard, VoteService, ToastService, AuthenticationService, NavigationMenuService,
+  providers: [AuthGuard, VoteService, ToastService, AuthenticationService, NavigationMenuService, LoaderOverlayService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
     }],
+  entryComponents: [
+    LoaderOverlayComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

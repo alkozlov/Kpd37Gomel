@@ -1,4 +1,4 @@
-<div class='row'>
+<!--<div class='row'>
   <div class='col-sm-3'>
     <app-nav-menu></app-nav-menu>
   </div>
@@ -17,4 +17,57 @@
       </div>
     </div>
   </div>
+</div>-->
+
+
+<!--<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer
+               class="sidenav"
+               fixedInViewport="true"
+               [attr.role]="isHandset ? 'dialog' : 'navigation'"
+               [mode]="(isHandset | async)!.matches ? 'over' : 'side'"
+               [opened]="!(isHandset | async)!.matches">
+    <mat-toolbar color="primary">ТС "ЭлитФорт"</mat-toolbar>
+    <mat-nav-list>
+      <mat-list-item *ngFor="let menuItem of menuItems">
+        <mat-icon mat-list-icon>{{menuItem.iconClassName}}</mat-icon>
+        <h4 mat-line>{{menuItem.title}}</h4>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              (click)="drawer.toggle()"
+              *ngIf="(isHandset | async)!.matches">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Application Title</span>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>-->
+
+<div class="example-container" [class.example-is-mobile]="(isHandset | async)!.matches">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
+    <h1 class="example-app-name">Responsive App</h1>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="(isHandset | async)!.matches ? 56 : 0">
+    <mat-sidenav #drawer [mode]="(isHandset | async)!.matches ? 'over' : 'side'" [fixedInViewport]="(isHandset | async)!.matches" fixedTopGap="56">
+      <mat-nav-list>
+        <mat-list-item *ngFor="let menuItem of menuItems">
+          <mat-icon mat-list-icon>{{menuItem.iconClassName}}</mat-icon>
+          <h4 mat-line>{{menuItem.title}}</h4>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>
