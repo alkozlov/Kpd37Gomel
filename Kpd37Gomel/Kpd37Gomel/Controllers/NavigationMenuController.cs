@@ -39,7 +39,7 @@ namespace Kpd37Gomel.Controllers
             }
 
             List<MenuItemDTO> menuItems = new List<MenuItemDTO>();
-            menuItems.Add(new MenuItemDTO {Title = "Голосования", Route = "/votes", IconClassName = "home" });
+            menuItems.Add(new MenuItemDTO {Title = "Голосования", Route = "/votes", IconClassName = "how_to_vote" });
             if (tenant.IsAdmin)
             {
                 menuItems.Add(new MenuItemDTO{Title = "Квартиры", Route = "/flats", IconClassName = "home" });

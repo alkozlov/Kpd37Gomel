@@ -48,3 +48,22 @@ h1.example-app-name {
      `<body>` to be our scrolling element for mobile layouts. */
   flex: 1 0 auto;
 }
+
+.example-fill-remaining-space {
+  /* This fills the remaining space, by using flexbox. 
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.user-avatar {
+  border-radius: 99%;
+}
+
+.inner-sidenav-content {
+  overflow: auto;
+  position: top;
+  bottom:0;
+  left:0;
+  right:0;
+  margin: 10px;
+}

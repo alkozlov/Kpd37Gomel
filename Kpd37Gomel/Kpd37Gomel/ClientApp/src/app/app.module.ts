@@ -4,56 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-import {
-  DxDataGridModule,
-  DxTemplateModule,
-  DxToastModule,
-  DxPieChartModule,
-  DxRadioGroupModule,
-  DxListModule,
-  DxLoadIndicatorModule,
-  DxLoadPanelModule
-} from 'devextreme-angular';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import {
-  MatAutocompleteModule,
-  MatBadgeModule,
-  MatBottomSheetModule,
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCardModule,
-  MatCheckboxModule,
-  MatChipsModule,
-  MatDatepickerModule,
-  MatDialogModule,
-  MatDividerModule,
-  MatExpansionModule,
-  MatGridListModule,
-  MatIconModule,
-  MatInputModule,
-  MatListModule,
-  MatMenuModule,
-  MatNativeDateModule,
-  MatPaginatorModule,
-  MatProgressBarModule,
-  MatProgressSpinnerModule,
-  MatRadioModule,
-  MatRippleModule,
-  MatSelectModule,
-  MatSidenavModule,
-  MatSliderModule,
-  MatSlideToggleModule,
-  MatSnackBarModule,
-  MatSortModule,
-  MatStepperModule,
-  MatTableModule,
-  MatTabsModule,
-  MatToolbarModule,
-  MatTooltipModule,
-  MatTreeModule
-} from '@angular/material';
+import { MaterialModule } from './material/material.module';
+import { DxModule } from './dx/dx.module';
 
 import { OverlayModule } from '@angular/cdk/overlay';
 
@@ -114,52 +67,9 @@ locale("ru-Ru");
 
     BrowserAnimationsModule,
 
-    DxDataGridModule,
-    DxTemplateModule,
-    DxToastModule,
-    DxPieChartModule,
-    DxRadioGroupModule,
-    DxListModule,
-    DxLoadIndicatorModule,
-    DxLoadPanelModule,
-
-    MatAutocompleteModule,
-    MatBadgeModule,
-    MatBottomSheetModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatExpansionModule,
-    MatGridListModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatNativeDateModule,
-    MatPaginatorModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-    MatRippleModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatSliderModule,
-    MatSlideToggleModule,
-    MatSnackBarModule,
-    MatSortModule,
-    MatStepperModule,
-    MatTableModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatTooltipModule,
-    MatTreeModule,
-
+    MaterialModule,
     OverlayModule,
+    DxModule,
 
     RouterModule.forRoot([
       {

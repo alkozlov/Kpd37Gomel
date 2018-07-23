@@ -22,8 +22,6 @@ export class HomeComponent implements OnInit {
   public menuItems: Array<IMenuItem>;
   public menuItemsO: Observable<Array<IMenuItem>>;
 
-  fillerNav = Array.from({ length: 10 }, (_, i) => `NNNNNNNNNNNNNNNNNNNNNav Iteeeeeeem ${i + 1}`);
-
   constructor(private authService: AuthenticationService,
     private navMenuService: NavigationMenuService,
     private toastService: ToastService,
@@ -33,7 +31,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
-    this.loadMenuItems();
+    //this.loadMenuItems();
     this.menuItemsO = this.navMenuService.getMenuItems();
   }
 

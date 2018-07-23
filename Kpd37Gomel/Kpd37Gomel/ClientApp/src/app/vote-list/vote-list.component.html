@@ -5,8 +5,9 @@
 </div>
 <div class="row" *ngIf="voteList.length !== 0">
   <div class="col-sm-12">
+
     <div class="panel panel-primary" *ngFor="let vote of voteList">
-      <div class="panel-heading">
+      <!--<div class="panel-heading">
         {{vote.Title}}
         <span class="pull-right">{{vote.CreateDateUtc | date:'dd/MM/yyyy'}}</span>
       </div>
@@ -17,7 +18,36 @@
           <a *ngIf="currentUser.isAdmin" [routerLink]="[vote.Id.toString(), 'edit']" class="btn btn-warning">Редактировать</a>
           <button *ngIf="currentUser.isAdmin" class="btn btn-danger" (click)="deleteVote(vote)">Удалить</button>
         </div>
-      </div>
+      </div>-->
+
+      <!--<mat-card class="example-card">
+        <mat-card-header color="accent">
+          <mat-card-title>{{vote.Title}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{vote.Description}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+      </mat-card>-->
+
+      <mat-card>
+        <mat-card-header>
+          <mat-toolbar color="primary">
+            {{vote.Title}}
+          </mat-toolbar>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{vote.Description}}
+          </p>
+        </mat-card-content>
+      </mat-card>
+
     </div>
   </div>
 </div>

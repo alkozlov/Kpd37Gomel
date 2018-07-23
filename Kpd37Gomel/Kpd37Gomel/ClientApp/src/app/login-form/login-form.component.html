@@ -8,7 +8,7 @@
         <h3 class="mat-h3">ТС "ЭлитФорт"</h3>
         <h5 class="mat-h5">г. Гомель, ул. Григория Денисенко, д. 12</h5>
         <mat-form-field class="full-width-input">
-          <input matInput name="lastName" placeholder="Фамилия" [formControl]="loginForm.controls['lastName']" required>
+          <input matInput name="lastName" placeholder="Фамилия" formControlName="lastName" required>
           <mat-icon *ngIf="loginForm.controls['lastName'].touched" [color]="loginForm.controls['lastName'].touched && loginForm.controls['lastName'].invalid ? 'warn' : 'none'" matSuffix>
             {{getErrorIcon(loginForm.controls['lastName'])}}
           </mat-icon>
@@ -16,7 +16,7 @@
         </mat-form-field>
 
         <mat-form-field class="full-width-input">
-          <input matInput name="firstName" placeholder="Имя" [formControl]="loginForm.controls['firstName']" required>
+          <input matInput name="firstName" placeholder="Имя" formControlName="firstName" required>
           <mat-icon *ngIf="loginForm.controls['firstName'].touched" [color]="loginForm.controls['firstName'].touched && loginForm.controls['firstName'].invalid ? 'warn' : 'none'" matSuffix>
             {{getErrorIcon(loginForm.controls['firstName'])}}
           </mat-icon>
@@ -24,7 +24,7 @@
         </mat-form-field>
 
         <mat-form-field class="full-width-input">
-          <input matInput name="middleName" placeholder="Отчество" [formControl]="loginForm.controls['middleName']" required>
+          <input matInput name="middleName" placeholder="Отчество" formControlName="middleName" required>
           <mat-icon *ngIf="loginForm.controls['middleName'].touched" [color]="loginForm.controls['middleName'].touched && loginForm.controls['middleName'].invalid ? 'warn' : 'none'" matSuffix>
             {{getErrorIcon(loginForm.controls['middleName'])}}
           </mat-icon>
@@ -32,7 +32,7 @@
         </mat-form-field>
 
         <mat-form-field class="full-width-input">
-          <input matInput name="apartmentNumber" placeholder="Номер квартиры" [formControl]="loginForm.controls['apartmentNumber']" required>
+          <input matInput name="apartmentNumber" placeholder="Номер квартиры" formControlName="apartmentNumber" required>
           <mat-icon *ngIf="loginForm.controls['apartmentNumber'].touched" [color]="loginForm.controls['apartmentNumber'].touched && loginForm.controls['apartmentNumber'].invalid ? 'warn' : 'none'" matSuffix>
             {{getErrorIcon(loginForm.controls['apartmentNumber'])}}
           </mat-icon>
