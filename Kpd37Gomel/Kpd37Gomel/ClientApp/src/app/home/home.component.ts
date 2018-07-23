@@ -20,6 +20,9 @@ export class HomeComponent implements OnInit {
   public isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.Handset);
   public currentUser: IUserData;
   public menuItems: Array<IMenuItem>;
+  public menuItemsO: Observable<Array<IMenuItem>>;
+
+  fillerNav = Array.from({ length: 10 }, (_, i) => `NNNNNNNNNNNNNNNNNNNNNav Iteeeeeeem ${i + 1}`);
 
   constructor(private authService: AuthenticationService,
     private navMenuService: NavigationMenuService,
@@ -31,6 +34,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
     this.loadMenuItems();
+    this.menuItemsO = this.navMenuService.getMenuItems();
   }
 
   public logout() {

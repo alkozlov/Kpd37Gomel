@@ -23,16 +23,16 @@
 <!--<mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer
                class="sidenav"
-               fixedInViewport="true"
+               [fixedInViewport]="(isHandset | async)!.matches"
                [attr.role]="isHandset ? 'dialog' : 'navigation'"
                [mode]="(isHandset | async)!.matches ? 'over' : 'side'"
                [opened]="!(isHandset | async)!.matches">
     <mat-toolbar color="primary">ТС "ЭлитФорт"</mat-toolbar>
     <mat-nav-list>
-      <mat-list-item *ngFor="let menuItem of menuItems">
+      <a mat-list-item *ngFor="let menuItem of menuItems" routerLink="{{menuItem.route}}" [routerLinkActive]="['active-route']">
         <mat-icon mat-list-icon>{{menuItem.iconClassName}}</mat-icon>
-        <h4 mat-line>{{menuItem.title}}</h4>
-      </mat-list-item>
+        <div mat-line>{{menuItem.title}}</div>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -50,7 +50,7 @@
   </mat-sidenav-content>
 </mat-sidenav-container>-->
 
-<div class="example-container" [class.example-is-mobile]="(isHandset | async)!.matches">
+<!--<div class="example-container" [class.example-is-mobile]="(isHandset | async)!.matches">
   <mat-toolbar color="primary" class="example-toolbar">
     <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
     <h1 class="example-app-name">Responsive App</h1>
@@ -70,4 +70,54 @@
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
-</div>
+</div>-->
+
+<mat-sidenav-container class="example-container" autosize>
+  <mat-sidenav #drawer
+               class="sidenav"
+               [fixedInViewport]="(isHandset | async)!.matches"
+               [attr.role]="isHandset ? 'dialog' : 'navigation'"
+               [mode]="(isHandset | async)!.matches ? 'over' : 'side'"
+               [opened]="!(isHandset | async)!.matches">
+    <mat-toolbar color="primary">ТС "ЭлитФорт"</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item *ngFor="let menuItem of menuItemsO | async" routerLink="{{menuItem.route}}" [routerLinkActive]="['active-route']">
+        <mat-icon mat-list-icon>{{menuItem.iconClassName}}</mat-icon>
+        <div mat-line>{{menuItem.title}}</div>
+      </a>
+
+      <!--<a mat-list-item *ngFor="let menuItem of menuItemsO | async" routerLink="{{menuItem.route}}" [routerLinkActive]="['active-route']">
+        <mat-icon mat-list-icon>{{menuItem.iconClassName}}</mat-icon>{{menuItem.title}}
+      </a>-->
+      <!--<a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a>-->
+
+      <!--<a mat-list-item>
+        <mat-icon mat-list-icon>how_to_vote</mat-icon>
+        <div mat-line>Голосования</div>
+      </a>
+      <a mat-list-item>
+        <mat-icon mat-list-icon>how_to_vote</mat-icon>
+        <div mat-line>Создать Голосования</div>
+      </a>
+      <a mat-list-item>
+        <mat-icon mat-list-icon>how_to_vote</mat-icon>
+        <div mat-line>Создать Голосования 111111</div>
+      </a>-->
+    </mat-nav-list>
+  </mat-sidenav>
+  
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              (click)="drawer.toggle()"
+              *ngIf="(isHandset | async)!.matches">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Application Title</span>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
