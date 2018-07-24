@@ -4,7 +4,6 @@ import { AuthenticationService } from "../service/authentication.service";
 import { NavigationMenuService } from "../service/navigation-menu.service";
 import { ToastService } from "../service/toast.service";
 
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 
 import { IUserData } from '../user-data';
@@ -17,22 +16,20 @@ import { IMenuItem } from "../menu-item";
 })
 
 export class HomeComponent implements OnInit {
-  public isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.Handset);
   public currentUser: IUserData;
   public menuItems: Array<IMenuItem>;
   public menuItemsO: Observable<Array<IMenuItem>>;
 
   constructor(private authService: AuthenticationService,
     private navMenuService: NavigationMenuService,
-    private toastService: ToastService,
-    private breakpointObserver: BreakpointObserver) {
+    private toastService: ToastService) {
     this.currentUser = this.authService.getCurrentUser();
   }
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
     //this.loadMenuItems();
-    this.menuItemsO = this.navMenuService.getMenuItems();
+    //this.menuItemsO = this.navMenuService.getMenuItems();
   }
 
   public logout() {

@@ -1,17 +1,40 @@
-mat-card {
-  max-width: 400px;
-  margin: 2em auto;
-  text-align: center;
-}
-
-.signin-content {
-  padding: 60px 1rem;
-}
-
-.full-width-input {
-  width: 100%;
-}
-
-.form-avatar {
+.login-form {
+  width: 450px;
   margin: 0 auto;
+  padding: 100px 0 30px;		
+}
+  .login-form form {
+    color: #7a7a7a;
+    border-radius: 2px;
+    margin-bottom: 15px;
+    /*font-size: 13px;*/
+    padding: 30px;
+    position: relative;
+  }
+.login-form h2 {
+  /*font-size: 22px;*/
+  margin: 35px 0 5px;
+}
+  .login-form h4 {
+    /*font-size: 12px;*/
+    margin: 5px 0 25px;
+  }
+
+  .login-form .blockquote {
+    margin-top: 1.5rem;
+  }
+
+  .login-form .avatar {
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: -50px;
+    width: 95px;
+    height: 95px;
+    z-index: 9;
+    padding: 15px;
+  }
+.login-form .avatar img {
+  width: 100%;
 }

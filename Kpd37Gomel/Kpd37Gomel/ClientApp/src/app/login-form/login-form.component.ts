@@ -68,7 +68,7 @@ export class LoginFormComponent implements OnInit {
     if (error.status === 401) {
       
     } else {
-      this.toastService.openSnackBar(error.error.message);
+      this.toastService.showErrorToast(error.error.message);
     }
   }
 

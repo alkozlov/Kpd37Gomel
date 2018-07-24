@@ -3,12 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material/material.module';
-import { DxModule } from './dx/dx.module';
 
 import { OverlayModule } from '@angular/cdk/overlay';
+import { DxModule } from './dx/dx.module';
 
 import { AuthGuard } from "./guard/auth.guard";
 
@@ -64,10 +62,8 @@ locale("ru-Ru");
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-
     BrowserAnimationsModule,
 
-    MaterialModule,
     OverlayModule,
     DxModule,
 
@@ -94,9 +90,9 @@ locale("ru-Ru");
       useClass: JwtInterceptor,
       multi: true
     }],
+  bootstrap: [AppComponent],
   entryComponents: [
     LoaderOverlayComponent
-  ],
-  bootstrap: [AppComponent]
+    ]
 })
 export class AppModule { }

@@ -1,46 +1,30 @@
-<div class="signin-content">
-  <mat-card>
-    <mat-card-header>
-      <img mat-card-avatar src="kpd37-avatar.jpg" class="form-avatar" alt="ТС ЭлитФорт">
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit(loginForm.value)">
-        <h3 class="mat-h3">ТС "ЭлитФорт"</h3>
-        <h5 class="mat-h5">г. Гомель, ул. Григория Денисенко, д. 12</h5>
-        <mat-form-field class="full-width-input">
-          <input matInput name="lastName" placeholder="Фамилия" formControlName="lastName" required>
-          <mat-icon *ngIf="loginForm.controls['lastName'].touched" [color]="loginForm.controls['lastName'].touched && loginForm.controls['lastName'].invalid ? 'warn' : 'none'" matSuffix>
-            {{getErrorIcon(loginForm.controls['lastName'])}}
-          </mat-icon>
-          <mat-error *ngIf="loginForm.controls['lastName'].invalid">{{getErrorMessage(loginForm.controls['lastName'])}}</mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="full-width-input">
-          <input matInput name="firstName" placeholder="Имя" formControlName="firstName" required>
-          <mat-icon *ngIf="loginForm.controls['firstName'].touched" [color]="loginForm.controls['firstName'].touched && loginForm.controls['firstName'].invalid ? 'warn' : 'none'" matSuffix>
-            {{getErrorIcon(loginForm.controls['firstName'])}}
-          </mat-icon>
-          <mat-error *ngIf="loginForm.controls['firstName'].invalid">{{getErrorMessage(loginForm.controls['firstName'])}}</mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="full-width-input">
-          <input matInput name="middleName" placeholder="Отчество" formControlName="middleName" required>
-          <mat-icon *ngIf="loginForm.controls['middleName'].touched" [color]="loginForm.controls['middleName'].touched && loginForm.controls['middleName'].invalid ? 'warn' : 'none'" matSuffix>
-            {{getErrorIcon(loginForm.controls['middleName'])}}
-          </mat-icon>
-          <mat-error *ngIf="loginForm.controls['middleName'].invalid">{{getErrorMessage(loginForm.controls['middleName'])}}</mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="full-width-input">
-          <input matInput name="apartmentNumber" placeholder="Номер квартиры" formControlName="apartmentNumber" required>
-          <mat-icon *ngIf="loginForm.controls['apartmentNumber'].touched" [color]="loginForm.controls['apartmentNumber'].touched && loginForm.controls['apartmentNumber'].invalid ? 'warn' : 'none'" matSuffix>
-            {{getErrorIcon(loginForm.controls['apartmentNumber'])}}
-          </mat-icon>
-          <mat-error *ngIf="loginForm.controls['apartmentNumber'].invalid">{{getErrorMessage(loginForm.controls['apartmentNumber'])}}</mat-error>
-        </mat-form-field>
-
-        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Войти</button>
-      </form>
-    </mat-card-content>
-  </mat-card>
+<div class="login-form">
+  <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit(loginForm.value)">
+    <div class="avatar">
+      <img src="kpd37-avatar.jpg" class="img-thumbnail" alt="Avatar">
+    </div>
+    <blockquote class="blockquote text-center">
+      <p class="mb-0">ТС "ЭлитФорт"</p>
+      <footer class="blockquote-footer">г. Гомель, ул. Григория Денисенко, д. 12</footer>
+    </blockquote>
+    <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['lastName'].valid && loginForm.controls['lastName'].touched,
+         'has-success': loginForm.controls['lastName'].valid && loginForm.controls['lastName'].touched}">
+      <input type="text" class="form-control" name="lastName" placeholder="Фамилия" [formControl]="loginForm.controls['lastName']">
+    </div>
+    <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['firstName'].valid && loginForm.controls['firstName'].touched,
+         'has-success': loginForm.controls['firstName'].valid && loginForm.controls['firstName'].touched}">
+      <input type="text" class="form-control" name="firstName" placeholder="Имя" [formControl]="loginForm.controls['firstName']">
+    </div>
+    <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['middleName'].valid && loginForm.controls['middleName'].touched,
+         'has-success': loginForm.controls['middleName'].valid && loginForm.controls['middleName'].touched}">
+      <input type="text" class="form-control" name="middleName" placeholder="Отчество" [formControl]="loginForm.controls['middleName']">
+    </div>
+    <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['apartmentNumber'].valid && loginForm.controls['apartmentNumber'].touched,
+         'has-success': loginForm.controls['apartmentNumber'].valid && loginForm.controls['apartmentNumber'].touched}">
+      <input type="text" class="form-control" name="apartmentNumber" placeholder="Номер квартиры" [formControl]="loginForm.controls['apartmentNumber']">
+    </div>
+    <div class="form-group">
+      <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary btn-lg btn-block">Войти</button>
+    </div>
+  </form>
 </div>
