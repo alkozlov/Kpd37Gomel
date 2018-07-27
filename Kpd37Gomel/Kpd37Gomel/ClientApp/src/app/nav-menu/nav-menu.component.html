@@ -1,4 +1,4 @@
-<div class='main-nav'>
+<!--<div class='main-nav'>
     <div class='navbar navbar-inverse'>
         <div class='navbar-header'>
             <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
@@ -20,4 +20,46 @@
           </ul>
         </div>
     </div>
-</div>
+</div>-->
+
+<!--<nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" (click)="toggle()" data-target="#mymenu">
+        <span class="sr-only">toggle navigation</span>
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a href="#" class="navbar-brand">App</a>
+    </div>
+    <div class="ml-lg-5 order-lg-last order-0">
+      <a class="navbar-brand" href="#">Log In</a>
+    </div>
+    <div class="collapse navbar-collapse" id="mymenu" [class.show]="isExpanded">
+      <ul class="nav navbar-nav mr-auto">
+        <li class="nav-item" *ngFor="let menuItem of menuItems | async" routerLink="{{menuItem.route}}" [routerLinkActive]="['active']">
+          <a class="nav-link" (click)='collapse()' routerLink="{{menuItem.route}}">{{menuItem.title}}</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0 position-relative">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>-->
+
+<nav class="sidebar col-xs-12 col-sm-4 col-lg-3 col-xl-2 navbar-dark bg-dark sidebar-style-1">
+  <h1 class="site-title"><a href="index.html"><em class="fa fa-rocket"></em> Brand.name</a></h1>
+				
+  <a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><em class="fa fa-bars"></em></a>
+				
+  <ul class="nav nav-pills flex-column sidebar-nav">
+    <li class="nav-item" *ngFor="let menuItem of menuItems | async" routerLink="{{menuItem.route}}" [routerLinkActive]="['active']">
+      <a class="nav-link" routerLink="{{menuItem.route}}"> {{menuItem.title}}</a>
+    </li>
+    <!--<fa-icon icon="{{menuItem.iconClassName}}"></fa-icon> <li class="nav-item"><a class="nav-link" href="widgets.html"><em class="fa fa-calendar-o"></em> Widgets </a></li>
+  <li class="nav-item"><a class="nav-link active" href="charts.html"><em class="fa fa-bar-chart"></em> Charts <span class="sr-only">(current)</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="elements.html"><em class="fa fa-hand-o-up"></em> UI Elements</a></li>
+  <li class="nav-item"><a class="nav-link" href="cards.html"><em class="fa fa-clone"></em> Cards</a></li>-->
+  </ul>
+</nav>

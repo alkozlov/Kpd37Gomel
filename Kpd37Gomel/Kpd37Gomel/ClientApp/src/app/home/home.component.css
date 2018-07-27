@@ -1,10 +1,4 @@
-/*@media (max-width: 767px) {
-  .body-content {
-    padding-top: 50px;
-  }
-}*/
-
-.sidenav-container {
+/*.sidenav-container {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -29,7 +23,6 @@
 
 .example-is-mobile .example-toolbar {
   position: fixed;
-  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
   z-index: 2;
 }
 
@@ -38,20 +31,14 @@ h1.example-app-name {
 }
 
 .example-sidenav-container {
-  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
-     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
   flex: 1;
 }
 
 .example-is-mobile .example-sidenav-container {
-  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
-     `<body>` to be our scrolling element for mobile layouts. */
   flex: 1 0 auto;
 }
 
 .example-fill-remaining-space {
-  /* This fills the remaining space, by using flexbox. 
-     Every toolbar row uses a flexbox row layout. */
   flex: 1 1 auto;
 }
 
@@ -66,4 +53,132 @@ h1.example-app-name {
   left:0;
   right:0;
   margin: 10px;
+}*/
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  padding: 20px;
+  padding-left: 0;
+  padding-right: 0;
+  z-index: 1000;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* Scrollable contents if viewport is shorter than content. */
+  border-right: 1px solid #eee;
+  /*background: #7376df;*/
+}
+
+  .sidebar a {
+    color: #9d9d9d;
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: .2rem;
+    padding: .75rem 1rem;
+  }
+
+  .sidebar em {
+    font-size: 1rem;
+  }
+
+  .sidebar h1 {
+    color: #fff;
+    border: none;
+    font-size: 1.2rem;
+    padding: 0rem 1rem;
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+  }
+
+  .sidebar .site-title {
+    margin-top: .5rem;
+    margin-bottom: 1.75rem;
+  }
+
+    .sidebar .site-title a {
+      font-size: 1.2rem;
+      padding-left: 0;
+      padding-right: 0;
+      cursor: pointer;
+    }
+
+      .sidebar .site-title a:hover {
+        background: none !important;
+      }
+
+  .sidebar .nav {
+    margin-bottom: 20px;
+  }
+
+  .sidebar .nav-item {
+    width: 100%;
+  }
+
+    .sidebar .nav-item.active { color: #fff; }
+
+    .sidebar .nav-item + .nav-item {
+      margin-left: 0;
+    }
+
+  .sidebar .nav-link {
+    border-radius: 0;
+  }
+
+    .sidebar .nav-link:hover, .sidebar .nav-link.active {
+      color: #fff;
+    }
+
+  .sidebar .logout-button {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 85%;
+    text-align: center;
+    border-radius: .3rem;
+  }
+
+#wrapper.toggled .sidebar-nav {
+  display: none;
+}
+
+#menu-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.sidebar a:focus, .sidebar a:visited, .sidebar a:hover, .sidebar a:active {
+  /*background-color: #6365d2 !important;*/
+}
+
+@media screen and (max-width: 576px) {
+  #wrapper .sidebar-nav {
+    display: none;
+  }
+
+  #wrapper.toggled .sidebar-nav {
+    display: block !important;
+  }
+
+  .sidebar {
+    position: inherit;
+    padding-bottom: 0px;
+    margin-bottom: 1rem;
+  }
+
+  #menu-toggle {
+    background-color: #6365d2;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  #wrapper.toggled .sidebar-nav {
+    display: block;
+  }
+
+  #menu-toggle {
+    display: none;
+  }
 }

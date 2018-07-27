@@ -17,8 +17,7 @@ import { IMenuItem } from "../menu-item";
 
 export class HomeComponent implements OnInit {
   public currentUser: IUserData;
-  public menuItems: Array<IMenuItem>;
-  public menuItemsO: Observable<Array<IMenuItem>>;
+  public menuItems: Observable<Array<IMenuItem>>;
 
   constructor(private authService: AuthenticationService,
     private navMenuService: NavigationMenuService,
@@ -28,21 +27,20 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
-    //this.loadMenuItems();
-    //this.menuItemsO = this.navMenuService.getMenuItems();
+    this.menuItems = this.navMenuService.getMenuItems();
   }
 
   public logout() {
     this.authService.logout();
   }
 
-  private loadMenuItems(): void {
-    this.navMenuService.getMenuItems().subscribe(
-      data => {
-        this.menuItems = data;
-      },
-      error => { this.handleHttpErrorResponse(error); });
-  }
+  //private loadMenuItems(): void {
+  //  this.navMenuService.getMenuItems().subscribe(
+  //    data => {
+  //      this.menuItems = data;
+  //    },
+  //    error => { this.handleHttpErrorResponse(error); });
+  //}
 
   private handleHttpErrorResponse(error: HttpErrorResponse) {
     if (error.status === 401) {

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NavigationMenuService } from "../service/navigation-menu.service";
 import { ToastService } from "../service/toast.service";
+import { Observable } from 'rxjs';
 import { IMenuItem } from "../menu-item";
 
 @Component({
@@ -9,12 +10,14 @@ import { IMenuItem } from "../menu-item";
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent implements OnInit {
+export class NavMenuComponent {
   public isExpanded = false;
-  public menuItems: Array<IMenuItem>;
 
-  constructor(private navMenuService: NavigationMenuService, private toastService: ToastService) {
-    this.menuItems = new Array<IMenuItem>();
+  @Input()
+  public menuItems: Observable<Array<IMenuItem>>;
+
+  constructor() {
+    //this.menuItems = new Array<IMenuItem>();
   }
 
   collapse() {
@@ -25,23 +28,23 @@ export class NavMenuComponent implements OnInit {
     this.isExpanded = !this.isExpanded;
   }
 
-  ngOnInit() {
-    this.loadMenuItems();
-  }
+  //ngOnInit() {
+  //  this.loadMenuItems();
+  //}
 
-  private loadMenuItems(): void {
-    this.navMenuService.getMenuItems().subscribe(
-      data => {
-        this.menuItems = data;
-      },
-      error => { this.handleHttpErrorResponse(error); });
-  }
+  //private loadMenuItems(): void {
+  //  this.navMenuService.getMenuItems().subscribe(
+  //    data => {
+  //      this.menuItems = data;
+  //    },
+  //    error => { this.handleHttpErrorResponse(error); });
+  //}
 
-  private handleHttpErrorResponse(error: HttpErrorResponse) {
-    if (error.status === 401) {
+  //private handleHttpErrorResponse(error: HttpErrorResponse) {
+  //  if (error.status === 401) {
 
-    } else {
-      this.toastService.showErrorToast(error.error.message);
-    }
-  }
+  //  } else {
+  //    this.toastService.showErrorToast(error.error.message);
+  //  }
+  //}
 }

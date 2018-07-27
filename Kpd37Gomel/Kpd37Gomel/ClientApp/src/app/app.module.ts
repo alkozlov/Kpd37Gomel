@@ -7,6 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { OverlayModule } from '@angular/cdk/overlay';
 import { DxModule } from './dx/dx.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCheckDouble, faBuilding, faUsers, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { AuthGuard } from "./guard/auth.guard";
 
@@ -40,6 +43,8 @@ import * as messagesRu from "devextreme/localization/messages/ru.json";
 loadMessages(messagesRu);
 locale("ru-Ru");
 
+library.add(faCheckDouble, faBuilding, faUsers, faPlus);
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,6 +71,7 @@ locale("ru-Ru");
 
     OverlayModule,
     DxModule,
+    FontAwesomeModule,
 
     RouterModule.forRoot([
       {
