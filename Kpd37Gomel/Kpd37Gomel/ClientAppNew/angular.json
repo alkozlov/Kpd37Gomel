@@ -28,10 +28,18 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "src/styles/main.scss"
+              "src/styles/main.scss",
+              "node_modules/bootstrap/scss/bootstrap.scss",
+              "node_modules/font-awesome/scss/font-awesome.scss",
+              "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/jquery.browser/dist/jquery.browser.js",
+              "node_modules/hammerjs/hammer.js",
+              "node_modules/metismenu/dist/metisMenu.js",
+              "src/scripts/sidebar.js"
+            ]
           },
           "configurations": {
             "production": {

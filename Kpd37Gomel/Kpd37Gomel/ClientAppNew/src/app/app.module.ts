@@ -8,6 +8,11 @@ import { SidebarComponent } from './shared/layout/sidebar/sidebar.component';
 import { ButtonsComponent } from './shared/layout/header/buttons/buttons.component';
 import { CollapseComponent } from './shared/layout/header/collapse/collapse.component';
 import { SearchComponent } from './shared/layout/header/search/search.component';
+import { NavComponent } from './shared/layout/header/nav/nav.component';
+import { NotificationsComponent } from './shared/layout/header/nav/notifications/notifications.component';
+import { ProfileComponent } from './shared/layout/header/nav/profile/profile.component';
+import { CustomizeComponent } from './shared/layout/sidebar/customize/customize.component';
+import { SidebarHeaderComponent } from './shared/layout/sidebar/sidebar-header/sidebar-header.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +22,12 @@ import { SearchComponent } from './shared/layout/header/search/search.component'
     SidebarComponent,
     ButtonsComponent,
     CollapseComponent,
-    SearchComponent
+    SearchComponent,
+    NavComponent,
+    NotificationsComponent,
+    ProfileComponent,
+    CustomizeComponent,
+    SidebarHeaderComponent
   ],
   imports: [
     BrowserModule
