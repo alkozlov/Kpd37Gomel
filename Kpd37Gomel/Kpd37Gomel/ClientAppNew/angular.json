@@ -28,16 +28,31 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles/main.scss",
+              "node_modules/animate.css/animate.css",
               "node_modules/bootstrap/scss/bootstrap.scss",
+              "node_modules/dropzone/dist/dropzone.css",
+              "node_modules/metismenu/dist/metisMenu.css",
+              "node_modules/nprogress/nprogress.css",
               "node_modules/font-awesome/scss/font-awesome.scss",
+
+              "src/styles/main.scss",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [ ]
+            },
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/jquery.browser/dist/jquery.browser.js",
               "node_modules/hammerjs/hammer.js",
               "node_modules/metismenu/dist/metisMenu.js",
+              "node_modules/dropzone/dist/dropzone.js",
+              "node_modules/nprogress/nprogress.js",
+              "node_modules/popper.js/dist/umd/popper.js",
+              "node_modules/responsive-toolkit/dist/bootstrap-toolkit.js",
+              "node_modules/tinycolor2/dist/tinycolor-min.js",
+
+              "src/scripts/config.js",
               "src/scripts/sidebar.js"
             ]
           },

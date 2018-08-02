@@ -2,7 +2,7 @@
 @import '../../../../../node_modules/bootstrap/scss/bootstrap-grid';
 @import '../../../../common/styles/mixins';
 
-.sidebar {
+::ng-deep .sidebar {
   background-color: $sidebar-color-primary;
   width: $sidebar-width;
   padding-bottom: 60px;
@@ -181,7 +181,7 @@
   }
 }
 
-.sidebar-overlay {
+::ng-deep .sidebar-overlay {
   position: absolute;
   display: none;
   left: 200vw;
@@ -210,7 +210,7 @@
   }
 }
 
-.sidebar-mobile-menu-handle {
+::ng-deep .sidebar-mobile-menu-handle {
   display: none;
   position: absolute;
   top: $header-height-xs;

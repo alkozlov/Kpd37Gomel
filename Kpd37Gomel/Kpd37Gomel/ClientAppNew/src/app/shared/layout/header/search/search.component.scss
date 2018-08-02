@@ -1,8 +1,8 @@
 @import '../../../../../styles/variables';
-@import '../../../../../../node_modules/bootstrap/scss/bootstrap-grid';
+@import '../../../../../../node_modules/bootstrap/scss/bootstrap';
 @import '../../../../../common/styles/mixins';
 
-.header .header-block-search {
+::ng-deep .header .header-block-search {
   $line-height: $header-height - 30px;
   margin-right: auto;
   // float: left;

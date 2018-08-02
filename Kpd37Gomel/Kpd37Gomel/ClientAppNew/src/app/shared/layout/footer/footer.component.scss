@@ -2,7 +2,7 @@
 @import '../../../../../node_modules/bootstrap/scss/bootstrap-grid';
 @import '../../../../common/styles/mixins';
 
-.footer {
+::ng-deep .footer {
   background-color: #fff;
   position: absolute;
   left: $sidebar-width;

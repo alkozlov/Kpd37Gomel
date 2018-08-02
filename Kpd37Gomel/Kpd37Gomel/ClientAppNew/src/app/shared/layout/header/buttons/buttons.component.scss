@@ -1,8 +1,8 @@
 @import '../../../../../styles/variables';
-@import '../../../../../../node_modules/bootstrap/scss/bootstrap-grid';
+@import '../../../../../../node_modules/bootstrap/scss/bootstrap';
 @import '../../../../../common/styles/mixins';
 
-.header .header-block-buttons {
+::ng-deep .header .header-block-buttons {
   text-align: center;
   margin-left: auto;
   margin-right: auto;

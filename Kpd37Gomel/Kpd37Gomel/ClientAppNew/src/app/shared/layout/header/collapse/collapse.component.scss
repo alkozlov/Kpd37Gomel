@@ -1,8 +1,8 @@
 @import '../../../../../styles/variables';
-@import '../../../../../../node_modules/bootstrap/scss/bootstrap-grid';
+@import '../../../../../../node_modules/bootstrap/scss/bootstrap';
 @import '../../../../../common/styles/mixins';
 
-.header .header-block-collapse {
+::ng-deep .header .header-block-collapse {
   padding-right: 5px;
 
   @include media-down(sm) {

@@ -1,8 +1,8 @@
 @import '../../../../styles/variables';
-@import '../../../../../node_modules/bootstrap/scss/bootstrap-grid';
+@import '../../../../../node_modules/bootstrap/scss/bootstrap';
 @import '../../../../common/styles/mixins';
 
-.header {
+::ng-deep .header {
   background-color: $color-divider;
   height: $header-height;
   position: absolute;
