@@ -1,9 +1,9 @@
 $(function () {
 
-  $('#sidebar-menu, #customize-menu').metisMenu({
-    //activeClass: 'open'
-    toggle: false
-  });
+  //$('#sidebar-menu, #customize-menu').metisMenu({
+  //  activeClass: 'open',
+  //  toggle: false
+  //});
 
 
   //$('#sidebar-collapse-btn').on('click', function (event) {

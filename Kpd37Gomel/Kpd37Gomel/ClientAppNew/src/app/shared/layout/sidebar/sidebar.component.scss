@@ -93,8 +93,8 @@
     // On hover bg become darker
     // Their color become lighter
     li a:hover,
-    li.open > a,
-    li.open a:hover {
+    li.active > a,
+    li.active a:hover {
       color: $sidebar-color-text-active;
       background-color: $sidebar-color-secondary;
     }
@@ -111,7 +111,7 @@
       }
     }
 
-    li.open > a {
+    li.active > a {
       .arrow {
         transform: rotate(90deg);
       }
@@ -132,7 +132,7 @@
         color: $color-text-inverse !important;
       }
       // First level active links have bit darker background
-      &.open > a {
+      &.active > a {
         background-color: darken($sidebar-color-primary, 3%);
       }
       // First level item links arrow

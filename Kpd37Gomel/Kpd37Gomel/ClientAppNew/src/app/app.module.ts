@@ -13,6 +13,7 @@ import { NotificationsComponent } from './shared/layout/header/nav/notifications
 import { ProfileComponent } from './shared/layout/header/nav/profile/profile.component';
 import { CustomizeComponent } from './shared/layout/sidebar/customize/customize.component';
 import { SidebarHeaderComponent } from './shared/layout/sidebar/sidebar-header/sidebar-header.component';
+import { MetisMenuDirective } from './directives/metis-menu.directive';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SidebarHeaderComponent } from './shared/layout/sidebar/sidebar-header/s
     NotificationsComponent,
     ProfileComponent,
     CustomizeComponent,
-    SidebarHeaderComponent
+    SidebarHeaderComponent,
+    MetisMenuDirective
   ],
   imports: [
     BrowserModule
