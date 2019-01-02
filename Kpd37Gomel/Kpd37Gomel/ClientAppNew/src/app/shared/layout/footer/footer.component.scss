@@ -1,6 +1,6 @@
 @import '../../../../styles/variables';
 @import '../../../../../node_modules/bootstrap/scss/bootstrap-grid';
-@import '../../../../common/styles/mixins';
+@import '../../../../_common/_styles/_mixins';
 
 ::ng-deep .footer {
   background-color: #fff;

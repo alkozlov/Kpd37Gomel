@@ -9,7 +9,7 @@ config.ResponsiveBootstrapToolkitVisibilityDivs = {
   'sm': $('<div class="device-sm hidden-xs-down hidden-md-up"></div>'),
   'md': $('<div class="device-md hidden-sm-down hidden-lg-up"></div>'),
   'lg': $('<div class="device-lg hidden-md-down hidden-xl-up"></div>'),
-  'xl': $('<div class="device-xl hidden-lg-down			  "></div>'),
+  'xl': $('<div class="device-xl hidden-lg-down			  "></div>')
 };
 
 ResponsiveBootstrapToolkit.use('Custom', config.ResponsiveBootstrapToolkitVisibilityDivs);
@@ -22,24 +22,24 @@ config.validations = {
   errorElement: "span",
 
   // add error class
-  highlight: function (element, errorClass, validClass) {
+  highlight: function(element, errorClass, validClass) {
     $(element).parents("div.form-group")
       .addClass(errorClass)
       .removeClass(validClass);
   },
 
   // add error class
-  unhighlight: function (element, errorClass, validClass) {
+  unhighlight: function(element, errorClass, validClass) {
     $(element).parents(".has-error")
       .removeClass(errorClass)
       .addClass(validClass);
   },
 
   // submit handler
-  submitHandler: function (form) {
+  submitHandler: function(form) {
     form.submit();
   }
-}
+};
 
 //delay time configuration
 config.delayTime = 50;

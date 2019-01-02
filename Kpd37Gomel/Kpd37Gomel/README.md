@@ -17,3 +17,10 @@ update-database -Context Kpd37Gomel.DataAccess.ApplicationDbContext -Project Kpd
 ````
 
 5) Migration tool use Connection String from appsettings.json file placed in -StartupProject.
+
+
+
+
+https://scotch.io/tutorials/using-sass-with-the-angular-cli
+
+https://scotch.io/tutorials/angular-shortcut-to-importing-styles-files-in-components

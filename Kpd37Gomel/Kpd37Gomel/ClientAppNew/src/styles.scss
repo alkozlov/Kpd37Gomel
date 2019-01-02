@@ -2,24 +2,24 @@
 
 @import '../node_modules/bootstrap/scss/bootstrap';
 
-@import 'common/styles/layout';
-@import 'common/styles/misc';
-@import 'common/styles/typography';
+@import '_common/_styles/layout';
+@import '_common/_styles/misc';
+@import '_common/_styles/typography';
 
-@import "common/alert/alert";
-@import "common/animations/animations";
-@import "common/button/button";
-@import "common/card/card";
-@import "common/chart/chart";
-@import "common/dropdown/dropdown";
-@import "common/flex/flex";
-@import "common/form/form";
-@import "common/images-container/images-container";
-@import "common/items-list/items-list";
-@import "common/logo/logo";
-@import "common/modal/modal-tabs";
-@import "common/navigation/navigation";
-@import "common/nprogress/nprogress";
-@import "common/pagination/pagination";
-@import "common/sameheight-items/sameheight-items";
-@import "common/scrollbar/scrollbar";
+@import "_common/alert/alert";
+@import "_common/animations/animations";
+@import "_common/button/button";
+@import "_common/card/card";
+@import "_common/chart/chart";
+@import "_common/dropdown/dropdown";
+@import "_common/flex/flex";
+@import "_common/form/form";
+@import "_common/images-container/images-container";
+@import "_common/items-list/items-list";
+@import "_common/logo/logo";
+@import "_common/modal/modal-tabs";
+@import "_common/navigation/navigation";
+@import "_common/nprogress/nprogress";
+@import "_common/pagination/pagination";
+@import "_common/sameheight-items/sameheight-items";
+@import "_common/scrollbar/scrollbar";

@@ -1,6 +1,6 @@
 @import '../../../../styles/variables';
 @import '../../../../../node_modules/bootstrap/scss/bootstrap-grid';
-@import '../../../../common/styles/mixins';
+@import '../../../../_common/_styles/_mixins';
 
 ::ng-deep .sidebar {
   background-color: $sidebar-color-primary;
@@ -64,14 +64,15 @@
     // Common styles
     li {
       a:focus,
-      .open & a:focus {
+      //.open & a:focus {
+      .mm-active & a:focus {
         background-color: inherit;
       }
     }
     // Second + menu items
     ul {
       padding: 0;
-      height: 0px;
+      //height: 0px;
       overflow: hidden;
 
       .loaded & {
@@ -93,8 +94,10 @@
     // On hover bg become darker
     // Their color become lighter
     li a:hover,
-    li.active > a,
-    li.active a:hover {
+    //li.open > a,
+    //li.open a:hover {
+    li.mm-active > a,
+    li.mm-active a:hover {
       color: $sidebar-color-text-active;
       background-color: $sidebar-color-secondary;
     }
@@ -110,8 +113,8 @@
         content: "\f105" !important;
       }
     }
-
-    li.active > a {
+    //li.open > a {
+    li.mm-active > a {
       .arrow {
         transform: rotate(90deg);
       }
@@ -132,7 +135,8 @@
         color: $color-text-inverse !important;
       }
       // First level active links have bit darker background
-      &.active > a {
+      //&.open > a {
+      &.mm-active > a {
         background-color: darken($sidebar-color-primary, 3%);
       }
       // First level item links arrow

@@ -48,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientAppLatest\src\styles\" />
     <Folder Include="ClientAppNew\src\app\directives\" />
     <Folder Include="ClientAppNew\src\app\shared\layout\" />
     <Folder Include="ClientApp\src\app\guard\" />
