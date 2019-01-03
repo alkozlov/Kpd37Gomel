@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 
-import { IMenuItem } from "../menu-item";
+import { IMenuItem } from '../menu-item';
 
 @Injectable()
 export class NavigationMenuService {
@@ -19,6 +19,6 @@ export class NavigationMenuService {
             'Authorization': 'Bearer ' + localStorage['auth_token']
           })
         })
-      .map(data => data as Array<IMenuItem>);
+      .pipe(map(data => data as Array<IMenuItem>));
   }
 }

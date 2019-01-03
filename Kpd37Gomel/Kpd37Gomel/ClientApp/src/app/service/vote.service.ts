@@ -1,16 +1,15 @@
+
+import { throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/throw'
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
+import { map, catchError } from 'rxjs/operators';
 
 import { IVote } from '../vote';
-import tabs from 'devextreme/ui/tabs';
 
 @Injectable()
 export class VoteService {
+  private voteODataApiUrl = 'odata/Vote';
+
   constructor(private http: HttpClient) { }
 
   //public createVote(vote: IVote): Observable<IVote> {
@@ -48,7 +47,7 @@ export class VoteService {
             'Authorization': 'Bearer ' + localStorage['auth_token']
           })
         })
-      .map(data => data as any);
+      .pipe(map(data => data as any));
   }
 
   //public sendVote(voteId: any, voteVariantId: any): Observable<any> {
@@ -74,7 +73,7 @@ export class VoteService {
             'Authorization': 'Bearer ' + localStorage['auth_token']
           })
         })
-      .map(data => data as Array<IVote>);
+      .pipe(map(data => data as Array<IVote>));
   }
 
   //public deleteVote(voteId: string): Observable<Object> {
@@ -89,14 +88,13 @@ export class VoteService {
   //}
 
   // =============== OData implementation
-  private voteODataApiUrl: string = 'odata/Vote';
 
   public createVote(vote: IVote, params: HttpParams = null): Observable<IVote> {
     if (params === null) {
       params = new HttpParams();
     }
 
-    var headers: HttpHeaders = new HttpHeaders({
+    const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage['auth_token']
     });
@@ -108,8 +106,8 @@ export class VoteService {
           headers,
           params
         })
-      .map((response: IVote) => response)
-      .catch(this.handleError);
+      .pipe(map((response: IVote) => response))
+      .pipe(catchError(this.handleError));
   }
 
   public getVotes(params: HttpParams = null): Observable<Array<IVote>> {
@@ -117,7 +115,7 @@ export class VoteService {
       params = new HttpParams();
     }
 
-    var headers: HttpHeaders = new HttpHeaders({
+    const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage['auth_token']
     });
@@ -128,8 +126,8 @@ export class VoteService {
           headers,
           params
         })
-      .map((response: HttpResponse<any>) => (response as any).value as Array<IVote>)
-      .catch(this.handleError);
+      .pipe(map((response: HttpResponse<any>) => (response as any).value as Array<IVote>))
+      .pipe(catchError(this.handleError));
   }
 
   public getVoteById(key: any, params: HttpParams = null): Observable<IVote> {
@@ -137,7 +135,7 @@ export class VoteService {
       params = new HttpParams();
     }
 
-    var headers: HttpHeaders = new HttpHeaders({
+    const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage['auth_token']
     });
@@ -148,16 +146,16 @@ export class VoteService {
           headers,
           params
         })
-      .map((response: IVote) => response)
-      .catch(this.handleError);
+      .pipe(map((response: IVote) => response))
+      .pipe(catchError(this.handleError));
   }
-  
+
   public updateVote(key: any, vote: IVote, params: HttpParams = null): Observable<IVote> {
     if (params === null) {
       params = new HttpParams();
     }
 
-    var headers: HttpHeaders = new HttpHeaders({
+    const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage['auth_token']
     });
@@ -170,12 +168,12 @@ export class VoteService {
           params
         }
       )
-      .map((response: IVote) => response)
-      .catch(this.handleError);
+      .pipe(map((response: IVote) => response))
+      .pipe(catchError(this.handleError));
   }
 
-  public deleteVote(key: any): Observable<void> {
-    var headers: HttpHeaders = new HttpHeaders({
+  public deleteVote(key: any): Observable<any> {
+    const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage['auth_token']
     });
@@ -185,16 +183,16 @@ export class VoteService {
         {
           headers
         })
-      .catch(this.handleError);
+      .pipe(catchError(this.handleError));
   }
 
-  public sendVote(voteId: any, voteVariandId: any): Observable<void> {
-    var headers: HttpHeaders = new HttpHeaders({
+  public sendVote(voteId: any, voteVariandId: any): Observable<any> {
+    const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage['auth_token']
     });
 
-    var data = { VariantId: voteVariandId };
+    const data = { VariantId: voteVariandId };
 
     return this.http.post(
         this.voteODataApiUrl + '(' + voteId + ')' + '/Default.SendVote',
@@ -202,11 +200,11 @@ export class VoteService {
         {
           headers
         })
-      .catch(this.handleError);
+      .pipe(catchError(this.handleError));
   }
 
   public getVoteCommonResult(voteId: any): Observable<any> {
-    var headers: HttpHeaders = new HttpHeaders({
+    const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage['auth_token']
     });
@@ -216,12 +214,12 @@ export class VoteService {
         {
           headers
         })
-      .map((response: any) => response)
-      .catch(this.handleError);
+      .pipe(map((response: any) => response))
+      .pipe(catchError(this.handleError));
   }
 
   private handleError(errorResponse: HttpErrorResponse) {
-    return Observable.throw(errorResponse.error.error.message ||
+    return observableThrowError(errorResponse.error.error.message ||
       'Произошла неизвестная ошибка. Пожалуйста обратитесь к администратору.');
   }
 }

@@ -9,7 +9,7 @@ import * as AspNetData from "devextreme-aspnet-data";
 import ODataStore from "devextreme/data/odata/store";
 import DataSource from "devextreme/data/data_source";
 import CustomStore from 'devextreme/data/custom_store';
-import 'rxjs/add/operator/toPromise';
+
 
 import { VoteResultArea } from "../vote-result-area";
 import { IUserData } from "../user-data";

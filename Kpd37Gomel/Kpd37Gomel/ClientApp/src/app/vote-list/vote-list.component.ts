@@ -45,16 +45,16 @@ export class VoteListComponent implements OnInit {
         this.toastService.showErrorToast(error);
       });
   }
-  
+
   public deleteVote(vote: IVote): void {
-    var confirmMessage = 'Удалить голосование "' + vote.Title + '"?';
-    var result = confirm(confirmMessage, 'Удаление голосования');
+    const confirmMessage = 'Удалить голосование "' + vote.Title + '"?';
+    const result = confirm(confirmMessage, 'Удаление голосования');
     result.done(dialogResult => {
       if (dialogResult) {
         this.loadingVisible = true;
         this.voteService.deleteVote(vote.Id).subscribe(
           data => {
-            var index = this.voteList.indexOf(vote, 0);
+            const index = this.voteList.indexOf(vote, 0);
             if (index > -1) {
               this.voteList.splice(index, 1);
             }
